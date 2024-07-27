@@ -1,6 +1,6 @@
 # wakatobi-mpa
 
-Plugin name: **wakatobiMpa**, alias: **mpa**
+Plugin name: **wakatobiMpa**, alias: **wktbmpa**
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/ardhi/wakatobi-mpa) ![NPM Version](https://img.shields.io/npm/v/wakatobi-mpa)
 
