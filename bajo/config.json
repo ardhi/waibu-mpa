@@ -10,7 +10,7 @@
   },
   "i18n": {
     "detectors": ["qs"],
-    "defaultNs": ["bajoDb", "wakatobiMpa"]
+    "defaultNs": ["dobo", "wakatobiMpa"]
   },
   "emoji": true,
   "viewEngine": {
