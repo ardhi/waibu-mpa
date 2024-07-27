@@ -1,0 +1,64 @@
+{
+  "alias": "mpa",
+  "title": "Multi Page Webapp",
+  "prefix": "",
+  "mountAppAsRoot": true,
+  "charset": "utf-8",
+  "darkMode": {
+    "preset": "light",
+    "qsKey": "dark"
+  },
+  "i18n": {
+    "detectors": ["qs"],
+    "defaultNs": ["bajoDb", "wakatobiMpa"]
+  },
+  "emoji": true,
+  "viewEngine": {
+    "default": "default",
+    "cacheMaxAge": 300
+  },
+  "theme": {
+    "autoInsert": ["css", "meta", "scripts"],
+    "component": {
+      "insertCtag": false,
+      "defaultTag": "div",
+      "cacheMaxAge": 300
+    }
+  },
+  "prettier": {
+    "parser": "html",
+    "printWidth": 1000
+  },
+  "minify": {
+    "removeAttributeQuotes": true,
+    "removeComments": true,
+    "removeCommentsFromCDATA": true,
+    "removeCDATASectionsFromCDATA": true,
+    "collapseWhitespace": true,
+    "conservativeCollapse": true,
+    "decodeEntities": true,
+    "collapseBooleanAttributes": true,
+    "removeRedundantAttributes": true,
+    "removeEmptyAttributes": true
+  },
+  "markdown": {
+    "tableClass": "table my-3",
+    "tableHeadClass": "",
+    "tableBodyClass": "table-group-divider"
+  },
+  "home": {
+    "action": "redirect",
+    "route": true
+  },
+  "multipart": {
+  },
+  "cors": {},
+  "helmet": {
+    "contentSecurityPolicy": false
+  },
+  "compress": false,
+  "rateLimit": false,
+  "traceNoTemplate": false,
+  "disabled": [],
+  "dependencies": ["wakatobi", "wakatobi-static"]
+}

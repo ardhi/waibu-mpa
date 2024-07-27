@@ -1,0 +1,36 @@
+{
+  "name": "wakatobi-mpa",
+  "version": "1.0.0",
+  "description": "MPA support for Wakatobi Framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ardhi/wakatobi-mpa.git"
+  },
+  "keywords": [
+    "mpa",
+    "web",
+    "webserver",
+    "bajo",
+    "framework",
+    "fastify",
+    "modular"
+  ],
+  "author": "Ardhi Lukianto <ardhi@lukianto.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ardhi/wakatobi-mpa/issues"
+  },
+  "homepage": "https://github.com/ardhi/wakatobi-mpa#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "html-minifier-terser": "^7.2.0",
+    "node-emoji": "^2.1.3",
+    "prettier": "^3.3.3",
+    "purecss": "^3.0.0"
+  }
+}
