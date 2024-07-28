@@ -1,22 +1,22 @@
-# wakatobi-mpa
+# waibu-mpa
 
-Plugin name: **wakatobiMpa**, alias: **wktbmpa**
+Plugin name: **waibuMpa**, alias: **waibumpa**
 
-![GitHub package.json version](https://img.shields.io/github/package-json/v/ardhi/wakatobi-mpa) ![NPM Version](https://img.shields.io/npm/v/wakatobi-mpa)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/ardhi/waibu-mpa) ![NPM Version](https://img.shields.io/npm/v/waibu-mpa)
 
 > <br />**Attention**: I do NOT accept any pull request at the moment, thanks!<br /><br />
 
-Multi Pages App (MPA) for [Wakatobi Framework](https://github.com/ardhi/wakatobi)
+Multi Pages App (MPA) for [Waibu Framework](https://github.com/ardhi/waibu)
 
 ## Installation
 
 Goto your ```<bajo-base-dir>``` and type:
 
 ```bash
-$ npm install wakatobi-mpa
+$ npm install waibu-mpa
 ```
 
-Now open your ```<bajo-data-dir>/config/.plugins``` and put ```wakatobi-mpa``` in it
+Now open your ```<bajo-data-dir>/config/.plugins``` and put ```waibu-mpa``` in it
 
 ## License
 
