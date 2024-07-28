@@ -1,5 +1,5 @@
 {
-  "alias": "wktbmpa",
+  "alias": "wbmpa",
   "title": "Multi Page Webapp",
   "prefix": "",
   "mountAppAsRoot": true,
@@ -10,7 +10,7 @@
   },
   "i18n": {
     "detectors": ["qs"],
-    "defaultNs": ["dobo", "wakatobiMpa"]
+    "defaultNs": ["dobo", "waibuMpa"]
   },
   "emoji": true,
   "viewEngine": {
@@ -60,5 +60,5 @@
   "rateLimit": false,
   "traceNoTemplate": false,
   "disabled": [],
-  "dependencies": ["wakatobi", "wakatobi-static"]
+  "dependencies": ["waibu", "waibu-static"]
 }

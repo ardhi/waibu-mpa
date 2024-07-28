@@ -6,18 +6,18 @@ async function theme (ctx) {
   const { fastGlob } = this.app.bajo.lib
 
   const component = {}
-  const files = await fastGlob(`${this.config.dir.pkg}/wakatobiMpa/theme/component/*.js`)
+  const files = await fastGlob(`${this.config.dir.pkg}/waibuMpa/theme/component/*.js`)
   for (const file of files) {
     const key = camelCase(path.basename(file, path.extname(file)))
     component[key] = await importModule(file)
   }
 
   const css = [
-    'wakatobiMpa.virtual:/purecss/pure-min.css'
-    // 'wakatobiMpaFontawesome.load:/wakatobiMpa/theme/css.json'
+    'waibuMpa.virtual:/purecss/pure-min.css'
+    // 'waibuMpaFontawesome.load:/waibuMpa/theme/css.json'
   ]
   const scripts = [
-    // 'wakatobiMpaLibs.load:/wakatobiMpa/theme/script.js'
+    // 'waibuMpaLibs.load:/waibuMpa/theme/script.js'
   ]
   const meta = [{
     name: 'viewport',

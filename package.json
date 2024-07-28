@@ -1,7 +1,7 @@
 {
-  "name": "wakatobi-mpa",
+  "name": "waibu-mpa",
   "version": "1.0.0",
-  "description": "MPA support for Wakatobi Framework",
+  "description": "MPA support for Waibu Framework",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,7 +9,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ardhi/wakatobi-mpa.git"
+    "url": "git+https://github.com/ardhi/waibu-mpa.git"
   },
   "keywords": [
     "mpa",
@@ -23,9 +23,9 @@
   "author": "Ardhi Lukianto <ardhi@lukianto.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ardhi/wakatobi-mpa/issues"
+    "url": "https://github.com/ardhi/waibu-mpa/issues"
   },
-  "homepage": "https://github.com/ardhi/wakatobi-mpa#readme",
+  "homepage": "https://github.com/ardhi/waibu-mpa#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "html-minifier-terser": "^7.2.0",

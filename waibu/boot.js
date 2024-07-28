@@ -10,17 +10,17 @@ const boot = {
   level: 10,
   handler: async function () {
     const { importPkg, importModule, runHook } = this.app.bajo
-    const bodyParser = await importPkg('wakatobi:@fastify/formbody')
+    const bodyParser = await importPkg('waibu:@fastify/formbody')
     const cfg = this.config
     let prefix = cfg.prefix === '' ? '' : ('/' + cfg.prefix)
     if (cfg.i18n.detectors.includes('path')) prefix = `/:lang${prefix}`
-    const routeHook = await importModule('wakatobi:/lib/webapp-scope/route-hook.js')
-    const handleMultipart = await importModule('wakatobi:/lib/webapp-scope/handle-multipart-body.js')
-    const handleCors = await importModule('wakatobi:/lib/webapp-scope/handle-cors.js')
-    const handleHelmet = await importModule('wakatobi:/lib/webapp-scope/handle-helmet.js')
-    const handleCompress = await importModule('wakatobi:/lib/webapp-scope/handle-compress.js')
-    const handleRateLimit = await importModule('wakatobi:/lib/webapp-scope/handle-rate-limit.js')
-    await this.app.wakatobi.instance.register(async (ctx) => {
+    const routeHook = await importModule('waibu:/lib/webapp-scope/route-hook.js')
+    const handleMultipart = await importModule('waibu:/lib/webapp-scope/handle-multipart-body.js')
+    const handleCors = await importModule('waibu:/lib/webapp-scope/handle-cors.js')
+    const handleHelmet = await importModule('waibu:/lib/webapp-scope/handle-helmet.js')
+    const handleCompress = await importModule('waibu:/lib/webapp-scope/handle-compress.js')
+    const handleRateLimit = await importModule('waibu:/lib/webapp-scope/handle-rate-limit.js')
+    await this.app.waibu.instance.register(async (ctx) => {
       this.instance = ctx
       await runHook(`${this.name}:afterCreateContext`, ctx)
       await ctx.register(bodyParser)
