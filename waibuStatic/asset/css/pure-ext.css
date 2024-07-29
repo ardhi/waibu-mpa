@@ -1,0 +1,40 @@
+.pure-button-success,
+.pure-button-error,
+.pure-button-warning,
+.pure-button-secondary {
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.pure-button-success {
+  background: rgb(28, 184, 65);
+}
+
+.pure-button-error {
+  background: rgb(202, 60, 60);
+}
+
+.pure-button-warning {
+  background: rgb(223, 117, 20);
+}
+
+.pure-button-secondary {
+  background: rgb(66, 184, 221);
+}
+
+.pure-button-xs {
+  font-size: 70%;
+}
+
+.pure-button-sm {
+  font-size: 85%;
+}
+
+.pure-button-lg {
+  font-size: 110%;
+}
+
+.pure-button-xl {
+  font-size: 125%;
+}

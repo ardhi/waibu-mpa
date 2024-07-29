@@ -1,4 +1,4 @@
-function objectToAttr (obj = {}, delimiter = ';', kvDelimiter = ':') {
+function objectToAttr (obj = {}, delimiter = '|', kvDelimiter = '=') {
   const { forOwn, kebabCase } = this.app.bajo.lib._
   const result = []
   forOwn(obj, (v, k) => {

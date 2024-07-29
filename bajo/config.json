@@ -18,12 +18,17 @@
     "cacheMaxAge": 300
   },
   "theme": {
+    "default": "default",
     "autoInsert": ["css", "meta", "scripts"],
     "component": {
       "insertCtag": false,
       "defaultTag": "div",
       "cacheMaxAge": 300
     }
+  },
+  "iconset": {
+    "default": "default",
+    "autoInsert": ["css"]
   },
   "prettier": {
     "parser": "html",

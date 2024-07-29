@@ -1,4 +1,7 @@
 [{
   "prefix": "purecss",
   "root": "node_modules/purecss/build"
+}, {
+  "prefix": "phicons",
+  "root": "node_modules/@phosphor-icons/web/src"
 }]
