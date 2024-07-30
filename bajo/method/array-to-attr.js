@@ -1,4 +1,4 @@
-function arrayToAttr (array = [], delimiter = '|') {
+function arrayToAttr (array = [], delimiter = ' ') {
   return array.join(delimiter)
 }
 

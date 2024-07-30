@@ -1,7 +1,7 @@
 const baseCls = 'pure-button'
 
-async function btn (params, reply) {
-  const { has, isEmpty } = this.plugin.app.bajo.lib._
+async function btn ({ params, reply } = {}) {
+  const { has, isEmpty } = this._
 
   const attr = params.attr
   // tag
@@ -18,14 +18,14 @@ async function btn (params, reply) {
   }
   if (has(attr, 'icon')) {
     const args = { attr: { name: attr.icon }, html: '' }
-    await this.icon(args, reply)
-    params.html = await this._renderTag('i', args, reply) + ' ' + params.html
+    await this.icon({ params: args, reply })
+    params.html = await this._renderTag('i', { params: args, reply }) + ' ' + params.html
     delete attr.icon
   }
   if (has(attr, 'icon-end')) {
     const args = { attr: { name: attr['icon-end'] }, html: '' }
-    await this.icon(args, reply)
-    params.html += ' ' + await this._renderTag('i', args, reply)
+    await this.icon({ params: args, reply })
+    params.html += ' ' + await this._renderTag('i', { params: args, reply })
     delete attr['icon-end']
   }
 }

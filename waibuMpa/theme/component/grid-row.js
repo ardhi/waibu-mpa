@@ -1,4 +1,4 @@
-async function gridRow (params, reply) {
+async function gridRow ({ params, reply } = {}) {
   params.attr.class.push('pure-g')
 }
 

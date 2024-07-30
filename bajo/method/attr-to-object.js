@@ -1,4 +1,4 @@
-function attrToObject (text = '', delimiter = '|', kvDelimiter = '=') {
+function attrToObject (text = '', delimiter = ';', kvDelimiter = ':') {
   const { camelCase } = this.app.bajo.lib._
   const result = {}
   const array = this.attrToArray(text, delimiter)
