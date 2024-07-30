@@ -1,9 +1,8 @@
-async function formInput ({ params, reply, el } = {}) {
+async function formSelect ({ params, reply, el } = {}) {
   const { has, omit, get } = this._
   const { generateId } = this.bajo
   const attr = params.attr
-  params.tag = 'input'
-  params.selfClosing = true
+  params.tag = 'select'
   const formAttr = get(this.$(el).closest('c\\:form'), '0.attribs', {})
   if (formAttr.mode === 'horizontal') params.wrap = '<div class="pure-control-group"></div>'
   if (has(attr, 'label')) {
@@ -15,4 +14,4 @@ async function formInput ({ params, reply, el } = {}) {
   params.attr = omit(attr, ['label', 'hint', 'rounded'])
 }
 
-export default formInput
+export default formSelect
