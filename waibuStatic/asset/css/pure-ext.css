@@ -1,5 +1,5 @@
 .pure-button-success,
-.pure-button-error,
+.pure-button-danger,
 .pure-button-warning,
 .pure-button-secondary {
   color: white;
@@ -11,7 +11,7 @@
   background: rgb(28, 184, 65);
 }
 
-.pure-button-error {
+.pure-button-danger {
   background: rgb(202, 60, 60);
 }
 

@@ -1,7 +1,7 @@
 const baseCls = 'pure-button'
 
 async function btn ({ params, reply } = {}) {
-  const { has, isEmpty } = this._
+  const { has, isEmpty, omit } = this._
 
   const attr = params.attr
   // tag
@@ -20,14 +20,18 @@ async function btn ({ params, reply } = {}) {
     const args = { attr: { name: attr.icon }, html: '' }
     await this.icon({ params: args, reply })
     params.html = await this._renderTag('i', { params: args, reply }) + ' ' + params.html
-    delete attr.icon
   }
   if (has(attr, 'icon-end')) {
     const args = { attr: { name: attr['icon-end'] }, html: '' }
     await this.icon({ params: args, reply })
     params.html += ' ' + await this._renderTag('i', { params: args, reply })
-    delete attr['icon-end']
   }
+  const omitted = ['icon', 'icon-end']
+  if (params.tag === 'a' && has(attr, 'disabled')) {
+    attr.class.push('pure-button-disabled')
+    omitted.push('disabled')
+  }
+  params.attr = omit(attr, omitted)
 }
 
 export default btn

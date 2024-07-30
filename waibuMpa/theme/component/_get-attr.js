@@ -1,5 +1,5 @@
 const values = {
-  variant: ['primary', 'secondary', 'success', 'warning', 'error'],
+  variant: ['primary', 'secondary', 'success', 'warning', 'danger'],
   size: ['xs', 'sm', 'md', 'lg', 'xl']
 }
 
