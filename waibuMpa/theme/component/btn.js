@@ -32,6 +32,7 @@ async function btn ({ params, reply } = {}) {
     omitted.push('disabled')
   }
   params.attr = omit(attr, omitted)
+  return '.' + baseCls
 }
 
 export default btn
