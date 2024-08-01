@@ -6,7 +6,7 @@ async function render (tpl, locals = {}, reply, opts = {}) {
   const viewEngine = this.getViewEngine(ext)
   const text = await viewEngine.render(tpl, locals, reply, opts)
   if (ext === '.md') opts.markdown = true
-  return applyFormat.call(this, { text, ext, opts, reply, locals })
+  return await applyFormat.call(this, { text, ext, opts, reply, locals })
 }
 
 export default render
