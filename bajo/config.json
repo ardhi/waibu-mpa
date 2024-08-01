@@ -32,7 +32,7 @@
   },
   "prettier": {
     "parser": "html",
-    "printWidth": 1000
+    "printWidth": 120
   },
   "minify": {
     "removeAttributeQuotes": true,
