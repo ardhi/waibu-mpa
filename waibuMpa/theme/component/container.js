@@ -1,8 +1,10 @@
 const baseCls = 'container'
 
-async function container ({ params }) {
-  params.attr.class.push(baseCls)
-  return '.' + baseCls
+const container = {
+  selector: '.' + baseCls,
+  handler: async function ({ params }) {
+    params.attr.class.push(baseCls)
+  }
 }
 
 export default container

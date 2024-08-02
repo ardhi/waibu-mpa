@@ -1,8 +1,10 @@
 const baseCls = 'pure-g'
 
-async function gridRow ({ params, reply } = {}) {
-  params.attr.class.push(baseCls)
-  return '.' + baseCls
+const gridRow = {
+  selector: '.' + baseCls,
+  handler: async function ({ params, reply } = {}) {
+    params.attr.class.push(baseCls)
+  }
 }
 
 export default gridRow

@@ -2,7 +2,7 @@ async function theme (ctx) {
   const css = [
     'waibuMpa.virtual:/purecss/pure-min.css',
     'waibuMpa.virtual:/purecss/grids-responsive-min.css',
-    'waibuMpa.static:/css/pure-ext.css'
+    'waibuMpa.asset:/css/pure-ext.css'
     // 'waibuMpaFontawesome.load:/waibuMpa/theme/css.json'
   ]
   const scripts = [
