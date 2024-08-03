@@ -2,19 +2,26 @@
   "alias": "wbmpa",
   "title": "Multi Page Webapp",
   "prefix": "",
-  "mountAppAsRoot": true,
+  "mountMainAsRoot": true,
   "charset": "utf-8",
   "darkMode": {
-    "preset": "light",
-    "qsKey": "dark"
+    "default": false,
+    "qsKey": "dark-mode"
   },
   "i18n": {
     "detectors": ["qs"],
     "defaultNs": ["dobo", "waibuMpa"]
   },
+  "session": {
+    "secret": "f703a74b884b539e78c642a5369fe538",
+    "cookieName": "sid",
+    "cookie": {
+      "secure": "auto"
+    },
+    "saveUninitialized": false
+  },
   "emoji": true,
   "viewEngine": {
-    "default": "default",
     "cacheMaxAge": 300
   },
   "theme": {
@@ -34,7 +41,7 @@
     "parser": "html",
     "printWidth": 120
   },
-  "minify": {
+  "minifier": {
     "removeAttributeQuotes": true,
     "removeComments": true,
     "removeCommentsFromCDATA": true,
@@ -51,10 +58,6 @@
     "tableHeadClass": "",
     "tableBodyClass": "table-group-divider"
   },
-  "home": {
-    "action": "redirect",
-    "route": true
-  },
   "multipart": {
   },
   "cors": {},
@@ -63,7 +66,6 @@
   },
   "compress": false,
   "rateLimit": false,
-  "traceNoTemplate": false,
   "disabled": [],
   "dependencies": ["waibu", "waibu-static"]
 }

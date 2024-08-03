@@ -3,6 +3,7 @@ import buildRoutes from '../lib/build-routes.js'
 import collectViewEngines from '../lib/collect-view-engines.js'
 import collectThemes from '../lib/collect-themes.js'
 import collectIconsets from '../lib/collect-iconsets.js'
+import handleSession from '../lib/session/setup.js'
 import subApp from '../lib/sub-app.js'
 // import notFound from '../lib/not-found.js'
 import error from '../lib/error.js'
@@ -30,12 +31,13 @@ const boot = {
       await handleHelmet.call(this, ctx, cfg.helmet)
       await handleCompress.call(this, ctx, cfg.compress)
       await handleMultipart.call(this, ctx, cfg.multipart)
+      await decorate.call(this, ctx)
+      await handleSession.call(this, ctx)
       await routeHook.call(this, this.name)
       await error.call(this, ctx)
       await collectViewEngines.call(this, ctx)
       await collectThemes.call(this, ctx)
       await collectIconsets.call(this, ctx)
-      await decorate.call(this, ctx)
       await runHook(`${this.name}:beforeCreateRoutes`, ctx)
       await buildRoutes.call(this, ctx, prefix)
       await runHook(`${this.name}:afterCreateRoutes`, ctx)

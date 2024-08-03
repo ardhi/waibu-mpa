@@ -1,6 +1,6 @@
 # waibu-mpa
 
-Plugin name: **waibuMpa**, alias: **waibumpa**
+Plugin name: **waibuMpa**, alias: **wbmpa**
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/ardhi/waibu-mpa) ![NPM Version](https://img.shields.io/npm/v/waibu-mpa)
 
@@ -17,6 +17,11 @@ $ npm install waibu-mpa
 ```
 
 Now open your ```<bajo-data-dir>/config/.plugins``` and put ```waibu-mpa``` in it
+
+## Documentation
+
+- [Configuration](docs/configuration.md)
+- [Component](docs/component.md)
 
 ## License
 

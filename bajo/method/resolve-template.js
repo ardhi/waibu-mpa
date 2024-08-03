@@ -34,7 +34,7 @@ function resolveTemplate (item = '') {
     check = `${this.app[ns].config.dir.pkg}/${this.name}/view-engine/template/${path}`
     if (fs.existsSync(check)) file = check
   }
-  if (!file) throw this.error('Can\'t find template: %s (%s)', check, item)
+  if (!file) throw this.error('Can\'t find template: %s (%s:%s)', check, ns, path)
   const result = { file, theme, ns }
   cache[item] = result
   return result

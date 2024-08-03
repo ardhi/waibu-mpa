@@ -3,7 +3,11 @@
   "Guest": "Tamu",
   "&copy; %s %s. All rights reserved": "&copy; %s %s. Hak cipta dilindungi undang-undang",
   "Unknown view engine '%s'": "",
-  "Can't find template override: %s (%s)": "",
   "Unknown theme '%s'. Make sure it's already loaded": "",
-  "Can't find template: %s (%s)": ""
+  "Can't find template: %s (%s)": "",
+  "Can't find theme framework '%s'": "",
+  "Iconset": "",
+  "Theme": "",
+  "iconsets": "",
+  "themes": ""
 }
