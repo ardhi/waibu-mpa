@@ -25,7 +25,7 @@
     "cacheMaxAge": 300
   },
   "theme": {
-    "default": "default",
+    "default": "pure",
     "autoInsert": ["css", "meta", "scripts"],
     "component": {
       "insertCtag": false,
@@ -34,8 +34,8 @@
     }
   },
   "iconset": {
-    "default": "default",
-    "autoInsert": ["css"]
+    "default": "phosphor",
+    "autoInsert": ["css", "scripts"]
   },
   "prettier": {
     "parser": "html",

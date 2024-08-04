@@ -1,7 +1,7 @@
 [{
-  "prefix": "purecss",
+  "prefix": "pure",
   "root": "node_modules/purecss/build"
 }, {
-  "prefix": "phicons",
+  "prefix": "phosphor",
   "root": "node_modules/@phosphor-icons/web/src"
 }]

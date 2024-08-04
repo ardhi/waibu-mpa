@@ -18,17 +18,7 @@ const btn = {
     for (const item of ['variant', 'size']) {
       this._getAttr(attr, item, baseCls)
     }
-    if (has(attr, 'icon')) {
-      const args = { attr: { name: attr.icon }, html: '' }
-      await this.icon({ params: args, reply })
-      params.html = await this._renderTag('i', { params: args, reply }) + ' ' + params.html
-    }
-    if (has(attr, 'icon-end')) {
-      const args = { attr: { name: attr['icon-end'] }, html: '' }
-      await this.icon({ params: args, reply })
-      params.html += ' ' + await this._renderTag('i', { params: args, reply })
-    }
-    const omitted = ['icon', 'icon-end']
+    const omitted = []
     if (params.tag === 'a' && has(attr, 'disabled')) {
       attr.class.push('pure-button-disabled')
       omitted.push('disabled')

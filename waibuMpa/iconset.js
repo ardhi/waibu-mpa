@@ -1,12 +1,13 @@
+import phosphor from './iconset/phosphor.js'
+import phosphorDuotone from './iconset/phosphor-duotone.js'
+import phosphorFill from './iconset/phosphor-fill.js'
+
 async function iconset (ctx) {
-  return {
-    name: 'default',
-    css: 'waibuMpa.virtual:/phicons/regular/style.css',
-    mapping: {
-      _notFound: 'ph ph-image-broken',
-      home: 'ph ph-house'
-    }
-  }
+  return [
+    phosphor.call(this, ctx),
+    phosphorFill.call(this, ctx),
+    phosphorDuotone.call(this, ctx)
+  ]
 }
 
 export default iconset
