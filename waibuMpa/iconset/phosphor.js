@@ -1,6 +1,6 @@
 const mapping = {
   _notFound: 'image-broken',
-  home: 'house',
+  house: '',
   addressBook: '',
   airplane: '',
   airplaneTakeoff: '',
@@ -13,8 +13,8 @@ const mapping = {
   alignTop: '',
   alignStart: 'align-left',
   alignEnd: 'align-right',
-  alignCenterHorizontal: '',
-  alignCenterVertical: '',
+  alignCenter: 'align-center-horizontal',
+  alignMiddle: 'align-center-vertical',
   //
   ambulance: '',
   anchor: 'anchor-simple',
@@ -39,16 +39,16 @@ const mapping = {
   arrowSquareStart: 'arrow-square-left',
   arrowSquareEnd: 'arrow-square-right',
   arrowClockwise: '',
-  arrowAntiClockwise: 'arrow-counter-clockwise',
+  arrowCounterClockwise: '',
   arrowsIn: '',
   arrowsOut: '',
-  arrowsInLineHorizontal: '',
-  arrowsOutLineHorizontal: '',
-  arrowsInLineVertical: '',
-  arrowsOutLineVertical: '',
+  arrowsCollapseHorizontal: 'arrows-in-line-horizontal',
+  arrowsExpandHorizontal: 'arrows-out-line-horizontal',
+  arrowsCollapseVertical: 'arrows-in-line-vertical',
+  arrowsExpandVertical: 'arrows-out-line-vertical',
   arrowsSplit: '',
   arrowsMerge: '',
-
+  arrowsShuffle: 'shuffle',
   article: '',
   asterisk: '',
   at: '',
@@ -81,7 +81,7 @@ const mapping = {
 
   bicycle: '',
   binary: '',
-  binocular: 'binoculars',
+  binoculars: '',
   bird: '',
 
   bluetooth: '',
@@ -184,7 +184,7 @@ const mapping = {
 
   clock: '',
   clockClockwise: '',
-  clockAntiClockwise: 'clock-counter-clockwise',
+  clockCounterClockwise: '',
 
   closedCaption: 'closed-captioning',
 
