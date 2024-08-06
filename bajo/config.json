@@ -34,7 +34,6 @@
     }
   },
   "iconset": {
-    "default": "phosphor",
     "autoInsert": ["css", "scripts"]
   },
   "prettier": {
