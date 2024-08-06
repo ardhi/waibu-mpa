@@ -20,7 +20,9 @@ Now open your ```<bajo-data-dir>/config/.plugins``` and put ```waibu-mpa``` in i
 
 ## Documentation
 
+- [Class Instance](docs/instance.md)
 - [Configuration](docs/configuration.md)
+- [App Hook](docs/hook.md)
 - [Component](docs/component.md)
 
 ## License
