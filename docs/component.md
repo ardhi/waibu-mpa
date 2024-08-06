@@ -159,7 +159,7 @@ Available to all components regardless its theme selection
 
 ## Theme Specific Components
 
-Listed below are components available in 'pure' (builtin theme). Click here for [Bootstrap](https://github.com/ardhi/waibu-bootstrap/docs/component.md)'s one.
+Listed below are components available in 'pure' (builtin theme). Click here for [Bootstrap](https://github.com/ardhi/waibu-bootstrap/blob/main/docs/component.md)'s one.
 
 ### ```<c:btn variant="..." size="..." ...>content</c:btn>```
 
