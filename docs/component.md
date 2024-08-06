@@ -1,20 +1,68 @@
 # Component
 
-## Common
+## Attributes
 
-### Attribute translator: ```t:attribute="value"```
+Available to all components regardless its theme selection
+
+### Smart icon: ```... icon="leftIcon" icon-end="rightIcon" ...```
+
+- Any components having either ```icon``` or ```icon-end``` or both attribute(s) will get its inner html with icon tag prepended/appended
+- Attribute value is the name of icon and will be rendered to the current iconset's key mapping accordingly
+- Unknown name silently yields an empty string
+- Example:
+  ```html
+  <c:btn icon="arrowStart" icon-end="house" variant="primary">Go back home</c:btn>
+  ```
+
+  Result (with theme: 'pure', iconset: 'phosphor'):
+  ```html
+  <button class="pure-button pure-button-primary">
+    <i class="ph ph-arrow-left"></i> Go back home <i class="ph ph-house"></i>
+  </button>
+  ```
+
+### Auto translator: ```... t:attribute="value" ...```
 
 - Any attributes prefixed with ```t:``` are subject to be translated
 - ```value``` is an array delimited by ```|``` (pipe) character
 - First array position is the text to be translated, while the rest are here for interpolation
 - Example:
   ```html
-  <div t:aria-label="Morning, %s|sunshine">content</div>
+  <div t:aria-label="Morning, %s|sunshine">...</div>
   ```
 
-### \<c:include attr1="value1" attr2="value2" ...\>tplName\</c:include\>
+  Result (with lang: 'id'):
+  ```html
+  <div aria-label="Selamat pagi, sayang">...</div>
+  ```
 
-- Tag will be substitued with content from ```tplName```
+## Common Components
+
+Available to all components regardless its theme selection
+
+### ```<c:icon name="iconName" [oname="originalName"] />```
+
+- This will generate tag for displaying icon. The name of the icon will be rendered to the current iconset's key mapping accordingly
+- Unknown name silently yields an empty string
+- If ```oname``` is given (stand for 'original-name'), you could put the exact icon class name without going through iconset's key mapping. This is sometime necessary, e.g. if you want to display an icon with name not in key mapping. **Warning** You will get unexpected result if you decide to change current iconset though!
+- ```oname``` has precedence over ```name```, meaning ```name``` will be ignored if you provide both attributes
+- Example:
+  ```html
+  <c:icon name="house" /><br />
+  <c:icon name="unknownName" /><br />
+  <c:icon oname="mdi mdi-shuffle" />
+  ```
+
+  Result (with iconset: 'phosphor'):
+  ```html
+  <i class="ph ph-house"></i><br />
+  <br /> <!-- can't resolve non existent name, thus empty string -->
+  <i class="mdi mdi-shuffle"></i> <!-- will generate this regardless selected iconset -->
+  ```
+
+### ```<c:include attr1="value1" attr2="value2" ...>tplName</c:include>```
+
+- Tag will be substituted with content from ```tplName```
 - All attributes provided serve as locals to the ```tplName```
 - Template will be rendered using its view engine just like a normal template
 - Template can also have any number of components, including ```c:include```
@@ -24,7 +72,7 @@
   <c:include>bajoDemo:/showcase/include/header.html</c:include>
   ```
 
-### \<c:link href="url" ... /\>
+### ```<c:link href="url" ... />```
 
 - Url starts with ```/``` or ```http```: passed through
 - Url with format ```ns:path``` or ```ns.{static,virtual}:path``` will go to static or virtual asset of its namespace respectively
@@ -33,7 +81,12 @@
   <c:link href="waibuMpa.virtual:/purecss/pure.min.css" type="text/css" rel="stylesheet" />
   ```
 
-### \<c:script src="url" ...\>\</script\>
+  Result:
+  ```html
+  <link href="/asset/~/wbmpa/purecss/pure.min.css" type="text/css" rel="stylesheet" />
+  ```
+
+### ```<c:script src="url" ...></script>```
 
 - Url starts with ```/``` or ```http```: passed through
 - Url with format ```ns:path``` or ```ns.{static,virtual}:path``` will go to static or virtual asset of its namespace respectively
@@ -42,7 +95,12 @@
   <c:script src="waibuExtra.virtual:/jquery/jquery.min.js"></script>
   ```
 
-### \<c:script ...\>urls\</script\>
+  Result:
+  ```html
+  <script src="/asset/~/wbxtra/jquery/jquery.min.js"></script>
+  ```
+
+### ```<c:script ...>urls</script>```
 
 - Url format: ```url[;attr:value[;attr:value[...]]]```
 - Multiple urls: provide as many url as you want, line-by-line
@@ -57,11 +115,34 @@
   </c:script>
   ```
 
-### <c:style>...</c:style>
+  Result:
+  ```html
+  <script src="/asset/~/wbmpa/purecss/pure.main.css"></script>
+  <script src="http://https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+  ```
 
-- Any component tag found inside will be substitued with its correct selector
+### ```<c:style>...</c:style>```
 
-### \<c:t value="..."\>string\</c:t\>
+- Any component tag found inside will be substituted with its correct selector
+- Example:
+  ```html
+  <c:style>
+  formCheckbox { background-color: #EEE };
+  btn { border-color: #000 };
+  ...
+  </c:style>
+  ```
+
+  Result (with theme: 'pure'):
+  ```html
+  <style>
+  input[type="checkbox"] { background-color: #EEE };
+  .pure-button { border-color: #000 };
+  ...
+  </style>
+  ```
+
+### ```<c:t value="value" ...>string</c:t>```
 
 - Translate ```string``` interpolated with ```value``` attribute
 - ```value``` attribute is an array delimited by ```|``` (pipe) character
@@ -71,5 +152,53 @@
   <c:t value="Jakarta|Amsterdam">Departure: %s, Arrival: %s</c:t>
   ```
 
-## Theme specific
+  Result (with lang: 'id'):
+  ```html
+  Keberangkatan: Jakarta, Kedatangan: Amsterdam
+  ```
 
+## Theme Specific Components
+
+Listed below are components available in 'pure' (builtin theme). Click here for [Bootstrap](https://github.com/ardhi/waibu-bootstrap/docs/component.md)'s one.
+
+### ```<c:btn variant="..." size="..." ...>content</c:btn>```
+
+- Available variants: ```primary```, ```secondary```, ```success```, ```warning``` and ```danger```
+- Available sizes: ```sm```, ```md```, ```lg```
+- By default, it uses ```<button>``` tag. To change to ```<a>```, add ```tag="a"``` attribute
+- Giving ```href="..."``` attribute will also change tag to ```<a>``` automatically
+- Add ```disabled``` attribute to set button state as disabled
+- Example:
+  ```html
+  <c:btn type="submit" variant="primary" size="lg" disabled>
+    <c:t>Button</c:t>
+  </c:btn>
+  ```
+
+  Result (with theme: 'pure', lang: 'id'):
+  ```html
+  <button type="submit" class="pure-button pure-button-primary pure-button-lg" disabled>
+    Tombol
+  </button>
+  ```
+
+### ```<c:btn-group ...>...</c:btn-group>```
+
+  - It serves as container for buttons
+  - Example:
+    ```html
+    <c:btn-group>
+      <c:btn variant="success">Button 1</btn>
+      <c:btn variant="warning">Button 2</btn>
+      <c:btn variant="danger">Button 3</btn>
+    </c:btn-group>
+    ```
+
+    Result (with theme: 'pure'):
+    ```html
+    <div class="pure-button-group">
+      <button class="pure-button pure-button-success">Button 1</button>
+      <button class="pure-button pure-button-warning">Button 2</button>
+      <button class="pure-button pure-button-danger">Button 3</button>
+    </div>
+    ```
