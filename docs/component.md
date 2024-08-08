@@ -60,16 +60,17 @@ Available to all components regardless its theme selection
   <i class="mdi mdi-shuffle"></i> <!-- will generate this regardless selected iconset -->
   ```
 
-### ```<c:include attr1="value1" attr2="value2" ...>tplName</c:include>```
+### ```<c:include template="tplName" prepend="text" append="text" ... />```
 
-- Tag will be substituted with content from ```tplName```
-- All attributes provided serve as locals to the ```tplName```
-- Template will be rendered using its view engine just like a normal template
+- Tag will be substituted with rendered content from ```tplName```
+- Any other attributes provided BUT ```template``` serve as locals to the ```tplName```
+- Template will be rendered just like a normal page template
+- If ```prepend``` and/or ```append``` attribute are provided, its value will be prepended/appended after rendering. Value will be inserted as-is
 - Template can also have any number of components, including ```c:include```
 - But it is advisable to NOT have nested ```c:include``` for performance reason and danger of infinite loop
 - Example:
   ```html
-  <c:include>bajoDemo:/showcase/include/header.html</c:include>
+  <c:include template="bajoDemo:/showcase/include/header.html" />
   ```
 
 ### ```<c:link href="url" ... />```
@@ -85,6 +86,48 @@ Available to all components regardless its theme selection
   ```html
   <link href="/asset/~/wbmpa/purecss/pure.min.css" type="text/css" rel="stylesheet" />
   ```
+
+### ```<c:page-start title="Page Title">...</c:page-start>```
+
+- Use this component to conveniently wrap page with HTML header tags (```<html>```, ```<head>```, ```</head>```, down to opening body ```<body>```)
+- Keep in mind that you should also close page with ```<c:page-end>``` component
+- Page title can be provided as attribute ```title```
+- Example:
+  ```html
+  <c:page-start t:title="My Page">
+    <link src="https://mycdn.com/myscript.css" rel="stylesheet" />
+  </c:page-start>
+  ```
+
+  Result (with lang: 'id'):
+  ```html
+  <!doctype html>
+  <html lang="id">
+    <head>
+      <link src="https://mycdn.com/myscript.css" rel="stylesheet" />
+      <title>Halamanku</title>
+    </head>
+    <body>
+  ```
+
+### ```<c:page-end>...</c:page-end>```
+
+- Should only be used when you use ```<c:page-start>``` as above
+- It provides you page's closing tags (```</body>```, ```</html>```)
+- Example:
+  ```html
+  <c:page-end>
+    <p><c:t value="<%= (new Date()).getFullYear() %>">Copyright &copy; %d by My Company</c:t></p>
+  </c:page-end>
+  ```
+
+  Result:
+  ```html
+      <p>Copyright &#xa9; 2024 by My Company</p>
+    </body>
+  </html>
+  ```
+
 
 ### ```<c:script src="url" ...></script>```
 
