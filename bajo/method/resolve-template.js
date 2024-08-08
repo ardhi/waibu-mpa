@@ -17,21 +17,21 @@ function resolveTemplate (item = '') {
   if (!theme) throw this.error('Unknown theme \'%s\'. Make sure it\'s already loaded')
   let file
   // check override: theme specific
-  let check = `${getPluginDataDir(ns)}/${this.name}/view-engine/template/_${theme.name}/${path}`
+  let check = `${getPluginDataDir(ns)}/${this.name}/template/_${theme.name}/${path}`
   if (fs.existsSync(check)) file = check
   // check override: common
   if (!file) {
-    check = `${getPluginDataDir(ns)}/${this.name}/view-engine/template/${path}`
+    check = `${getPluginDataDir(ns)}/${this.name}/template/${path}`
     if (fs.existsSync(check)) file = check
   }
   // check real: theme specific
   if (!file) {
-    check = `${this.app[ns].config.dir.pkg}/${this.name}/view-engine/template/_${theme.name}/${path}`
+    check = `${this.app[ns].config.dir.pkg}/${this.name}/template/_${theme.name}/${path}`
     if (fs.existsSync(check)) file = check
   }
   // check real: common
   if (!file) {
-    check = `${this.app[ns].config.dir.pkg}/${this.name}/view-engine/template/${path}`
+    check = `${this.app[ns].config.dir.pkg}/${this.name}/template/${path}`
     if (fs.existsSync(check)) file = check
   }
   if (!file) throw this.error('Can\'t find template: %s (%s:%s)', check, ns, path)
