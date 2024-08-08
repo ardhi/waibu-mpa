@@ -1,0 +1,7 @@
+{
+  "theme": {
+    "component": {
+      "removeIfUnknown": true
+    }
+  }
+}

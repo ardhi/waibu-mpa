@@ -28,6 +28,7 @@
     "default": "pure",
     "autoInsert": ["css", "meta", "scripts"],
     "component": {
+      "removeIfUnknown": false,
       "insertCtag": false,
       "defaultTag": "div",
       "cacheMaxAge": 300
