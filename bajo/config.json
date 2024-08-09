@@ -3,7 +3,10 @@
   "title": "Multi Page Webapp",
   "prefix": "",
   "mountMainAsRoot": true,
-  "charset": "utf-8",
+  "page": {
+    "charset": "utf-8",
+    "cacheMaxAge": 0
+  },
   "darkMode": {
     "default": false,
     "qsKey": "dark-mode"
