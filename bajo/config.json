@@ -22,16 +22,16 @@
   },
   "emoji": true,
   "viewEngine": {
-    "cacheMaxAge": 300
+    "cacheMaxAge": 0
   },
   "theme": {
     "default": "pure",
     "autoInsert": ["css", "meta", "scripts"],
     "component": {
-      "removeIfUnknown": false,
-      "insertCtag": false,
+      "unknownTag": "comment",
+      "insertCtagAsAttr": true,
       "defaultTag": "div",
-      "cacheMaxAge": 300
+      "cacheMaxAge": 0
     }
   },
   "iconset": {
@@ -58,8 +58,7 @@
     "tableHeadClass": "",
     "tableBodyClass": "table-group-divider"
   },
-  "multipart": {
-  },
+  "multipart": {},
   "cors": {},
   "helmet": {
     "contentSecurityPolicy": false

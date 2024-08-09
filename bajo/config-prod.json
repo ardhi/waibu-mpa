@@ -1,7 +1,15 @@
 {
+  "viewEngine": {
+    "cacheMaxAge": 300
+  },
   "theme": {
     "component": {
-      "removeIfUnknown": true
+      "unknownTag": "remove",
+      "insertCtagAsAttr": false,
+      "cacheMaxAge": 300
     }
-  }
+  },
+  "prettier": false,
+  "compress": {},
+  "rateLimit": {}
 }
