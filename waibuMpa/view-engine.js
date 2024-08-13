@@ -1,6 +1,6 @@
 const view = {
   name: 'default',
-  fileExts: ['.html', '.css', '.js']
+  fileExts: ['.html', '.md', '.css', '.js']
 }
 
 export default view
