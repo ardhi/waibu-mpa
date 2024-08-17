@@ -69,5 +69,5 @@
   "compress": false,
   "rateLimit": false,
   "disabled": [],
-  "dependencies": ["waibu", "waibu-static"]
+  "dependencies": ["waibu", "waibu-static", "bajo-markdown"]
 }

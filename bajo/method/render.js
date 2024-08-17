@@ -7,7 +7,7 @@ async function render (tpl, params = {}, reply, opts = {}) {
   const { runHook } = this.app.bajo
   const { merge } = this.app.bajo.lib._
   const cache = this.app.bajoCache
-  const locals = await buildLocals.call(this, tpl, merge({}, params, opts), reply)
+  const locals = await buildLocals.call(this, tpl, merge({}, params, { opts }), reply)
   const key = crypto.createHash('md5').update(`${tpl}:${JSON.stringify(locals)}`).digest('hex')
   if (cache) {
     const item = await cache.get({ key })

@@ -1,42 +1,42 @@
-import _path from 'path'
-
+import path from 'path'
 const cache = {}
 
 function resolveTemplate (item = '') {
-  if (cache[item]) return cache[item]
-  const { getPluginDataDir } = this.app.bajo
+  const env = this.app.bajo.config.env
+  if (env !== 'dev' && cache[item]) return cache[item]
+  const { getPluginDataDir, breakNsPath } = this.app.bajo
   const { fs } = this.app.bajo.lib
   const { find, trim } = this.app.bajo.lib._
 
-  let [ns, path, themeName] = item.split(':')
-  const ext = _path.extname(path)
+  let { ns, path: fullPath, qs } = breakNsPath(item)
+  const ext = path.extname(fullPath)
   this.getViewEngine(ext)
 
-  path = trim(path, '/')
-  const theme = find(this.themes, { name: themeName })
-  if (!theme) throw this.error('Unknown theme \'%s\'. Make sure it\'s already loaded', themeName)
+  fullPath = trim(fullPath, '/')
+  const theme = find(this.themes, { name: qs.theme })
+  if (!theme) throw this.error('Unknown theme \'%s\'. Make sure it\'s already loaded', qs.theme)
   let file
   // check override: theme specific
-  let check = `${getPluginDataDir(ns)}/${this.name}/template/_${theme.name}/${path}`
+  let check = `${getPluginDataDir(ns)}/${this.name}/template/_${theme.name}/${fullPath}`
   if (fs.existsSync(check)) file = check
   // check override: common
   if (!file) {
-    check = `${getPluginDataDir(ns)}/${this.name}/template/${path}`
+    check = `${getPluginDataDir(ns)}/${this.name}/template/${fullPath}`
     if (fs.existsSync(check)) file = check
   }
   // check real: theme specific
   if (!file) {
-    check = `${this.app[ns].dir.pkg}/${this.name}/template/_${theme.name}/${path}`
+    check = `${this.app[ns].dir.pkg}/${this.name}/template/_${theme.name}/${fullPath}`
     if (fs.existsSync(check)) file = check
   }
   // check real: common
   if (!file) {
-    check = `${this.app[ns].dir.pkg}/${this.name}/template/${path}`
+    check = `${this.app[ns].dir.pkg}/${this.name}/template/${fullPath}`
     if (fs.existsSync(check)) file = check
   }
-  if (!file) throw this.error('Can\'t find template: %s (%s:%s)', check, ns, path)
-  const result = { file, theme, ns }
-  cache[item] = result
+  if (!file) throw this.error('Can\'t find template: %s (%s:%s)', check, ns, fullPath)
+  const result = { file, theme, ns, layout: qs.layout }
+  if (env !== 'dev') cache[item] = result
   return result
 }
 
