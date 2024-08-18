@@ -25,7 +25,11 @@
   },
   "emoji": true,
   "viewEngine": {
-    "cacheMaxAge": 0
+    "cacheMaxAge": 0,
+    "layout": {
+      "default": "waibuMpa:/default.html",
+      "fallback": true
+    }
   },
   "theme": {
     "default": "pure",

@@ -1,6 +1,6 @@
 const cache = {}
 
-function resolveTemplate (item = 'waibuMpa:/default.html') {
+function resolveTemplate (item) {
   const env = this.app.bajo.config.env
   if (env !== 'dev' && cache[item]) return cache[item]
   const { getPluginDataDir, breakNsPath } = this.app.bajo
@@ -30,7 +30,7 @@ function resolveTemplate (item = 'waibuMpa:/default.html') {
     if (fs.existsSync(check)) file = check
   }
   // fallback
-  if (!file) {
+  if (!file && this.config.viewEngine.layout.fallback) {
     check = `${this.dir.pkg}/${this.name}/layout/default.html`
     if (fs.existsSync(check)) file = check
   }
