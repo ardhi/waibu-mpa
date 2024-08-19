@@ -1,9 +1,13 @@
-async function img ({ params, reply } = {}) {
-  const { has } = this._
-  params.tag = 'img'
-  if (has(params.attr, 'responsive')) {
-    params.attr.class.push('pure-img')
-    delete params.attr.responsive
+const img = {
+  selector: 'img',
+  handler: async function img ({ params, reply } = {}) {
+    const { has, omit } = this._
+    params.tag = 'img'
+    const attr = params.attr
+    if (has(attr, 'responsive')) {
+      attr.class.push('pure-img')
+    }
+    params.attr = omit(attr, ['responsive'])
   }
 }
 
