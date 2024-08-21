@@ -21,21 +21,6 @@ Available to all components regardless its theme selection
   </button>
   ```
 
-### Auto translator: ```... t:attribute="value" ...```
-
-- Any attributes prefixed with ```t:``` are subject to be translated
-- ```value``` is an array delimited by ```|``` (pipe) character
-- First array position is the text to be translated, while the rest are here for interpolation
-- Example:
-  ```html
-  <div t:aria-label="Morning, %s|sunshine">...</div>
-  ```
-
-  Result (with lang: 'id'):
-  ```html
-  <div aria-label="Selamat pagi, sayang">...</div>
-  ```
-
 ## Common Components
 
 Available to all components regardless its theme selection
