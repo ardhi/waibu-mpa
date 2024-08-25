@@ -1,10 +1,10 @@
-const baseCls = 'pure-controls'
+const baseClass = 'pure-controls'
 
 const formControls = {
-  selector: '.' + baseCls,
+  selector: '.' + baseClass,
   handler: async function ({ params }) {
     params.tag = 'div'
-    params.attr.class.push(baseCls)
+    params.attr.class.push(baseClass)
   }
 }
 

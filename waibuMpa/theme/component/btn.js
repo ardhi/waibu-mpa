@@ -1,7 +1,7 @@
-const baseCls = 'pure-button'
+const baseClass = 'pure-button'
 
 const btn = {
-  selector: '.' + baseCls,
+  selector: '.' + baseClass,
   handler: async function ({ params, reply } = {}) {
     const { has, isEmpty, omit } = this._
 
@@ -11,12 +11,12 @@ const btn = {
     if (params.tag === 'button' && attr.href) delete attr.href
     if (params.tag === 'a' && isEmpty(attr.href)) attr.href = '#'
     // def
-    attr.class.push(baseCls)
+    attr.class.push(baseClass)
     for (const item of ['active']) {
-      this._hasAttr(attr, item, baseCls)
+      this._hasAttr(attr, item, baseClass)
     }
     for (const item of ['variant', 'size']) {
-      this._getAttr(attr, item, baseCls)
+      this._getAttr(attr, item, baseClass)
     }
     const omitted = []
     if (params.tag === 'a' && has(attr, 'disabled')) {

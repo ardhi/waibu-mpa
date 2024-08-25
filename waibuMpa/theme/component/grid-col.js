@@ -1,10 +1,10 @@
 const sizes = ['sm', 'md', 'lg', 'xl', 'xxl']
 const width = {}
 for (let i = 1; i < 13; i++) width[i] = `-${i * 2}-24`
-const baseCls = 'pure-u'
+const baseClass = 'pure-u'
 
 const gridCol = {
-  selector: `[class^=${baseCls}]`,
+  selector: `[class^=${baseClass}]`,
   handler: async function ({ params, reply } = {}) {
     const { omit, map, without } = this._
     const { attrToArray } = this.mpa
@@ -16,12 +16,12 @@ const gridCol = {
         const [s, w] = c.split(':').map(i => i.trim())
         if (!sizes.includes(s)) return undefined
         if (!width[w]) return undefined
-        return `${baseCls}-${s}${width[w]}`
+        return `${baseClass}-${s}${width[w]}`
       }), undefined)
-      cols.unshift(`${baseCls}-1`)
+      cols.unshift(`${baseClass}-1`)
     } else {
-      if (width[attr.size]) cols = [`${baseCls}${width[attr.size]}`]
-      else cols = [baseCls]
+      if (width[attr.size]) cols = [`${baseClass}${width[attr.size]}`]
+      else cols = [baseClass]
     }
     params.attr.class = attr.class.concat(cols)
     params.attr = omit(attr, ['size'])

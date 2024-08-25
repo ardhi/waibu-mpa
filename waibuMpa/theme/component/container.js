@@ -1,9 +1,9 @@
-const baseCls = 'container'
+const baseClass = 'container'
 
 const container = {
-  selector: '.' + baseCls,
+  selector: '.' + baseClass,
   handler: async function ({ params }) {
-    params.attr.class.push(baseCls)
+    params.attr.class.push(baseClass)
   }
 }
 

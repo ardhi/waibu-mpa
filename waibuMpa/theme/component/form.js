@@ -1,11 +1,11 @@
-const baseCls = 'pure-form'
+const baseClass = 'pure-form'
 
 const form = {
-  selector: '.' + baseCls,
+  selector: '.' + baseClass,
   handler: async function ({ params, reply } = {}) {
     params.tag = 'form'
     const attr = params.attr
-    attr.class.push(baseCls)
+    attr.class.push(baseClass)
     switch (attr.mode) {
       case 'inline': break
       case 'horizontal': attr.class.push('pure-form-aligned'); break
