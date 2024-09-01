@@ -15,7 +15,7 @@ const btn = {
     for (const item of ['active']) {
       this._hasAttr(attr, item, baseClass)
     }
-    for (const item of ['variant', 'size']) {
+    for (const item of ['color', 'size']) {
       this._getAttr(attr, item, baseClass)
     }
     const omitted = []
