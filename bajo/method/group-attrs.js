@@ -1,5 +1,5 @@
 function groupAttrs (attribs = {}, keys = []) {
-  const { isString, filter, omit } = this.app.bajo.lib._
+  const { isString, filter, omit, kebabCase, camelCase } = this.app.bajo.lib._
   if (isString(keys)) keys = [keys]
   const attr = { _: {} }
   for (const a in attribs) {
@@ -11,8 +11,9 @@ function groupAttrs (attribs = {}, keys = []) {
       attr[k] = attr[k] ?? {}
       attr[k].class = attr[k].class ?? []
       attr[k].style = attr[k].style ?? {}
-      const name = a.slice(k.length + 1)
-      if (!a.startsWith(k + '-')) {
+      const _k = kebabCase(k)
+      const name = camelCase(kebabCase(a).slice(_k.length + 1))
+      if (!kebabCase(a).startsWith(k + '-')) {
         if (!keys.includes(a)) {
           attr._[a] = attribs[a]
           if (a === 'class' && isString(attribs[a])) attr._.class = this.attrToArray(attr._.class)
@@ -27,6 +28,7 @@ function groupAttrs (attribs = {}, keys = []) {
   }
   const deleted = filter(Object.keys(attr._), m => {
     let match
+    m = kebabCase(m)
     for (const k of keys) {
       if (m.startsWith(k + '-')) match = true
     }

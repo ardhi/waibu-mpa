@@ -3,8 +3,8 @@ const tag = 'input'
 const formInput = {
   selector: tag,
   handler: async function ({ params, reply, el } = {}) {
-    const { has, omit, get } = this._
-    const { generateId } = this.bajo
+    const { has, omit, get } = this.plugin.app.bajo.lib._
+    const { generateId } = this.plugin.app.bajo
     const attr = params.attr
     params.tag = tag
     params.selfClosing = true
