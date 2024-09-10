@@ -1,5 +1,5 @@
 function groupAttrs (attribs = {}, keys = []) {
-  const { isString, filter, omit, kebabCase, camelCase } = this.app.bajo.lib._
+  const { isString, filter, omit, kebabCase, camelCase, isEmpty } = this.app.bajo.lib._
   if (isString(keys)) keys = [keys]
   const attr = { _: {} }
   for (const a in attribs) {
@@ -35,6 +35,10 @@ function groupAttrs (attribs = {}, keys = []) {
     return match
   })
   attr._ = omit(attr._, deleted)
+  for (const k of keys) {
+    const item = attr[k]
+    if (!attr._[k] && Object.keys(item).length === 2 && isEmpty(item.class) && isEmpty(item.style)) delete attr[k]
+  }
   return attr
 }
 

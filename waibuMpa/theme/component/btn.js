@@ -3,7 +3,7 @@ const baseClass = 'pure-button'
 const btn = {
   selector: '.' + baseClass,
   handler: async function ({ params, reply } = {}) {
-    const { has, isEmpty, omit } = this._
+    const { has, isEmpty, omit } = this.plugin.app.bajo.lib._
 
     const attr = params.attr
     // tag

@@ -3,7 +3,7 @@ const tag = 'select'
 const formSelect = {
   selector: tag,
   handler: async function ({ params, reply, el } = {}) {
-    const { has, omit, get } = this._
+    const { has, omit, get } = this.plugin.app.bajo.lib._
     const { generateId } = this.bajo
     const attr = params.attr
     params.tag = tag

@@ -3,7 +3,7 @@ const baseClass = 'pure-table'
 const table = {
   selector: '.' + baseClass,
   handler: async function ({ params }) {
-    const { has, omit } = this._
+    const { has, omit } = this.plugin.app.bajo.lib._
     params.tag = 'table'
     const attr = params.attr
     attr.class.push(baseClass)

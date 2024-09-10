@@ -6,8 +6,8 @@ const baseClass = 'pure-u'
 const gridCol = {
   selector: `[class^=${baseClass}]`,
   handler: async function ({ params, reply } = {}) {
-    const { omit, map, without } = this._
-    const { attrToArray } = this.mpa
+    const { omit, map, without } = this.plugin.app.bajo.lib._
+    const { attrToArray } = this.plugin.app.waibuMpa
 
     const attr = params.attr
     let cols = attrToArray(attr.size)
