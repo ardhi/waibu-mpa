@@ -1,5 +1,8 @@
 {
   "minifier": false,
+  "page": {
+    "insertWarning": true
+  },
   "viewEngine": {
     "layout": {
       "fallback": false

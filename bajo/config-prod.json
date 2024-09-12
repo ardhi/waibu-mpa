@@ -5,7 +5,6 @@
   "theme": {
     "component": {
       "unknownTag": "remove",
-      "insertCtagAsAttr": false,
       "cacheMaxAge": 300
     }
   },

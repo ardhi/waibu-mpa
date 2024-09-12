@@ -5,23 +5,27 @@ function resolveTemplate (item) {
   if (env !== 'dev' && cache[item]) return cache[item]
   const { getPluginDataDir, breakNsPath } = this.app.bajo
   const { fs } = this.app.bajo.lib
-  const { trim } = this.app.bajo.lib._
+  const { trim, find } = this.app.bajo.lib._
 
   let { ns, path, qs } = breakNsPath(item)
+  const theme = find(this.themes, { name: qs.theme })
 
   path = trim(path, '/')
   let file
+  let check
   // check override: theme specific
-  let check = `${getPluginDataDir(ns)}/${this.name}/layout/_${qs.theme}/${path}`
-  if (fs.existsSync(check)) file = check
+  if (theme) {
+    check = `${getPluginDataDir(ns)}/${this.name}/layout/_${theme.name}/${path}`
+    if (fs.existsSync(check)) file = check
+  }
   // check override: common
   if (!file) {
     check = `${getPluginDataDir(ns)}/${this.name}/layout/${path}`
     if (fs.existsSync(check)) file = check
   }
   // check real: theme specific
-  if (!file) {
-    check = `${this.app[ns].dir.pkg}/${this.name}/layout/_${qs.theme}/${path}`
+  if (theme && !file) {
+    check = `${this.app[ns].dir.pkg}/${this.name}/layout/_${theme.name}/${path}`
     if (fs.existsSync(check)) file = check
   }
   // check real: common

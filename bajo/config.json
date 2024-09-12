@@ -5,7 +5,8 @@
   "mountMainAsRoot": true,
   "page": {
     "charset": "utf-8",
-    "cacheMaxAge": 0
+    "cacheMaxAge": 0,
+    "insertWarning": false
   },
   "darkMode": {
     "default": false,
@@ -32,16 +33,16 @@
     }
   },
   "theme": {
-    "default": "pure",
+    "default": null,
     "autoInsert": ["css", "meta", "scripts"],
     "component": {
       "unknownTag": "comment",
-      "insertCtagAsAttr": true,
       "defaultTag": "div",
       "cacheMaxAge": 0
     }
   },
   "iconset": {
+    "default": null,
     "autoInsert": ["css", "scripts"]
   },
   "prettier": {

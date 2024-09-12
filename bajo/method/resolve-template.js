@@ -14,18 +14,20 @@ function resolveTemplate (item = '') {
 
   fullPath = trim(fullPath, '/')
   const theme = find(this.themes, { name: qs.theme })
-  if (!theme) throw this.error('Unknown theme \'%s\'. Make sure it\'s already loaded', qs.theme)
   let file
+  let check
   // check override: theme specific
-  let check = `${getPluginDataDir(ns)}/${this.name}/template/_${theme.name}/${fullPath}`
-  if (fs.existsSync(check)) file = check
+  if (theme) {
+    check = `${getPluginDataDir(ns)}/${this.name}/template/_${theme.name}/${fullPath}`
+    if (fs.existsSync(check)) file = check
+  }
   // check override: common
   if (!file) {
     check = `${getPluginDataDir(ns)}/${this.name}/template/${fullPath}`
     if (fs.existsSync(check)) file = check
   }
   // check real: theme specific
-  if (!file) {
+  if (theme && !file) {
     check = `${this.app[ns].dir.pkg}/${this.name}/template/_${theme.name}/${fullPath}`
     if (fs.existsSync(check)) file = check
   }
