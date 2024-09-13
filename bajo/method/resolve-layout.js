@@ -33,7 +33,12 @@ function resolveTemplate (item) {
     check = `${this.app[ns].dir.pkg}/${this.name}/layout/${path}`
     if (fs.existsSync(check)) file = check
   }
-  // fallback
+  // check fallback: common
+  if (!file && this.config.viewEngine.layout.fallback) {
+    check = `${this.app[ns].dir.pkg}/${this.name}/layout/default.html`
+    if (fs.existsSync(check)) file = check
+  }
+  // check general fallback
   if (!file && this.config.viewEngine.layout.fallback) {
     check = `${this.dir.pkg}/${this.name}/layout/default.html`
     if (fs.existsSync(check)) file = check
