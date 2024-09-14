@@ -23,7 +23,7 @@ async function checkDark (req, reply) {
 
 const waibuMpaPreHandler = {
   level: 9,
-  handler: async function (ctx, req, reply) {
+  handler: async function (req, reply) {
     const { importModule } = this.app.bajo
     const attachI18N = await importModule('waibu:/lib/webapp-scope/attach-i18n.js')
     await attachI18N.call(this, this.config.i18n.detectors, req, reply)
