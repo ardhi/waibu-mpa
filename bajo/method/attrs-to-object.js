@@ -1,4 +1,4 @@
-// TODO: failed
+// TODO: exclusion with outmatch
 
 function attrsToObject (text, delimiter = ' ', kvDelimiter = '=', kebabCasedKey = true) {
   const { trim, kebabCase, map } = this.app.bajo.lib._
