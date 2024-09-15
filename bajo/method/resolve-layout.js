@@ -1,14 +1,14 @@
 const cache = {}
 
-function resolveTemplate (item) {
+function resolveLayout (item = '', opts = {}) {
   const env = this.app.bajo.config.env
   if (env !== 'dev' && cache[item]) return cache[item]
-  const { getPluginDataDir, breakNsPath } = this.app.bajo
+  const { getPluginDataDir } = this.app.bajo
   const { fs } = this.app.bajo.lib
   const { trim, find } = this.app.bajo.lib._
 
-  let { ns, path, qs } = breakNsPath(item)
-  const theme = find(this.themes, { name: qs.theme })
+  let { ns, path, qs } = this.getResource(item)
+  const theme = find(this.themes, { name: qs.theme ?? opts.theme })
 
   path = trim(path, '/')
   let file
@@ -43,10 +43,10 @@ function resolveTemplate (item) {
     check = `${this.dir.pkg}/${this.name}/layout/default.html`
     if (fs.existsSync(check)) file = check
   }
-  if (!file) throw this.error('Can\'t find layout: %s (%s:%s)', check, ns, path)
+  if (!file) throw this.error('Can\'t find layout: %s (%s)', check, item)
   const result = { file, theme: qs.theme, ns }
   if (env !== 'dev') cache[item] = result
   return result
 }
 
-export default resolveTemplate
+export default resolveLayout
