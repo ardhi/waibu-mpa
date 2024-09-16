@@ -1,11 +1,15 @@
-import isAlpinejs from '../../lib/is-alpinejs.js'
-
-function objectToAttrs (obj = {}, kebabCasedKey = true) {
+function attribsStringify (obj = {}, kebabCasedKey = true) {
   const { isSet } = this.app.bajo
   const { forOwn, kebabCase, isArray, isPlainObject, isEmpty } = this.app.bajo.lib._
   const attrs = []
   forOwn(obj, (v, k) => {
-    if (isAlpinejs.call(this, k)) {
+    // check for keyAttrHandler on ALL plugins
+    let mutated = true
+    for (const name of this.app.bajo.pluginNames) {
+      const plugin = this.app[name]
+      if (plugin && plugin.keyAttrHandler && plugin.keyAttrHandler(k)) mutated = false
+    }
+    if (!mutated) {
       attrs.push(`${k}="${v}"`)
       return undefined
     }
@@ -20,4 +24,4 @@ function objectToAttrs (obj = {}, kebabCasedKey = true) {
   return attrs.join(' ')
 }
 
-export default objectToAttrs
+export default attribsStringify

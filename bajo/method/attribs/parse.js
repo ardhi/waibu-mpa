@@ -1,6 +1,4 @@
-import isAlpinejs from '../../lib/is-alpinejs.js'
-
-function attrsToObject (text = '', delimiter = ' ', kvDelimiter = '=', kebabCasedKey = true) {
+function attribsParse (text = '', delimiter = ' ', kvDelimiter = '=', kebabCasedKey = true) {
   const { trim, kebabCase, map, isPlainObject, forOwn } = this.app.bajo.lib._
   let attrs = []
   if (isPlainObject(text)) {
@@ -14,14 +12,16 @@ function attrsToObject (text = '', delimiter = ' ', kvDelimiter = '=', kebabCase
     v = v.join(kvDelimiter)
     v = v.slice(1, v.length - 1)
     if (v === '') v = true
-    if (isAlpinejs.call(this, k)) {
-      result[k] = v
-      continue
+    // check for keyAttrHandler on ALL plugins
+    let mutated = true
+    for (const name of this.app.bajo.pluginNames) {
+      const plugin = this.app[name]
+      if (plugin && plugin.keyAttrHandler && plugin.keyAttrHandler(k)) mutated = false
     }
-    if (kebabCasedKey) k = kebabCase(k)
+    if (mutated && kebabCasedKey) k = kebabCase(k)
     result[k] = v
   }
   return result
 }
 
-export default attrsToObject
+export default attribsParse

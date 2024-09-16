@@ -45,6 +45,15 @@
     "default": null,
     "autoInsert": ["css", "scripts"]
   },
+  "cheerio": {
+    "loadOptions": {
+      "xml": {
+        "xmlMode": false,
+        "decodeEntities": false,
+        "recognizeSelfClosing": true
+      }
+    }
+  },
   "prettier": {
     "parser": "html",
     "printWidth": 120
