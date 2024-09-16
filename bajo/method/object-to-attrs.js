@@ -1,8 +1,14 @@
+import isAlpinejs from '../../lib/is-alpinejs.js'
+
 function objectToAttrs (obj = {}, kebabCasedKey = true) {
   const { isSet } = this.app.bajo
   const { forOwn, kebabCase, isArray, isPlainObject, isEmpty } = this.app.bajo.lib._
   const attrs = []
   forOwn(obj, (v, k) => {
+    if (isAlpinejs.call(this, k)) {
+      attrs.push(`${k}="${v}"`)
+      return undefined
+    }
     if (kebabCasedKey) k = kebabCase(k)
     if (!isSet(v)) return undefined
     if (isArray(v)) v = this.arrayToAttr(v)
