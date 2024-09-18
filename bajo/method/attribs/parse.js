@@ -1,5 +1,5 @@
-function attribsParse (text = '', delimiter = ' ', kvDelimiter = '=', kebabCasedKey = true) {
-  const { trim, kebabCase, map, isPlainObject, forOwn } = this.app.bajo.lib._
+function attribsParse (text = '', delimiter = ' ', kvDelimiter = '=', camelCasedKey = true) {
+  const { trim, camelCase, map, isPlainObject, forOwn } = this.app.bajo.lib._
   let attrs = []
   if (isPlainObject(text)) {
     forOwn(text, (v, k) => {
@@ -11,14 +11,14 @@ function attribsParse (text = '', delimiter = ' ', kvDelimiter = '=', kebabCased
     let [k, ...v] = map(attr.split(kvDelimiter), a => trim(a))
     v = v.join(kvDelimiter)
     v = v.slice(1, v.length - 1)
-    if (v === '') v = true
-    // check for keyAttrHandler on ALL plugins
-    let mutated = true
+    if (k !== 'content' && v === '') v = true
+    // check for retainAttrKey on ALL plugins
+    let retain = false
     for (const name of this.app.bajo.pluginNames) {
       const plugin = this.app[name]
-      if (plugin && plugin.keyAttrHandler && plugin.keyAttrHandler(k)) mutated = false
+      if (plugin && plugin.retainAttrKey && plugin.retainAttrKey(k)) retain = true
     }
-    if (mutated && kebabCasedKey) k = kebabCase(k)
+    if (!retain && camelCasedKey) k = camelCase(k)
     result[k] = v
   }
   return result
