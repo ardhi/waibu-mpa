@@ -1,4 +1,4 @@
-async function doboWbmpaSessionBeforeSanitizeSession (schema) {
+async function doboWmpaSessionBeforeSanitizeSession (schema) {
   const { find } = this.app.bajo.lib._
 
   const dobo = this.app.dobo
@@ -7,4 +7,4 @@ async function doboWbmpaSessionBeforeSanitizeSession (schema) {
   if (conn) schema.connection = conn.name
 }
 
-export default doboWbmpaSessionBeforeSanitizeSession
+export default doboWmpaSessionBeforeSanitizeSession

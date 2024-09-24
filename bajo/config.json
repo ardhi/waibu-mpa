@@ -1,5 +1,5 @@
 {
-  "alias": "wbmpa",
+  "alias": "wmpa",
   "title": "Multi Page Webapp",
   "prefix": "",
   "mountMainAsRoot": true,
@@ -34,7 +34,11 @@
   },
   "theme": {
     "default": null,
-    "autoInsert": ["css", "meta", "scripts"],
+    "autoInsert": {
+      "css": true,
+      "meta": true,
+      "scripts": true
+    },
     "component": {
       "unknownTag": "comment",
       "defaultTag": "div",
@@ -43,7 +47,16 @@
   },
   "iconset": {
     "default": null,
-    "autoInsert": ["css", "scripts"]
+    "autoInsert": {
+      "css": true,
+      "scripts": true
+    }
+  },
+  "concatResource": {
+    "cacheMaxAge": 0,
+    "excluded": [],
+    "css": false,
+    "scripts": false
   },
   "cheerio": {
     "loadOptions": {

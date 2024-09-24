@@ -1,6 +1,6 @@
 # waibu-mpa
 
-Plugin name: **waibuMpa**, alias: **wbmpa**
+Plugin name: **waibuMpa**, alias: **wmpa**
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/ardhi/waibu-mpa) ![NPM Version](https://img.shields.io/npm/v/waibu-mpa)
 
