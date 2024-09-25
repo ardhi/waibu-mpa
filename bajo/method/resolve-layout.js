@@ -7,8 +7,8 @@ function resolveLayout (item = '', opts = {}) {
   const { fs } = this.app.bajo.lib
   const { trim, find } = this.app.bajo.lib._
 
-  let { ns, path, qs } = this.getResource(item)
-  const theme = find(this.themes, { name: qs.theme ?? opts.theme })
+  let { ns, path } = this.getResource(item)
+  const theme = find(this.themes, { name: opts.theme })
 
   path = trim(path, '/')
   let file
@@ -44,7 +44,7 @@ function resolveLayout (item = '', opts = {}) {
     if (fs.existsSync(check)) file = check
   }
   if (!file) throw this.error('Can\'t find layout: %s (%s)', check, item)
-  const result = { file, theme: qs.theme, ns }
+  const result = { file, theme: opts.theme, ns }
   if (env !== 'dev') cache[item] = result
   return result
 }

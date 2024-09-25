@@ -8,12 +8,12 @@ function resolveTemplate (item = '', opts = {}) {
   const { fs } = this.app.bajo.lib
   const { find, trim } = this.app.bajo.lib._
 
-  let { ns, path, qs } = this.getResource(item)
+  let { ns, path } = this.getResource(item)
   const ext = _path.extname(path)
   this.getViewEngine(ext)
 
   path = trim(path, '/')
-  const theme = find(this.themes, { name: qs.theme ?? opts.theme })
+  const theme = find(this.themes, { name: opts.theme })
   let file
   let check
   // check override: theme specific
@@ -37,7 +37,7 @@ function resolveTemplate (item = '', opts = {}) {
     if (fs.existsSync(check)) file = check
   }
   if (!file) throw this.error('Can\'t find template: %s (%s)', check, item)
-  const result = { file, theme, ns, layout: qs.layout }
+  const result = { file, theme, ns, layout: opts.layout }
   if (env !== 'dev') cache[item] = result
   return result
 }

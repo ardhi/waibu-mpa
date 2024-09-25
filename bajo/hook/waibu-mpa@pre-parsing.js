@@ -21,7 +21,7 @@ async function checkDark (req, reply) {
   if (isSet(req.session.darkMode)) req.darkMode = req.session.darkMode
 }
 
-const waibuMpaPreHandler = {
+const waibuMpaPreParsing = {
   level: 9,
   handler: async function (req, reply) {
     const { importModule } = this.app.bajo
@@ -32,4 +32,4 @@ const waibuMpaPreHandler = {
   }
 }
 
-export default waibuMpaPreHandler
+export default waibuMpaPreParsing
