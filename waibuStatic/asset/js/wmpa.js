@@ -10,6 +10,19 @@ class Wmpa {
     })
   }
 
+  generateId (length = 10, noNum = true) {
+    let result = ''
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    if (!noNum) chars += '0123456789'
+    const charsLength = chars.length
+    let counter = 0
+    while (counter < length) {
+      result += chars.charAt(Math.floor(Math.random() * charsLength))
+      counter += 1
+    }
+    return result
+  }
+
   async fetchRender (body) {
     const resp = await fetch(this.renderUrl, {
       method: 'POST',
@@ -20,17 +33,27 @@ class Wmpa {
     return await resp.text()
   }
 
-  async renderComponent (body, selector, asChild) {
+  async createComponent (body, selector, asChild) {
     const html = await this.fetchRender(body)
     const tpl = document.createElement('template')
     tpl.innerHTML = html
-    const cmp = tpl.content.firstElementChild
-    if (!selector) return cmp
+    return tpl.content.firstElementChild
+  }
+
+  async replaceWithComponent (body, selector) {
+    const cmp = await this.createComponent(body)
     const el = document.querySelector(selector)
-    if (el) {
-      if (asChild) el.appendChild(cmp)
-      else el.replaceWith(cmp)
-    }
+    if (!el) return
+    el.replaceWith(cmp)
+    return cmp.getAttribute('id')
+  }
+
+  async addComponent (body, selector) {
+    const cmp = await this.createComponent(body)
+    const el = document.querySelector(selector)
+    if (!el) return
+    el.appendChild(cmp)
+    return cmp.getAttribute('id')
   }
 
   async t (...params) {
@@ -45,6 +68,12 @@ class Wmpa {
     if (!el) return
     const content = el.textContent
     await navigator.clipboard.writeText(content)
+  }
+
+  isPlainObject (value) {
+    if (typeof value !== 'object' || value === null) return false
+    const prototype = Object.getPrototypeOf(value)
+    return (prototype === null || prototype === Object.prototype || Object.getPrototypeOf(prototype) === null) && !(Symbol.toStringTag in value) && !(Symbol.iterator in value)
   }
 }
 
