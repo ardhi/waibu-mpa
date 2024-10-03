@@ -1,6 +1,12 @@
 // based on: https://github.com/kyleparisi/pagination-layout/blob/master/pagination-layout-be.js
 
 function paginationLayout (totalItems, itemsPerPage, currentPage) {
+  const { isPlainObject } = this.app.bajo.lib._
+  if (isPlainObject(totalItems)) {
+    currentPage = totalItems.page
+    itemsPerPage = totalItems.limit
+    totalItems = totalItems.count
+  }
   function last (array) {
     const length = array == null ? 0 : array.length
     return length ? array[length - 1] : undefined
