@@ -1,5 +1,8 @@
 class Wmpa {
   constructor () {
+    this.prefixVirtual = '<%= prefix.virtual %>'
+    this.prefixAsset = '<%= prefix.asset %>'
+    this.prefixMain = '<%= prefix.main %>'
     this.renderUrl = '/wmpa/component/render'
     this.init()
   }
@@ -10,7 +13,7 @@ class Wmpa {
     })
   }
 
-  generateId (length = 10, noNum = true) {
+  randomId (length = 10, noNum = true) {
     let result = ''
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     if (!noNum) chars += '0123456789'
@@ -29,7 +32,7 @@ class Wmpa {
       headers: { 'Content-Type': 'text/plain' },
       body
     })
-    if (!resp.ok) throw new Error(`Response status: ${resp.status}`)
+    if (!resp.ok) throw new Error('Response status: ' + resp.status)
     return await resp.text()
   }
 
@@ -59,7 +62,7 @@ class Wmpa {
   async t (...params) {
     let [text, ...value] = params
     value = value.join('|')
-    const body = `<c:t value="${value}">${text}</c:t>`
+    const body = '<c:t value="' + value + '">' + text + '</c:t>'
     return await this.fetchRender(body)
   }
 
@@ -70,10 +73,32 @@ class Wmpa {
     await navigator.clipboard.writeText(content)
   }
 
-  isPlainObject (value) {
-    if (typeof value !== 'object' || value === null) return false
-    const prototype = Object.getPrototypeOf(value)
-    return (prototype === null || prototype === Object.prototype || Object.getPrototypeOf(prototype) === null) && !(Symbol.toStringTag in value) && !(Symbol.iterator in value)
+  async loadScript (url) {
+    const script = document.createElement('script')
+    script.src = url
+    script.type = 'text/javascript'
+    document.getElementsByTagName('body')[0].appendChild(script)
+  }
+
+  isAsync (fn) {
+    return fn.constructor.name === 'AsyncFunction'
+  }
+
+  postForm (params, path, method) {
+    method = method ?? 'POST'
+    const form = document.createElement('form')
+    form.setAttribute('method', method)
+    if (path) form.setAttribute('action', path)
+
+    for (const key in params) {
+      const input = document.createElement('input')
+      input.setAttribute('type', 'hidden')
+      input.setAttribute('name', key)
+      input.setAttribute('value', params[key])
+      form.appendChild(input)
+    }
+    document.body.appendChild(form)
+    form.submit()
   }
 }
 

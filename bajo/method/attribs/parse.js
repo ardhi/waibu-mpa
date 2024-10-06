@@ -11,6 +11,7 @@ function attribsParse (text = '', delimiter = ' ', kvDelimiter = '=', camelCased
     let [k, ...v] = map(attr.split(kvDelimiter), a => trim(a))
     v = v.join(kvDelimiter)
     v = v.slice(1, v.length - 1)
+    if (v === 'undefined') continue
     if (k !== 'content' && v === '') v = true
     // check for retainAttrKey on ALL plugins
     let retain = false

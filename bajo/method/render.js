@@ -14,6 +14,7 @@ async function render (template, params = {}, opts = {}) {
   }
   await runHook(`${this.name}:beforeRender`, { template, locals, opts })
   const ext = path.extname(template)
+  if (['.json', '.js', '.css'].includes(ext)) opts.partial = true
   const viewEngine = this.getViewEngine(ext)
   const text = await viewEngine.render(template, locals, opts)
   const result = await applyFormat.call(this, { text, ext, opts, locals })
