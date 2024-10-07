@@ -5,7 +5,7 @@ const wmpa = {
     const prefix = {
       virtual: `/${this.app.waibuStatic.config.prefix}/${this.app.waibu.config.prefixVirtual}`,
       asset: `/${this.app.waibuStatic.config.prefix}`,
-      main: `/${this.app.waibuStatic.config.mountMainAsRoot}`
+      main: `/${this.app.waibuStatic.config.mountMainAsRoot ? '' : this.app.main.config.prefix}`
     }
     return reply.view('waibuMpa.template:/wmpa.js', { prefix })
   }

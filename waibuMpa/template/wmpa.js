@@ -3,7 +3,7 @@ class Wmpa {
     this.prefixVirtual = '<%= prefix.virtual %>'
     this.prefixAsset = '<%= prefix.asset %>'
     this.prefixMain = '<%= prefix.main %>'
-    this.renderUrl = '/wmpa/component/render'
+    this.renderUrl = '<%= _meta.routeOpts.prefix === "" ? "" : ("/" + _meta.routeOpts.prefix) %>/component/render'
     this.init()
   }
 

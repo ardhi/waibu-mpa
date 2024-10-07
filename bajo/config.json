@@ -1,5 +1,4 @@
 {
-  "alias": "wmpa",
   "title": "Multi Page Webapp",
   "prefix": "",
   "mountMainAsRoot": true,
