@@ -66,10 +66,16 @@ class Wmpa {
     return await this.fetchRender(body)
   }
 
-  async copyToClipboard (selector) {
-    const el = document.querySelector(selector)
-    if (!el) return
-    const content = el.textContent
+  async copyToClipboard (content, isSelector) {
+    if (isSelector) {
+      try {
+        const el = document.querySelector(content)
+        content = el.textContent
+      } catch (err) {
+        await this.notify('Invalid selector!', { type: 'danger' })
+        return
+      }
+    }
     await navigator.clipboard.writeText(content)
   }
 
@@ -84,6 +90,16 @@ class Wmpa {
     return fn.constructor.name === 'AsyncFunction'
   }
 
+  parseValue (value, type) {
+    try {
+      if (['integer', 'smallint'].includes(type)) value = parseInt(value)
+      else if (['float', 'double'].includes(type)) value = parseFloat(value)
+      else if (['datetime', 'date', 'time'].includes(type)) value = Date.parse(value)
+      else if (['array', 'object'].includes(type)) value = JSON.parse(value)
+    } catch (err) {}
+    return value
+  }
+
   postForm (params, path, method) {
     method = method ?? 'POST'
     const form = document.createElement('form')
@@ -94,7 +110,7 @@ class Wmpa {
       const input = document.createElement('input')
       input.setAttribute('type', 'hidden')
       input.setAttribute('name', key)
-      input.setAttribute('value', params[key])
+      input.setAttribute('value', params[key]) // TODO: sanitizing
       form.appendChild(input)
     }
     document.body.appendChild(form)
