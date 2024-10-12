@@ -14,9 +14,7 @@ function paginationLayout (totalItems, itemsPerPage, currentPage) {
 
   const pages = Math.ceil(totalItems / itemsPerPage)
 
-  if (!totalItems) {
-    return false
-  }
+  if (!totalItems) return []
 
   // default pages when we only have <= 4 pages
   if ([1, 2, 3, 4, 5, 6, 7].indexOf(pages) !== -1) {
