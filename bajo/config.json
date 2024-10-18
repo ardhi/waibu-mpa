@@ -36,7 +36,9 @@
     "autoInsert": {
       "css": true,
       "meta": true,
-      "scripts": true
+      "scripts": true,
+      "inlineScript": true,
+      "inlineCss": true
     },
     "component": {
       "unknownTag": "comment",
@@ -48,7 +50,9 @@
     "default": null,
     "autoInsert": {
       "css": true,
-      "scripts": true
+      "scripts": true,
+      "inlineScript": true,
+      "inlineCss": true
     }
   },
   "concatResource": {

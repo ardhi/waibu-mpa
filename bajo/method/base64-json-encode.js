@@ -1,5 +1,5 @@
 function base64JsonEncode (data) {
-  return JSON.parse(Buffer.from(data, 'base64'))
+  return Buffer.from(JSON.stringify(data)).toString('base64')
 }
 
 export default base64JsonEncode
