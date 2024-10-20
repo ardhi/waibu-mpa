@@ -9,5 +9,9 @@
   "Iconset": "",
   "Theme": "",
   "iconsets": "",
-  "themes": ""
+  "themes": "",
+  "field": {
+    "session": "Sesi",
+    "expires": "Kadaluarsa"
+  }
 }
