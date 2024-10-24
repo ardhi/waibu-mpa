@@ -1,6 +1,8 @@
 {
   "title": "Multi Page Webapp",
-  "prefix": "",
+  "waibu": {
+    "prefix": ""
+  },
   "mountMainAsRoot": true,
   "page": {
     "charset": "utf-8",
