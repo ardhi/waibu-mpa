@@ -5,7 +5,7 @@ import collectThemes from '../lib/collect-themes.js'
 import collectIconsets from '../lib/collect-iconsets.js'
 import handleSession from '../lib/session/setup.js'
 import subApp from '../lib/sub-app.js'
-// import notFound from '../lib/not-found.js'
+import notFound from '../lib/not-found.js'
 import error from '../lib/error.js'
 
 const boot = {
@@ -35,7 +35,7 @@ const boot = {
     await collectIconsets.call(this, ctx)
     await buildRoutes.call(this, ctx, prefix)
     await subApp.call(this, ctx)
-    // await notFound.call(this, ctx)
+    await notFound.call(this, ctx)
   }
 }
 
