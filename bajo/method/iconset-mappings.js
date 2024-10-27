@@ -163,6 +163,7 @@ export default [
   { name: 'geomBbox' },
 
   { name: 'gift' },
+  { name: 'globe' },
   { name: 'grid' },
   { name: 'hammer' },
   { name: 'thumbsUp' },

@@ -22,7 +22,7 @@ function resolveTemplate (item = '', opts = {}) {
   const { find } = this.app.bajo.lib._
 
   const theme = find(this.themes, { name: opts.theme })
-  let { ns, path } = this.getResource(item)
+  let { ns, subSubNs, path } = this.getResource(item)
   const ext = _path.extname(path)
   this.getViewEngine(ext)
   path = trim(path, '/')
@@ -32,13 +32,13 @@ function resolveTemplate (item = '', opts = {}) {
 
   // check override: theme specific
   let file
-  if (theme) file = filecheck.call(this, { dir, base, exts, check: `${getPluginDataDir(ns)}/${this.name}/template/_${theme.name}` })
+  if (theme) file = filecheck.call(this, { dir, base, exts, check: `${getPluginDataDir(ns)}/${this.name}/${subSubNs ? (subSubNs + '/') : ''}template/_${theme.name}` })
   // check override: common
-  if (!file) file = filecheck.call(this, { dir, base, exts, check: `${getPluginDataDir(ns)}/${this.name}/template` })
+  if (!file) file = filecheck.call(this, { dir, base, exts, check: `${getPluginDataDir(ns)}/${this.name}/${subSubNs ? (subSubNs + '/') : ''}template` })
   // check real: theme specific
-  if (theme && !file) file = filecheck.call(this, { dir, base, exts, check: `${this.app[ns].dir.pkg}/${this.name}/template/_${theme.name}` })
+  if (theme && !file) file = filecheck.call(this, { dir, base, exts, check: `${this.app[ns].dir.pkg}/${this.name}/${subSubNs ? (subSubNs + '/') : ''}template/_${theme.name}` })
   // check real: common
-  if (!file) file = filecheck.call(this, { dir, base, exts, check: `${this.app[ns].dir.pkg}/${this.name}/template` })
+  if (!file) file = filecheck.call(this, { dir, base, exts, check: `${this.app[ns].dir.pkg}/${this.name}/${subSubNs ? (subSubNs + '/') : ''}template` })
   if (!file) throw this.error('Can\'t find template: %s', item)
   const result = { file, theme, ns, layout: opts.layout }
   if (env !== 'dev') cache[item] = result
