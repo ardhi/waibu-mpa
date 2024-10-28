@@ -1,4 +1,4 @@
-const subNses = ['layout', 'template']
+const subNses = ['layout', 'template', 'partial']
 
 function getResource (name) {
   const { ns, path, subNs, subSubNs, qs } = this.app.bajo.breakNsPath(name)
