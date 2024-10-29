@@ -70,6 +70,7 @@ export default [
   { name: 'check' },
   { name: 'checkAll' },
   { name: 'circle' },
+  { name: 'circleCheck' },
   { name: 'clipboard' },
   { name: 'clock' },
   { name: 'cloud' },

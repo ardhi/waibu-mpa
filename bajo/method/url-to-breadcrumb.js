@@ -15,7 +15,7 @@ function breakPath (route, delimiter = '/') {
   return routes
 }
 
-function urlToBreadcrumb (url, { delimiter, returnParts, base = '', handler, handlerScope } = {}) {
+function urlToBreadcrumb (url, { delimiter, returnParts, base = '', handler, handlerScope, handlerOpts } = {}) {
   const { trim, map } = this.app.bajo.lib._
   const { routePath } = this.app.waibu
   url = routePath(url)
@@ -24,9 +24,10 @@ function urlToBreadcrumb (url, { delimiter, returnParts, base = '', handler, han
   if (returnParts) return parts
   if (!handler) handler = defHandler
   if (!handlerScope) handlerScope = this
-  const result = map(parts, r => {
+  const result = map(parts, (r, idx) => {
     const f = `${base}/${r}`
-    return handler.call(handlerScope, f, url)
+    const opts = (idx === parts.length - 2) && handlerOpts.hrefRebuild ? { hrefRebuild: handlerOpts.hrefRebuild } : {}
+    return handler.call(handlerScope, f, url, opts)
   })
   return result
 }
