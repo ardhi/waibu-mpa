@@ -26,7 +26,7 @@ function urlToBreadcrumb (url, { delimiter, returnParts, base = '', handler, han
   if (!handlerScope) handlerScope = this
   const result = map(parts, (r, idx) => {
     const f = `${base}/${r}`
-    const opts = (idx === parts.length - 2) && handlerOpts.hrefRebuild ? { hrefRebuild: handlerOpts.hrefRebuild } : {}
+    const opts = parts.length > 2 && (idx === parts.length - 2) && handlerOpts.hrefRebuild ? { hrefRebuild: handlerOpts.hrefRebuild } : {}
     return handler.call(handlerScope, f, url, opts)
   })
   return result

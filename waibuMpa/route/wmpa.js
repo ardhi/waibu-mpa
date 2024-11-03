@@ -2,11 +2,11 @@ const wmpa = {
   url: '/wmpa.js',
   method: 'GET',
   handler: async function (req, reply) {
-    const { getAppPrefix } = this.app.waibu
+    const { getPluginPrefix } = this.app.waibu
     const prefix = {
-      virtual: `/${getAppPrefix('waibuStatic')}/${this.app.waibu.config.prefixVirtual}`,
-      asset: `/${getAppPrefix('waibuStatic')}`,
-      main: `/${this.app.waibuStatic.config.mountMainAsRoot ? '' : getAppPrefix('main')}`
+      virtual: `/${getPluginPrefix('waibuStatic')}/${this.app.waibu.config.prefixVirtual}`,
+      asset: `/${getPluginPrefix('waibuStatic')}`,
+      main: `/${this.app.waibuStatic.config.mountMainAsRoot ? '' : getPluginPrefix('main')}`
     }
     return reply.view('waibuMpa.template:/wmpa.js', { prefix })
   }
