@@ -1,6 +1,7 @@
 const component = {
   method: 'POST',
   handler: async function (req, reply) {
+    req.referer = req.headers['waibu-referer']
     const { ext = '.html' } = req.body
     reply.header('Content-Type', `text/html; charset=${this.config.page.charset}`)
     reply.header('Content-Language', req.lang)

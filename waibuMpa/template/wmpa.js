@@ -29,7 +29,7 @@ class Wmpa {
   async fetchRender (body) {
     const resp = await fetch(this.renderUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
+      headers: { 'Content-Type': 'text/plain', 'Waibu-Referer': window.location.href },
       body
     })
     if (!resp.ok) throw new Error('Response status: ' + resp.status)
@@ -51,7 +51,7 @@ class Wmpa {
     return cmp.getAttribute('id')
   }
 
-  async addComponent (body, selector) {
+  async addComponent (body, selector = 'body') {
     const cmp = await this.createComponent(body)
     const el = document.querySelector(selector)
     if (!el) return
