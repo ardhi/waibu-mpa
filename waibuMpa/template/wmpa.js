@@ -3,13 +3,24 @@ class Wmpa {
     this.prefixVirtual = '<%= prefix.virtual %>'
     this.prefixAsset = '<%= prefix.asset %>'
     this.prefixMain = '<%= prefix.main %>'
-    this.renderUrl = '<%= _meta.routeOpts.prefix === "" ? "" : ("/" + _meta.routeOpts.prefix) %>/component/render'
+    this.accessTokenUrl = '<%= accessTokenUrl %>'
+    this.renderUrl = '<%= renderUrl %>'
+    this.apiExt = '<%= apiExt %>'
+    this.apiTokenKey = '<%= apiTokenKey %>'
     this.init()
   }
 
   init () {
     window.addEventListener('load', evt => {
       if (window.hljs) window.hljs.highlightAll()
+    })
+    fetch(this.accessTokenUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' }
+    }).then(resp => {
+      return resp.text()
+    }).then(token => {
+      this.accessToken = token
     })
   }
 
@@ -34,6 +45,15 @@ class Wmpa {
     })
     if (!resp.ok) throw new Error('Response status: ' + resp.status)
     return await resp.text()
+  }
+
+  async fetchApi (endpoint, opts = {}) {
+    endpoint = endpoint + this.apiExt
+    opts.headers = opts.headers ?? {}
+    opts.headers[this.apiTokenKey] = this.accessToken
+    const resp = await fetch(endpoint, opts)
+    if (resp.ok) return resp.json()
+    console.error(await resp.json())
   }
 
   async createComponent (body, selector, asChild) {
