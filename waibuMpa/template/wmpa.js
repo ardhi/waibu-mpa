@@ -5,8 +5,10 @@ class Wmpa {
     this.prefixMain = '<%= prefix.main %>'
     this.accessTokenUrl = '<%= accessTokenUrl %>'
     this.renderUrl = '<%= renderUrl %>'
-    this.apiExt = '<%= apiExt %>'
-    this.apiTokenKey = '<%= apiTokenKey %>'
+    this.apiPrefix = '<%= api.prefix %>'
+    this.apiExt = '<%= api.ext %>'
+    this.apiHeaderKey = '<%= api.headerKey %>'
+    this.apiDataKey = '<%= api.dataKey %>'
     this.init()
   }
 
@@ -22,6 +24,10 @@ class Wmpa {
     }).then(token => {
       this.accessToken = token
     })
+  }
+
+  randomRange (min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
   }
 
   randomId (length = 10, noNum = true) {
@@ -47,13 +53,17 @@ class Wmpa {
     return await resp.text()
   }
 
-  async fetchApi (endpoint, opts = {}) {
-    endpoint = endpoint + this.apiExt
+  async fetchApi (endpoint, opts, filter = {}) {
+    opts = opts ?? {}
+    endpoint = '/' + this.apiPrefix + endpoint + this.apiExt
     opts.headers = opts.headers ?? {}
-    opts.headers[this.apiTokenKey] = this.accessToken
+    opts.headers[this.apiHeaderKey] = this.accessToken
+    const qs = new URLSearchParams(filter)
+    endpoint += '?' + qs.toString()
     const resp = await fetch(endpoint, opts)
-    if (resp.ok) return resp.json()
-    console.error(await resp.json())
+    const result = await resp.json()
+    if (resp.ok) return result[this.apiDataKey]
+    console.error(result)
   }
 
   async createComponent (body, selector, asChild) {

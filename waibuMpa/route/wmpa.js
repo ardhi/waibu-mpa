@@ -13,9 +13,14 @@ const wmpa = {
     const sumbaPrefix = this.app.sumba.config.waibu.prefix
     const accessTokenUrl = '/' + trim(`/${mpaPrefix}/${sumbaPrefix}/access-token`, '/')
     const renderUrl = '/' + trim(`/${mpaPrefix}/component/render`, '/')
-    const apiExt = this.app.waibuRestApi.config.format.asExt ? '.json' : ''
-    const apiTokenKey = this.app.sumba.config.auth.common.jwt.headerKey
-    return reply.view('waibuMpa.template:/wmpa.js', { prefix, accessTokenUrl, renderUrl, apiExt, apiTokenKey })
+    const api = {
+      prefix: this.app.waibuRestApi.config.waibu.prefix,
+      ext: this.app.waibuRestApi.config.format.asExt ? '.json' : '',
+      headerKey: this.app.sumba.config.auth.common.jwt.headerKey,
+      dataKey: this.app.waibuRestApi.config.responseKey.data
+    }
+    const params = { prefix, accessTokenUrl, renderUrl, api }
+    return reply.view('waibuMpa.template:/wmpa.js', params)
   }
 }
 
