@@ -296,6 +296,7 @@ export default [
   { name: 'umbrella' },
   { name: 'unlock' },
   { name: 'usb' },
+  { name: 'vector' },
   { name: 'voicemail' },
   { name: 'volumeDown' },
   { name: 'volumeX' },

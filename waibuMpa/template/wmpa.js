@@ -1,3 +1,5 @@
+/* global _ */
+
 class Wmpa {
   constructor () {
     this.prefixVirtual = '<%= prefix.virtual %>'
@@ -63,10 +65,12 @@ class Wmpa {
     const resp = await fetch(endpoint, opts)
     const result = await resp.json()
     if (resp.ok) return result[this.apiDataKey]
-    console.error(result)
+    // console.error(result)
+    return []
   }
 
   async createComponent (body, selector, asChild) {
+    if (_.isArray(body)) body = body.join('\n')
     const html = await this.fetchRender(body)
     const tpl = document.createElement('template')
     tpl.innerHTML = html
@@ -145,6 +149,12 @@ class Wmpa {
     }
     document.body.appendChild(form)
     form.submit()
+  }
+
+  async delay (ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms)
+    })
   }
 }
 
