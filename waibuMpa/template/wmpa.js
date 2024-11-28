@@ -2,6 +2,7 @@
 
 class Wmpa {
   constructor () {
+    this.lang = '<%= _meta.lang %>'
     this.prefixVirtual = '<%= prefix.virtual %>'
     this.prefixAsset = '<%= prefix.asset %>'
     this.prefixMain = '<%= prefix.main %>'
@@ -11,6 +12,8 @@ class Wmpa {
     this.apiExt = '<%= api.ext %>'
     this.apiHeaderKey = '<%= api.headerKey %>'
     this.apiDataKey = '<%= api.dataKey %>'
+    this.formatOpts = <%= _jsonStringify(formatOpts, true) %>
+    this.fetchingApi = {}
     this.init()
   }
 
@@ -57,6 +60,12 @@ class Wmpa {
 
   async fetchApi (endpoint, opts, filter = {}) {
     opts = opts ?? {}
+    opts.fetching = opts.fetching ?? false
+    if (opts.fetching) {
+      if (this.fetchingApi[endpoint]) return
+      this.fetchApi[endpoint] = true
+      delete opts.fetching
+    }
     endpoint = '/' + this.apiPrefix + endpoint + this.apiExt
     opts.headers = opts.headers ?? {}
     opts.headers[this.apiHeaderKey] = this.accessToken
@@ -64,6 +73,7 @@ class Wmpa {
     endpoint += '?' + qs.toString()
     const resp = await fetch(endpoint, opts)
     const result = await resp.json()
+    delete this.fetchingApi[endpoint]
     if (resp.ok) return result[this.apiDataKey]
     // console.error(result)
     return []
@@ -155,6 +165,39 @@ class Wmpa {
     return new Promise((resolve) => {
       setTimeout(resolve, ms)
     })
+  }
+
+  format (value, type, lang, options = {}) {
+    const { emptyValue = this.formatOpts.emptyValue } = options
+    if ([undefined, null, ''].includes(value)) return emptyValue
+    if (type === 'auto') {
+      if (value instanceof Date) type = 'datetime'
+    }
+    if (['integer', 'smallint'].includes(type)) {
+      value = parseInt(value)
+      if (isNaN(value)) return emptyValue
+      const setting = _.defaultsDeep(options.integer, this.formatOpts.integer)
+      return new Intl.NumberFormat(lang, setting).format(value)
+    }
+    if (['float', 'double'].includes(type)) {
+      value = parseFloat(value)
+      if (isNaN(value)) return emptyValue
+      if (wmapsUtil && options.longitude) return wmapsUtil.decToDms(value, { isLng: true })
+      if (wmapsUtil && options.latitude) return wmapsUtil.decToDms(value)
+      const setting = _.defaultsDeep(options.float, this.formatOpts.float)
+      return new Intl.NumberFormat(lang, setting).format(value)
+    }
+    if (['datetime', 'date'].includes(type)) {
+      const setting = _.defaultsDeep(options[type], this.formatOpts[type])
+      return new Intl.DateTimeFormat(lang, setting).format(new Date(value))
+    }
+    if (['time'].includes(type)) {
+      const setting = _.defaultsDeep(options.time, this.formatOpts.time)
+      return new Intl.DateTimeFormat(lang, setting).format(new Date('1970-01-01T' + value + 'Z'))
+    }
+    if (['array'].includes(type)) return value.join(', ')
+    if (['object'].includes(type)) return JSON.stringify(value)
+    return value
   }
 }
 

@@ -19,7 +19,8 @@ const wmpa = {
       headerKey: this.app.sumba.config.auth.common.jwt.headerKey,
       dataKey: this.app.waibuRestApi.config.responseKey.data
     }
-    const params = { prefix, accessTokenUrl, renderUrl, api }
+    const formatOpts = this.app.bajoI18N.config.format
+    const params = { prefix, accessTokenUrl, renderUrl, api, formatOpts }
     return reply.view('waibuMpa.template:/wmpa.js', params)
   }
 }
