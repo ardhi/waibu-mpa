@@ -132,6 +132,7 @@ export default [
   { name: 'eyeSlash' },
   { name: 'eyeglasses' },
   { name: 'fan' },
+  { name: 'favorite' },
   { name: 'feather' },
   { name: 'file' },
   { name: 'fileText' },
