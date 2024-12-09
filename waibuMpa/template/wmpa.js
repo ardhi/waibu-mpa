@@ -21,6 +21,11 @@ class Wmpa {
     window.addEventListener('load', evt => {
       if (window.hljs) window.hljs.highlightAll()
     })
+    document.addEventListener('alpine:initializing', () => {
+      Alpine.store('wmpa', {
+        loading: Alpine.$persist(false).as('wmpaLoading')
+      })
+    })
     fetch(this.accessTokenUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' }
@@ -63,9 +68,10 @@ class Wmpa {
     opts.fetching = opts.fetching ?? false
     if (opts.fetching) {
       if (this.fetchingApi[endpoint]) return
-      this.fetchApi[endpoint] = true
+      this.fetchingApi[endpoint] = true
       delete opts.fetching
     }
+    Alpine.store('wmpa').loading = true
     endpoint = '/' + this.apiPrefix + endpoint + this.apiExt
     opts.headers = opts.headers ?? {}
     opts.headers[this.apiHeaderKey] = this.accessToken
@@ -74,6 +80,7 @@ class Wmpa {
     const resp = await fetch(endpoint, opts)
     const result = await resp.json()
     delete this.fetchingApi[endpoint]
+    Alpine.store('wmpa').loading = false
     if (resp.ok) return result[this.apiDataKey]
     // console.error(result)
     return []
