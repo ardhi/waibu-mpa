@@ -76,6 +76,7 @@ function jsonStringify (obj, replacer, space) {
 
     objKeys.forEach((eachKey) => {
       const eachValue = obj[eachKey]
+      if (eachKey.includes('-')) eachKey = `'${eachKey}'`
       objStr += (!ignoreDataTypes(eachValue)) ? `${eachKey}:${jsonStringify.call(this, eachValue, replacer, space)},` : ''
     })
     return '{' + removeComma(objStr) + '}'
