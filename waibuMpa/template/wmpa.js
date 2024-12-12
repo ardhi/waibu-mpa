@@ -12,6 +12,9 @@ class Wmpa {
     this.apiExt = '<%= api.ext %>'
     this.apiHeaderKey = '<%= api.headerKey %>'
     this.apiDataKey = '<%= api.dataKey %>'
+    this.apiRateLimitCount = 0
+    this.apiRateLimitDelay = <%= api.rateLimitDelay %>
+    this.apiRateLimitRetry = <%= api.rateLimitRetry %>
     this.formatOpts = <%= _jsonStringify(formatOpts, true) %>
     this.fetchingApi = {}
     this.init()
@@ -23,7 +26,7 @@ class Wmpa {
     })
     document.addEventListener('alpine:initializing', () => {
       Alpine.store('wmpa', {
-        loading: Alpine.$persist(false).as('wmpaLoading')
+        loading: false
       })
     })
     fetch(this.accessTokenUrl, {
@@ -84,13 +87,19 @@ class Wmpa {
     const result = await resp.json()
     delete this.fetchingApi[endpoint]
     Alpine.store('wmpa').loading = false
-    if (resp.ok) return result[this.apiDataKey]
-    else if (resp.status === 429) {
-      console.log(429)
-      await this.delay(2000)
-      await this.fetchApi(oendpoint, oopts, ofilter)
+    if (resp.ok) {
+      this.apiRateLimitCount = 0
+      return result[this.apiDataKey]
     }
-    return []
+    if (resp.status === 429) {
+      this.apiRateLimitCount++
+      if (this.apiRateLimitCount > this.apiRateLimitRetry) {
+        this.apiRateLimitCount = 0
+        return []
+      }
+      await this.delay(this.apiRateLimitDelay)
+      return this.fetchApi(oendpoint, oopts, ofilter)
+    } else return []
   }
 
   async createComponent (body, selector, asChild) {

@@ -17,7 +17,9 @@ const wmpa = {
       prefix: this.app.waibuRestApi.config.waibu.prefix,
       ext: this.app.waibuRestApi.config.format.asExt ? '.json' : '',
       headerKey: this.app.sumba.config.auth.common.jwt.headerKey,
-      dataKey: this.app.waibuRestApi.config.responseKey.data
+      dataKey: this.app.waibuRestApi.config.responseKey.data,
+      rateLimitDelay: 2000,
+      rateLimitRetry: 2
     }
     const formatOpts = this.app.bajoI18N.config.format
     const params = { prefix, accessTokenUrl, renderUrl, api, formatOpts }
