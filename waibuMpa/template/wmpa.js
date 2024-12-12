@@ -64,7 +64,10 @@ class Wmpa {
   }
 
   async fetchApi (endpoint, opts, filter = {}) {
-    opts = opts ?? {}
+    const oendpoint = endpoint
+    const oopts = _.cloneDeep(opts)
+    const ofilter = _.cloneDeep(filter)
+    opts = _.cloneDeep(opts) ?? {}
     opts.fetching = opts.fetching ?? false
     if (opts.fetching) {
       if (this.fetchingApi[endpoint]) return
@@ -82,7 +85,11 @@ class Wmpa {
     delete this.fetchingApi[endpoint]
     Alpine.store('wmpa').loading = false
     if (resp.ok) return result[this.apiDataKey]
-    // console.error(result)
+    else if (resp.status === 429) {
+      console.log(429)
+      await this.delay(2000)
+      await this.fetchApi(oendpoint, oopts, ofilter)
+    }
     return []
   }
 
