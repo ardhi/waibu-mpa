@@ -39,6 +39,10 @@ class Wmpa {
     })
   }
 
+  isSet (value) {
+    return ![undefined, null].includes(value)
+  }
+
   randomRange (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
   }

@@ -248,6 +248,7 @@ export default [
   { name: 'recycle' },
   { name: 'robot' },
   { name: 'rocket' },
+  { name: 'route' },
   { name: 'reply' },
   { name: 'replyAll' },
   { name: 'search' },
