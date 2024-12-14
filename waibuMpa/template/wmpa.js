@@ -143,7 +143,7 @@ class Wmpa {
         const el = document.querySelector(content)
         content = el.textContent
       } catch (err) {
-        await this.notify('Invalid selector!', { type: 'danger' })
+        await wbs.notify('Invalid selector!', { type: 'danger' })
         return
       }
     }

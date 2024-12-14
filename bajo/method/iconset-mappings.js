@@ -262,6 +262,7 @@ export default [
   { name: 'simCard' },
   { name: 'signin' },
   { name: 'signout' },
+  { name: 'signSplit' },
   { name: 'signInfo' },
   { name: 'signDanger' },
   { name: 'signWarning' },
