@@ -226,6 +226,12 @@ class Wmpa {
     if (['object'].includes(type)) return JSON.stringify(value)
     return value
   }
+
+  mergeArrays (arr1, arr2) {
+    return [...arr1.concat(arr2).reduce((m, o) => {
+      m.set(o.member, Object.assign(m.get(o.member) || {}, o))
+    }, new Map()).values()]
+  }
 }
 
 const wmpa = new Wmpa() // eslint-disable-line no-unused-vars
