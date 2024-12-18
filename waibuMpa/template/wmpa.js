@@ -194,6 +194,30 @@ class Wmpa {
     })
   }
 
+  formatSpeed (value) {
+    let unit = 'kmh'
+    if (Alpine.store('mapSetting').measure === 'nautical') {
+      value = value / 1.852
+      unit = 'kn'
+    } else if (Alpine.store('mapSetting').measure === 'imperial') {
+      value = value / 1.609
+      unit = 'mph'
+    }
+    return [value, unit]
+  }
+
+  formatDistance (value) {
+    let unit = 'km'
+    if (Alpine.store('mapSetting').measure === 'nautical') {
+      value = value / 1.852
+      unit = 'nm'
+    } else if (Alpine.store('mapSetting').measure === 'imperial') {
+      value = value / 1.609
+      unit = 'mi'
+    }
+    return [value, unit]
+  }
+
   format (value, type, lang, options = {}) {
     const { emptyValue = this.formatOpts.emptyValue } = options
     if ([undefined, null, ''].includes(value)) return emptyValue
@@ -211,8 +235,11 @@ class Wmpa {
       if (isNaN(value)) return emptyValue
       if (wmapsUtil && options.longitude) return wmapsUtil.decToDms(value, { isLng: true })
       if (wmapsUtil && options.latitude) return wmapsUtil.decToDms(value)
+      let unit
+      if (options.speed) [value, unit] = this.formatSpeed(value)
+      else if (options.distance) [value, unit] = this.formatDistance(value)
       const setting = _.defaultsDeep(options.float, this.formatOpts.float)
-      return new Intl.NumberFormat(lang, setting).format(value)
+      return (new Intl.NumberFormat(lang, setting).format(value)) + (_.isEmpty(unit) ? '' : (' ' + unit))
     }
     if (['datetime', 'date'].includes(type)) {
       const setting = _.defaultsDeep(options[type], this.formatOpts[type])
@@ -227,6 +254,21 @@ class Wmpa {
     return value
   }
 
+  formatTpl ({ props = {}, tpl = '', schema = {} }) {
+    props = _.cloneDeep(props)
+    for (const s in schema) {
+      if (!_.has(props, s)) props[s] = null
+    }
+    const compiled = _.template(tpl)
+    for (const p in props) {
+      const opts = _.cloneDeep(this.formatOpts)
+      const [type, subType] = (schema[p] ?? 'auto').split(':')
+      if (subType) opts[subType] = true
+      props[p] = this.format(props[p], type, this.lang, opts)
+    }
+    return compiled(props)
+  }
+
   mergeArrays (arr1, arr2) {
     return [...arr1.concat(arr2).reduce((m, o) => {
       m.set(o.member, Object.assign(m.get(o.member) || {}, o))
@@ -235,3 +277,8 @@ class Wmpa {
 }
 
 const wmpa = new Wmpa() // eslint-disable-line no-unused-vars
+if (window._ && window._.VERSION) {
+  window._.templateSettings.evaluate = /\{\%(.+?)\%\}/g
+  window._.templateSettings.interpolate = /\{\%=(.+?)\%\}/g
+  window._.templateSettings.escape = /\{\%-(.+?)\%\}/g
+}
