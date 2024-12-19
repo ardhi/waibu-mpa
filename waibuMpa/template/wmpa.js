@@ -106,24 +106,29 @@ class Wmpa {
     } else return []
   }
 
-  async createComponent (body, selector, asChild) {
+  async createComponent (body, wrapper) {
     if (_.isArray(body)) body = body.join('\n')
+    if (wrapper) body = '<' + wrapper + '>' + body + '</' + wrapper + '>'
     const html = await this.fetchRender(body)
     const tpl = document.createElement('template')
     tpl.innerHTML = html
     return tpl.content.firstElementChild
   }
 
-  async replaceWithComponent (body, selector) {
-    const cmp = await this.createComponent(body)
+  async replaceWithComponent (body, selector, wrapper) {
+    let cmp
+    if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper)
+    else cmp = body
     const el = document.querySelector(selector)
     if (!el) return
     el.replaceWith(cmp)
     return cmp.getAttribute('id')
   }
 
-  async addComponent (body, selector = 'body') {
-    const cmp = await this.createComponent(body)
+  async addComponent (body, selector = 'body', wrapper) {
+    let cmp
+    if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper)
+    else cmp = body
     const el = document.querySelector(selector)
     if (!el) return
     el.appendChild(cmp)
@@ -196,10 +201,10 @@ class Wmpa {
 
   formatSpeed (value) {
     let unit = 'kmh'
-    if (Alpine.store('mapSetting').measure === 'nautical') {
+    if (Alpine.store('map').measure === 'nautical') {
       value = value / 1.852
       unit = 'kn'
-    } else if (Alpine.store('mapSetting').measure === 'imperial') {
+    } else if (Alpine.store('map').measure === 'imperial') {
       value = value / 1.609
       unit = 'mph'
     }
@@ -208,10 +213,10 @@ class Wmpa {
 
   formatDistance (value) {
     let unit = 'km'
-    if (Alpine.store('mapSetting').measure === 'nautical') {
+    if (Alpine.store('map').measure === 'nautical') {
       value = value / 1.852
       unit = 'nm'
-    } else if (Alpine.store('mapSetting').measure === 'imperial') {
+    } else if (Alpine.store('map').measure === 'imperial') {
       value = value / 1.609
       unit = 'mi'
     }
