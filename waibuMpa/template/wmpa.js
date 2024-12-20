@@ -61,6 +61,7 @@ class Wmpa {
   }
 
   async fetchRender (body) {
+    if (_.isArray(body)) body = body.join('\n')
     const resp = await fetch(this.renderUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain', 'Waibu-Referer': window.location.href },
@@ -91,6 +92,7 @@ class Wmpa {
     const result = await resp.json()
     delete this.fetchingApi[endpoint]
     Alpine.store('wmpa').loading = false
+    if (resp.status >= 500) return []
     if (resp.ok) {
       this.apiRateLimitCount = 0
       return result[this.apiDataKey]
@@ -106,13 +108,25 @@ class Wmpa {
     } else return []
   }
 
-  async createComponent (body, wrapper) {
-    if (_.isArray(body)) body = body.join('\n')
-    if (wrapper) body = '<' + wrapper + '>' + body + '</' + wrapper + '>'
-    const html = await this.fetchRender(body)
+  createComponentFromHtml (html, wrapper) {
+    if (wrapper) html = '<' + wrapper + '>' + html + '</' + wrapper + '>'
     const tpl = document.createElement('template')
     tpl.innerHTML = html
     return tpl.content.firstElementChild
+  }
+
+  async createComponent (body, wrapper) {
+    if (_.isArray(body)) body = body.join('\n')
+    const html = await this.fetchRender(body)
+    return this.createComponentFromHtml(html, wrapper)
+  }
+
+  replaceWithComponentHtml (html, selector, wrapper) {
+    const cmp = this.createComponentFromHtml(html, wrapper)
+    const el = document.querySelector(selector)
+    if (!el) return
+    el.replaceWith(cmp)
+    return cmp.getAttribute('id')
   }
 
   async replaceWithComponent (body, selector, wrapper) {
@@ -122,6 +136,14 @@ class Wmpa {
     const el = document.querySelector(selector)
     if (!el) return
     el.replaceWith(cmp)
+    return cmp.getAttribute('id')
+  }
+
+  addComponentHtml (html, selector = 'body', wrapper) {
+    const cmp = this.createComponentFromHtml(html, wrapper)
+    const el = document.querySelector(selector)
+    if (!el) return
+    el.appendChild(cmp)
     return cmp.getAttribute('id')
   }
 
@@ -278,6 +300,11 @@ class Wmpa {
     return [...arr1.concat(arr2).reduce((m, o) => {
       m.set(o.member, Object.assign(m.get(o.member) || {}, o))
     }, new Map()).values()]
+  }
+
+  getAge (dt, upperFirst = true) {
+    const age = dayjs(dt).fromNow()
+    return upperFirst ? _.upperFirst(age) : age
   }
 }
 
