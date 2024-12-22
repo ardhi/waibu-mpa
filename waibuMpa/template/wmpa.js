@@ -157,6 +157,25 @@ class Wmpa {
     return cmp.getAttribute('id')
   }
 
+  alpineScope (selector) {
+    const el = document.querySelector(selector)
+    if (!el) return
+    return _.get(el, '_x_dataStack.0')
+  }
+
+  alpineScopeMethod (selector, fnName) {
+    const scope = this.alpineScope(selector)
+    if (!scope) return
+    let [ns, method] = fnName.split(':')
+    if (!method) return scope[ns].bind(scope)
+    let obj = scope[ns]
+    if (_.isFunction(obj)) {
+      obj = obj()
+      return obj[method].bind(obj)
+    }
+    return obj[method].bind(scope)
+  }
+
   async t (...params) {
     let [text, ...value] = params
     value = value.join('|')
