@@ -325,6 +325,10 @@ class Wmpa {
     const age = dayjs(dt).fromNow()
     return upperFirst ? _.upperFirst(age) : age
   }
+
+  pascalCase (text) {
+    return _.upperFirst(_.camelCase(text))
+  }
 }
 
 const wmpa = new Wmpa() // eslint-disable-line no-unused-vars
