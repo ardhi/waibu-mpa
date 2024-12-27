@@ -115,6 +115,10 @@ class Wmpa {
     return tpl.content.firstElementChild
   }
 
+  getElement (selector) {
+    return selector instanceof HTMLElement ? selector : document.querySelector(selector)
+  }
+
   async createComponent (body, wrapper) {
     if (_.isArray(body)) body = body.join('\n')
     const html = await this.fetchRender(body)
@@ -123,7 +127,7 @@ class Wmpa {
 
   replaceWithComponentHtml (html, selector, wrapper) {
     const cmp = this.createComponentFromHtml(html, wrapper)
-    const el = document.querySelector(selector)
+    const el = this.getElement(selector)
     if (!el) return
     el.replaceWith(cmp)
     return cmp.getAttribute('id')
@@ -133,7 +137,7 @@ class Wmpa {
     let cmp
     if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper)
     else cmp = body
-    const el = document.querySelector(selector)
+    const el = this.getElement(selector)
     if (!el) return
     el.replaceWith(cmp)
     return cmp.getAttribute('id')
@@ -141,7 +145,7 @@ class Wmpa {
 
   addComponentHtml (html, selector = 'body', wrapper) {
     const cmp = this.createComponentFromHtml(html, wrapper)
-    const el = document.querySelector(selector)
+    const el = this.getElement(selector)
     if (!el) return
     el.appendChild(cmp)
     return cmp.getAttribute('id')
@@ -151,7 +155,7 @@ class Wmpa {
     let cmp
     if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper)
     else cmp = body
-    const el = document.querySelector(selector)
+    const el = this.getElement(selector)
     if (!el) return
     el.appendChild(cmp)
     return cmp.getAttribute('id')
@@ -328,6 +332,10 @@ class Wmpa {
 
   pascalCase (text) {
     return _.upperFirst(_.camelCase(text))
+  }
+
+  insertString (text, insertedText, index) {
+    return text.slice(0, index) + insertedText + text.slice(index)
   }
 }
 

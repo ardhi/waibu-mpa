@@ -15,9 +15,9 @@ function attribsStringify (obj = {}, kebabCasedKey = true) {
     }
     if (kebabCasedKey) k = kebabCase(k)
     if (!isSet(v)) return undefined
+    if (['class', 'style'].includes(k) && isEmpty(v)) return undefined
     if (isArray(v)) v = this.arrayToAttr(v)
     if (isPlainObject(v)) v = this.objectToAttr(v)
-    if (['class', 'style'].includes(k) && isEmpty(v)) return undefined
     if (k !== 'content' && v === true) attrs.push(k)
     else attrs.push(`${k}="${v}"`)
   })
