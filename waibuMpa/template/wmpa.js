@@ -162,12 +162,13 @@ class Wmpa {
   }
 
   alpineScope (selector) {
+    if (!selector) selector = '#' + Alpine.store('map').id
     const el = document.querySelector(selector)
     if (!el) return
     return _.get(el, '_x_dataStack.0')
   }
 
-  alpineScopeMethod (selector, fnName) {
+  alpineScopeMethod (fnName, selector) {
     const scope = this.alpineScope(selector)
     if (!scope) return
     let [ns, method] = fnName.split(':')
