@@ -337,6 +337,10 @@ class Wmpa {
   insertString (text, insertedText, index) {
     return text.slice(0, index) + insertedText + text.slice(index)
   }
+
+  copyArray (arr = []) {
+    return [...arr]
+  }
 }
 
 const wmpa = new Wmpa() // eslint-disable-line no-unused-vars
