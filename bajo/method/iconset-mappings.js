@@ -123,6 +123,7 @@ export default [
   { name: 'add' },
   { name: 'delete' },
   { name: 'remove' },
+  { name: 'ruler' },
   { name: 'ear' },
   { name: 'emoji' },
   { name: 'envelope' },

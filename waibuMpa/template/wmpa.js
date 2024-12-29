@@ -269,7 +269,7 @@ class Wmpa {
     return [value, unit]
   }
 
-  format (value, type, lang, options = {}) {
+  format (value, type, options = {}) {
     const { emptyValue = this.formatOpts.emptyValue } = options
     if ([undefined, null, ''].includes(value)) return emptyValue
     if (type === 'auto') {
@@ -279,7 +279,7 @@ class Wmpa {
       value = parseInt(value)
       if (isNaN(value)) return emptyValue
       const setting = _.defaultsDeep(options.integer, this.formatOpts.integer)
-      return new Intl.NumberFormat(lang, setting).format(value)
+      return new Intl.NumberFormat(this.lang, setting).format(value)
     }
     if (['float', 'double'].includes(type)) {
       value = parseFloat(value)
@@ -290,15 +290,15 @@ class Wmpa {
       if (options.speed) [value, unit] = this.formatSpeed(value)
       else if (options.distance) [value, unit] = this.formatDistance(value)
       const setting = _.defaultsDeep(options.float, this.formatOpts.float)
-      return (new Intl.NumberFormat(lang, setting).format(value)) + (_.isEmpty(unit) ? '' : (' ' + unit))
+      return (new Intl.NumberFormat(this.lang, setting).format(value)) + (_.isEmpty(unit) ? '' : (' ' + unit))
     }
     if (['datetime', 'date'].includes(type)) {
       const setting = _.defaultsDeep(options[type], this.formatOpts[type])
-      return new Intl.DateTimeFormat(lang, setting).format(new Date(value))
+      return new Intl.DateTimeFormat(this.lang, setting).format(new Date(value))
     }
     if (['time'].includes(type)) {
       const setting = _.defaultsDeep(options.time, this.formatOpts.time)
-      return new Intl.DateTimeFormat(lang, setting).format(new Date('1970-01-01T' + value + 'Z'))
+      return new Intl.DateTimeFormat(this.lang, setting).format(new Date('1970-01-01T' + value + 'Z'))
     }
     if (['array'].includes(type)) return value.join(', ')
     if (['object'].includes(type)) return JSON.stringify(value)
@@ -315,7 +315,7 @@ class Wmpa {
       const opts = _.cloneDeep(this.formatOpts)
       const [type, subType] = (schema[p] ?? 'auto').split(':')
       if (subType) opts[subType] = true
-      props[p] = this.format(props[p], type, this.lang, opts)
+      props[p] = this.format(props[p], type, opts)
     }
     return compiled(props)
   }
