@@ -310,7 +310,7 @@ class Wmpa {
     for (const s in schema) {
       if (!_.has(props, s)) props[s] = null
     }
-    const compiled = _.template(tpl)
+    const compiled = _.isFunction(tpl) ? tpl : _.template(tpl)
     for (const p in props) {
       const opts = _.cloneDeep(this.formatOpts)
       const [type, subType] = (schema[p] ?? 'auto').split(':')
