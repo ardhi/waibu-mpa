@@ -171,7 +171,7 @@ class Wmpa {
   alpineScopeMethod (fnName, selector) {
     const scope = this.alpineScope(selector)
     if (!scope) return
-    let [ns, method] = fnName.split(':')
+    let [ns, method] = fnName.split('.')
     if (!method) return scope[ns].bind(scope)
     let obj = scope[ns]
     if (_.isFunction(obj)) {
@@ -305,18 +305,27 @@ class Wmpa {
     return value
   }
 
-  formatTpl ({ props = {}, tpl = '', schema = {} }) {
+  formatProps ({ props = {}, schema = {}, emptyValue = '-' }) {
     props = _.cloneDeep(props)
     for (const s in schema) {
       if (!_.has(props, s)) props[s] = null
     }
-    const compiled = _.isFunction(tpl) ? tpl : _.template(tpl)
     for (const p in props) {
       const opts = _.cloneDeep(this.formatOpts)
-      const [type, subType] = (schema[p] ?? 'auto').split(':')
-      if (subType) opts[subType] = true
-      props[p] = this.format(props[p], type, opts)
+      if (_.isFunction(schema[p])) props[p] = schema[p](props[p])
+      else {
+        const [type, subType] = (schema[p] ?? 'auto').split(':')
+        if (subType) opts[subType] = true
+        if (emptyValue) opts.emptyValue = emptyValue
+        props[p] = this.format(props[p], type, opts)
+      }
     }
+    return props
+  }
+
+  formatTpl ({ props = {}, tpl = '', schema = {} }) {
+    props = this.formatProps({ props, schema })
+    const compiled = _.isFunction(tpl) ? tpl : _.template(tpl)
     return compiled(props)
   }
 

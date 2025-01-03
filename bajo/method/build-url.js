@@ -5,7 +5,7 @@ function buildUrl ({ exclude = [], prefix = '?', base, url = '', params = {} }) 
   let path
   let hash
   let query
-  [path, hash] = url.split('#')
+  [path = '', hash = ''] = url.split('#')
   if (hash.includes('?')) [hash, query] = hash.split('?')
   else [path, query] = path.split('?')
   query = qs.parse(query) ?? {}
