@@ -359,6 +359,19 @@ class Wmpa {
   copyArray (arr = []) {
     return [...arr]
   }
+
+  toBase64 (str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+      function toSolidBytes(match, p1) {
+        return String.fromCharCode('0x' + p1)
+    }))
+  }
+
+  fromBase64 (str) {
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    }).join(''))
+  }
 }
 
 const wmpa = new Wmpa() // eslint-disable-line no-unused-vars
