@@ -308,6 +308,7 @@ export default [
   { name: 'volumeUp' },
   { name: 'watch' },
   { name: 'wallet' },
+  { name: 'weather' },
   { name: 'webcam' },
   { name: 'wifi' },
   { name: 'wifiSlash' },
