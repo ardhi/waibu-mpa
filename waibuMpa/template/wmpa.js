@@ -26,7 +26,8 @@ class Wmpa {
     })
     document.addEventListener('alpine:initializing', () => {
       Alpine.store('wmpa', {
-        loading: false
+        loading: false,
+        reqAborted: null
       })
     })
     fetch(this.accessTokenUrl, {
@@ -72,40 +73,61 @@ class Wmpa {
   }
 
   async fetchApi (endpoint, opts, filter = {}) {
+    Alpine.store('wmpa').reqAborted = null
     const oendpoint = endpoint
     const oopts = _.cloneDeep(opts)
     const ofilter = _.cloneDeep(filter)
-    opts = _.cloneDeep(opts) ?? {}
-    opts.fetching = opts.fetching ?? false
-    if (opts.fetching) {
-      if (this.fetchingApi[endpoint]) return
-      this.fetchingApi[endpoint] = true
-      delete opts.fetching
+    let options = _.cloneDeep(opts) ?? {}
+    options.fetching = options.fetching ?? {}
+    if (options.fetching) {
+      this.fetchingApi[oendpoint] = this.fetchingApi[oendpoint] ?? {}
+      if (this.fetchingApi[oendpoint].status === 'fetching') return
+      this.fetchingApi[oendpoint].status = 'fetching'
+      delete options.fetching
     }
     Alpine.store('wmpa').loading = true
     endpoint = '/' + this.apiPrefix + endpoint + this.apiExt
-    opts.headers = opts.headers ?? {}
-    opts.headers[this.apiHeaderKey] = this.accessToken
+    options.headers = options.headers ?? {}
+    options.headers[this.apiHeaderKey] = this.accessToken
+    const abortCtrl = new AbortController()
+    options.signal = abortCtrl.signal
+    this.fetchingApi[oendpoint].abortCtrl = abortCtrl
+    const { mapSearch } = filter
+    if (mapSearch) {
+      Alpine.store('mapSearch').busy = mapSearch
+      delete filter.mapSearch
+    }
     const qs = new URLSearchParams(filter)
     endpoint += '?' + qs.toString()
-    const resp = await fetch(endpoint, opts)
-    const result = await resp.json()
-    delete this.fetchingApi[endpoint]
-    Alpine.store('wmpa').loading = false
-    if (resp.status >= 500) return []
-    if (resp.ok) {
-      this.apiRateLimitCount = 0
-      return result[this.apiDataKey]
-    }
-    if (resp.status === 429) {
-      this.apiRateLimitCount++
-      if (this.apiRateLimitCount > this.apiRateLimitRetry) {
+    const req = new Request(endpoint, options)
+    try {
+      const resp = await fetch(req)
+      const result = await resp.json()
+      delete this.fetchingApi[oendpoint]
+      Alpine.store('wmpa').loading = false
+      if (mapSearch) Alpine.store('mapSearch').busy = false
+      if (resp.status >= 500) return []
+      if (resp.ok) {
         this.apiRateLimitCount = 0
-        return []
+        return result[this.apiDataKey]
       }
-      await this.delay(this.apiRateLimitDelay)
-      return this.fetchApi(oendpoint, oopts, ofilter)
-    } else return []
+      if (resp.status === 429) {
+        this.apiRateLimitCount++
+        if (this.apiRateLimitCount > this.apiRateLimitRetry) {
+          this.apiRateLimitCount = 0
+          return []
+        }
+        await this.delay(this.apiRateLimitDelay)
+        return this.fetchApi(oendpoint, oopts, ofilter)
+      } else return []
+    } catch (err) {
+      if (mapSearch) Alpine.store('mapSearch').busy = false
+      if (req.signal.aborted) {
+        Alpine.store('wmpa').reqAborted = oendpoint
+        this.fetchingApi[oendpoint].status = 'abort:Request aborted'
+      }
+      return []
+    }
   }
 
   createComponentFromHtml (html, wrapper) {
