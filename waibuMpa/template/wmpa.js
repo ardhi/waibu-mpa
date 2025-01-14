@@ -357,17 +357,26 @@ class Wmpa {
     }, new Map()).values()]
   }
 
-  getAge (dt, fullView = true) {
+  getAge (dt, fullView) {
     const secNum = Math.abs(dayjs().diff(dt, 's'))
     let hours = Math.floor(secNum / 3600)
-    let minutes = Math.floor((secNum - (hours * 3600)) / 60)
-    let seconds = secNum - (hours * 3600) - (minutes * 60)
+    let days = Math.floor(hours / 24)
+    hours = hours - (days * 24)
+    let minutes = Math.floor((secNum - (days * 86400) - (hours * 3600)) / 60)
+    let seconds = secNum - (days * 86400) - (hours * 3600) - (minutes * 60)
 
     if (hours < 10) { hours = '0' + hours }
     if (minutes < 10) { minutes = '0' + minutes }
     if (seconds < 10) { seconds = '0'+ seconds }
-    if (!fullView && hours === '00') return minutes + ':' + seconds
-    return hours + ':' + minutes + ':' + seconds
+    if (!fullView) {
+      let parts = minutes + ':' + seconds
+      if (days === 0) {
+        if (hours !== '00') return hours + ':' + parts
+        return parts
+      }
+      return days + 'd ' + hours + ':' + parts
+    }
+    return days + 'd ' + hours + ':' + minutes + ':' + seconds
   }
 
   pascalCase (text) {

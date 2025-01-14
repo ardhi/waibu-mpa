@@ -11,6 +11,11 @@
     "name": "allowUserOverride",
     "type": "boolean",
     "default": false
+  }, {
+    "name": "siteId",
+    "type": "string",
+    "maxLength": 50,
+    "index": true
   }],
-  "feature": ["sumba.siteId", "updatedAt"]
+  "feature": ["updatedAt"]
 }
