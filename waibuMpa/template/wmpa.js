@@ -100,8 +100,9 @@ class Wmpa {
     const qs = new URLSearchParams(filter)
     endpoint += '?' + qs.toString()
     const req = new Request(endpoint, options)
+    let resp
     try {
-      const resp = await fetch(req)
+      resp = await fetch(req)
       const result = await resp.json()
       delete this.fetchingApi[oendpoint]
       Alpine.store('wmpa').loading = false
@@ -125,6 +126,9 @@ class Wmpa {
       if (req.signal.aborted) {
         Alpine.store('wmpa').reqAborted = oendpoint
         this.fetchingApi[oendpoint].status = 'abort:Request aborted'
+      }
+      if (err instanceof TypeError && err.message === 'Failed to fetch') {
+        window.location.reload()
       }
       return []
     }
