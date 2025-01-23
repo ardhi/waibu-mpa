@@ -8,7 +8,9 @@ async function logo (req, reply) {
   const { fastGlob, fs } = this.app.bajo.lib
   const id = camelCase(req.params.id)
   const plugin = getPlugin(id)
-  const files = await fastGlob(`${plugin.dir.pkg}/bajo/logo${req.query.full ? '-full' : ''}.*`)
+  let type = ''
+  if (req.query.type) type = `-${req.query.type}`
+  const files = await fastGlob(`${plugin.dir.pkg}/bajo/logo${type}.*`)
   if (files.length === 0) throw this.error('notFound')
   const file = files[0]
   const mimeType = mime.getType(path.extname(file))
