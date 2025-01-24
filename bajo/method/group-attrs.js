@@ -12,7 +12,8 @@ function groupAttrs (attribs = {}, keys = [], removeEmpty = true) {
       attr[k].class = attr[k].class ?? []
       attr[k].style = attr[k].style ?? {}
       const _k = kebabCase(k)
-      const name = camelCase(kebabCase(a).slice(_k.length + 1))
+      let name = camelCase(kebabCase(a).slice(_k.length + 1))
+      if (a.includes('@') || a.includes(':')) name = a.slice(_k.length + 1)
       if (!kebabCase(a).startsWith(k + '-')) {
         if (!keys.includes(a)) {
           attr._[a] = attribs[a]
