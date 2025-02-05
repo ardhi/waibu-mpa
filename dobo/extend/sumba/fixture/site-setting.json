@@ -1,0 +1,11 @@
+[{
+  "ns": "waibuMpa",
+  "key": "theme",
+  "value": "bootstrap",
+  "siteId": "?:SumbaSite::alias:default"
+}, {
+  "ns": "waibuMpa",
+  "key": "iconset",
+  "value": "bootstrap-icons",
+  "siteId": "?:SumbaSite::alias:default"
+}]
