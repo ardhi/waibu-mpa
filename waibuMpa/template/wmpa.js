@@ -253,7 +253,7 @@ class Wmpa {
     const form = document.createElement('form')
     form.setAttribute('method', method)
     if (path) form.setAttribute('action', path)
-
+    params._src = window.location.href
     for (const key in params) {
       const input = document.createElement('input')
       input.setAttribute('type', 'hidden')
