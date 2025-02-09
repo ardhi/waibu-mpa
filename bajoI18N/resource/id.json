@@ -22,6 +22,8 @@
   "Success": "Sukses",
   "Warning": "Peringatan",
   "Danger": "Bahaya",
+  "404Message": "Maaf, halaman yang Anda inginkan tidak ditemukan. Silahkan kontak Admin Anda segera!",
+  "500Message": "Maaf, ada kesalahan internal server. Silahkan kontak Admin Anda segera!",
   "field": {
     "session": "Sesi",
     "expires": "Kadaluarsa"
