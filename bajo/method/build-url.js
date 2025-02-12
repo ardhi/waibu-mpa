@@ -1,4 +1,4 @@
-function buildUrl ({ exclude = [], prefix = '?', base, url = '', params = {} }) {
+function buildUrl ({ exclude = [], prefix = '?', base, url = '', params = {}, prettyUrl }) {
   const { qs } = this.app.waibu
   const { forOwn, omit, isEmpty } = this.app.bajo.lib._
   const qsKey = this.app.waibu.config.qsKey
@@ -13,6 +13,8 @@ function buildUrl ({ exclude = [], prefix = '?', base, url = '', params = {} }) 
     const key = qsKey[k] ?? k
     query[key] = v
   })
+  const id = query.id
+  if (prettyUrl) delete query.id
   query = prefix + qs.stringify(omit(query, exclude))
   if (!isEmpty(hash)) hash = '#' + hash
   if (!base) return path + query + hash
@@ -21,6 +23,7 @@ function buildUrl ({ exclude = [], prefix = '?', base, url = '', params = {} }) 
     parts.pop()
     parts.push(base)
   }
+  if (prettyUrl && id) parts.push(id)
   return parts.join('/') + query + hash
 }
 

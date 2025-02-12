@@ -407,9 +407,30 @@ class Wmpa {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
     }).join(''))
   }
+
+  getTableDataset (selector, ignoreHeader = true) {
+    const table = document.querySelector(selector)
+    if (!table) return []
+    const data = []
+    let row
+    for (let i = ignoreHeader ? 1 : 0; row = table.rows[i]; i++) {
+      let col
+      const d = {}
+      for (let j = 0; col = row.cells[j]; j++) {
+        if (!col.dataset.key) continue
+        let value = col.dataset.value
+        if (['integer', 'float'].includes(col.dataset.type)) value = Number(value)
+        else if (col.dataset.type === 'boolean') value = value === 'true'
+        d[col.dataset.key] = value
+      }
+      data.push(d)
+    }
+    return data
+  }
 }
 
 const wmpa = new Wmpa() // eslint-disable-line no-unused-vars
+window.wmpa = wmpa
 if (window._ && window._.VERSION) {
   window._.templateSettings.evaluate = /\{\%(.+?)\%\}/g
   window._.templateSettings.interpolate = /\{\%=(.+?)\%\}/g
