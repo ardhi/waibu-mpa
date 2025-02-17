@@ -7,7 +7,7 @@ const wmpa = {
     const prefix = {
       virtual: `/${getPluginPrefix('waibuStatic')}/${this.app.waibu.config.prefixVirtual}`,
       asset: `/${getPluginPrefix('waibuStatic')}`,
-      main: `/${this.app.waibuStatic.config.mountMainAsRoot ? '' : getPluginPrefix('main')}`
+      main: `/${getPluginPrefix('main')}`
     }
     const mpaPrefix = this.app.waibuMpa.config.waibu.prefix
     const sumbaPrefix = this.app.sumba.config.waibu.prefix
