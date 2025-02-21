@@ -21,7 +21,7 @@ const wmpa = {
       rateLimitDelay: 2000,
       rateLimitRetry: 2
     }
-    const formatOpts = this.app.bajoI18N.config.format
+    const formatOpts = this.app.bajo.config.intl.format
     const params = { prefix, accessTokenUrl, renderUrl, api, formatOpts }
     return reply.view('waibuMpa.template:/wmpa.js', params)
   }

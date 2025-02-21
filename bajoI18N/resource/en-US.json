@@ -1,9 +1,0 @@
-{
-  "tbd": "Under Development",
-  "404Message": "Page not found, sorry!",
-  "500Message": "Internal server error, sorry!",
-  "field": {
-    "session": "Session",
-    "expires": "Expires"
-  }
-}

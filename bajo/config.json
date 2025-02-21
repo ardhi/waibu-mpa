@@ -13,9 +13,8 @@
     "default": false,
     "qsKey": "dark-mode"
   },
-  "i18n": {
-    "detectors": ["qs"],
-    "defaultNs": ["dobo", "waibuMpa"]
+  "intl": {
+    "detectors": ["qs"]
   },
   "session": {
     "secret": "f703a74b884b539e78c642a5369fe538",

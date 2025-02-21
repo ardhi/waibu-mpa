@@ -1,0 +1,31 @@
+{
+  "more": "Lagi",
+  "copyAllRightReserved%s%s": "&copy; %s %s. Hak cipta dilindungi Undang-undang",
+  "unknownViewEngine%s": "View engine '%s' tidak dikenal",
+  "UnknownTheme%s": "Tema '%s' tidak dikenal. Pastikan bahwasanya telah termuat",
+  "cantFindTemplate%s%s": "Tidak bisa menemukan template: %s (%s)",
+  "cantFindThemeFramework%s": "Tidak bisa menemukan framework tema '%s'",
+  "iconset": "Set Ikon",
+  "theme": "Tema",
+  "iconsets": "Set-set Ikon",
+  "themes": "Tema-tema",
+  "displayMode": "Mode Tampilan",
+  "fullscreenMode": "Mode Layar Penuh",
+  "exitFullscreen": "Keluar Layar Penuh",
+  "bright": "Terang",
+  "brightMode": "Mode Terang",
+  "dark": "Gelap",
+  "darkMode": "Mode Gelap",
+  "primary": "Primer",
+  "secondary": "Sekunder",
+  "tbd": "Dalam Pengembangan",
+  "success": "Sukses",
+  "warning": "Peringatan",
+  "danger": "Bahaya",
+  "404Message": "Maaf, halaman yang Anda inginkan tidak ditemukan. Silahkan kontak Admin Anda segera!",
+  "500Message": "Maaf, ada kesalahan internal server. Silahkan kontak Admin Anda segera!",
+  "field": {
+    "session": "Sesi",
+    "expires": "Kadaluarsa"
+  }
+}

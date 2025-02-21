@@ -1,0 +1,31 @@
+{
+  "more": "More",
+  "copyAllRightReserved%s%s": "&copy; %s %s. All rights reserved",
+  "unknownViewEngine%s": "Unknown view engine '%s'",
+  "UnknownTheme%s": "Unknown theme '%s'. Please make sure that it's loaded already",
+  "cantFindTemplate%s%s": "Can't find template: %s (%s)",
+  "cantFindThemeFramework%s": "Cant't find theme framework '%s'",
+  "iconset": "Iconset",
+  "theme": "Theme",
+  "iconsets": "Iconsets",
+  "themes": "Themes",
+  "displayMode": "Display Mode",
+  "fullscreenMode": "Fullscreen Mode",
+  "exitFullscreen": "Exit Fullscreen",
+  "bright": "Bright",
+  "brightMode": "Bright Mode",
+  "dark": "Dark",
+  "darkMode": "Dark Mode",
+  "primary": "Primary",
+  "secondary": "Secondary",
+  "tbd": "Under Development",
+  "success": "Success",
+  "warning": "Warning",
+  "danger": "Danger",
+  "404Message": "Page not found, sorry!",
+  "500Message": "Internal server error, sorry!",
+  "field": {
+    "session": "Session",
+    "expires": "Expires"
+  }
+}
