@@ -24,6 +24,16 @@
   "danger": "Danger",
   "404Message": "Page not found, sorry!",
   "500Message": "Internal server error, sorry!",
+  "unknownResource%s": "Unknown resource '%s'",
+  "cantHaveSubroutesWithoutContext%s": "%s can't have subroutes because no context route exists yet",
+  "cantFind%s%s": "Can't find %s: %s",
+  "excludedFromRscConcat%s": "'%s' is excluded from the resource concatenations",
+  "respError%s": "Response error: %s",
+  "cssContainsRelPath%s": "CSS '%s' contains relative path",
+  "tplLoop%s%s": "Template looping detected: %s => %s",
+  "sessErr%s%s": "Session error: [%s] %s",
+  "warningNoTheme": "Warning: no theme provided!",
+  "warningUnknownTheme%s": "Warning: unknown theme '%s'. Make sure it's already loaded",
   "field": {
     "session": "Session",
     "expires": "Expires"
