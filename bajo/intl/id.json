@@ -22,7 +22,7 @@
   "success": "Sukses",
   "warning": "Peringatan",
   "danger": "Bahaya",
-  "404Message": "Maaf, halaman yang Anda inginkan tidak ditemukan. Silahkan kontak Admin Anda segera!",
+  "404Message": "Maaf, halaman yang Anda inginkan tidak ditemukan atau sudah kadaluarsa. Silahkan kontak Admin Anda segera!",
   "500Message": "Maaf, ada kesalahan internal server. Silahkan kontak Admin Anda segera!",
   "unknownResource%s": "Sumber daya tidak dikenal '%s'",
   "cantHaveSubroutesWithoutContext%s": "%s tidak bisa memiliki sub jalur karena jalur belum memiliki konteks",
