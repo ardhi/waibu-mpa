@@ -44,7 +44,7 @@
     "component": {
       "unknownTag": "comment",
       "defaultTag": "div",
-      "cacheMaxAge": 0
+      "cacheMaxAgeDur": "1m"
     }
   },
   "iconset": {
