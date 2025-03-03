@@ -1,6 +1,6 @@
 {
   "name": "waibu-mpa",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "MPA support for Waibu Framework",
   "main": "index.js",
   "scripts": {

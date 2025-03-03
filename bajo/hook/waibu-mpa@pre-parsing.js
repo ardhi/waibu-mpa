@@ -23,8 +23,8 @@ const waibuMpaPreParsing = {
   level: 9,
   handler: async function (req, reply) {
     const { importModule } = this.app.bajo
-    const attachI18N = await importModule('waibu:/lib/webapp-scope/attach-intl.js')
-    await attachI18N.call(this, this.config.intl.detectors, req, reply)
+    const attachIntl = await importModule('waibu:/lib/webapp-scope/attach-intl.js')
+    await attachIntl.call(this, this.config.intl.detectors, req, reply)
     await checkLang.call(this, req, reply)
     await checkDark.call(this, req, reply)
   }
