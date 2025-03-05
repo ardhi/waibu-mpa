@@ -20,7 +20,7 @@ class Wmpa {
     this.init()
   }
 
-  init () {
+  init = () => {
     window.addEventListener('load', evt => {
       if (window.hljs) window.hljs.highlightAll()
     })
@@ -40,15 +40,15 @@ class Wmpa {
     })
   }
 
-  isSet (value) {
+  isSet = (value) => {
     return ![undefined, null].includes(value)
   }
 
-  randomRange (min, max) {
+  randomRange = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min)
   }
 
-  randomId (length = 10, noNum = true) {
+  randomId = (length = 10, noNum = true) => {
     let result = ''
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     if (!noNum) chars += '0123456789'
@@ -61,7 +61,7 @@ class Wmpa {
     return result
   }
 
-  async fetchRender (body) {
+  fetchRender = async (body) => {
     if (_.isArray(body)) body = body.join('\n')
     const resp = await fetch(this.renderUrl, {
       method: 'POST',
@@ -72,7 +72,7 @@ class Wmpa {
     return await resp.text()
   }
 
-  async fetchApi (endpoint, opts, filter = {}) {
+  fetchApi = async (endpoint, opts, filter = {}) => {
     Alpine.store('wmpa').reqAborted = null
     const oendpoint = endpoint
     const oopts = _.cloneDeep(opts)
@@ -134,24 +134,24 @@ class Wmpa {
     }
   }
 
-  createComponentFromHtml (html, wrapper) {
+  createComponentFromHtml = (html, wrapper) => {
     if (wrapper) html = '<' + wrapper + '>' + html + '</' + wrapper + '>'
     const tpl = document.createElement('template')
     tpl.innerHTML = html
     return tpl.content.firstElementChild
   }
 
-  getElement (selector) {
+  getElement = (selector) => {
     return selector instanceof HTMLElement ? selector : document.querySelector(selector)
   }
 
-  async createComponent (body, wrapper) {
+  createComponent = async (body, wrapper) => {
     if (_.isArray(body)) body = body.join('\n')
     const html = await this.fetchRender(body)
     return this.createComponentFromHtml(html, wrapper)
   }
 
-  replaceWithComponentHtml (html, selector, wrapper) {
+  replaceWithComponentHtml = (html, selector, wrapper) => {
     const cmp = this.createComponentFromHtml(html, wrapper)
     const el = this.getElement(selector)
     if (!el) return
@@ -159,7 +159,7 @@ class Wmpa {
     return cmp.getAttribute('id')
   }
 
-  async replaceWithComponent (body, selector, wrapper) {
+  replaceWithComponent = async (body, selector, wrapper) => {
     let cmp
     if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper)
     else cmp = body
@@ -169,7 +169,7 @@ class Wmpa {
     return cmp.getAttribute('id')
   }
 
-  addComponentHtml (html, selector = 'body', wrapper) {
+  addComponentHtml = (html, selector = 'body', wrapper) => {
     const cmp = this.createComponentFromHtml(html, wrapper)
     const el = this.getElement(selector)
     if (!el) return
@@ -177,7 +177,7 @@ class Wmpa {
     return cmp.getAttribute('id')
   }
 
-  async addComponent (body, selector = 'body', wrapper) {
+  addComponent = async (body, selector = 'body', wrapper) => {
     let cmp
     if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper)
     else cmp = body
@@ -187,14 +187,14 @@ class Wmpa {
     return cmp.getAttribute('id')
   }
 
-  alpineScope (selector) {
+  alpineScope = (selector) => {
     if (!selector) selector = '#' + Alpine.store('map').id
     const el = document.querySelector(selector)
     if (!el) return
     return _.get(el, '_x_dataStack.0')
   }
 
-  alpineScopeMethod (fnName, selector) {
+  alpineScopeMethod = (fnName, selector) => {
     const scope = this.alpineScope(selector)
     if (!scope) return
     let [ns, method] = fnName.split('.')
@@ -207,14 +207,14 @@ class Wmpa {
     return obj[method].bind(scope)
   }
 
-  async t (...params) {
+  t = async (...params) => {
     let [text, ...value] = params
     value = value.join('|')
     const body = '<c:t value="' + value + '">' + text + '</c:t>'
     return await this.fetchRender(body)
   }
 
-  async copyToClipboard (content, isSelector) {
+  copyToClipboard = async (content, isSelector) => {
     if (isSelector) {
       try {
         const el = document.querySelector(content)
@@ -227,18 +227,18 @@ class Wmpa {
     await navigator.clipboard.writeText(content)
   }
 
-  async loadScript (url) {
+  loadScript = async (url) => {
     const script = document.createElement('script')
     script.src = url
     script.type = 'text/javascript'
     document.getElementsByTagName('body')[0].appendChild(script)
   }
 
-  isAsync (fn) {
+  isAsync = (fn) => {
     return fn.constructor.name === 'AsyncFunction'
   }
 
-  parseValue (value, type) {
+  parseValue = (value, type) => {
     try {
       if (['integer', 'smallint'].includes(type)) value = parseInt(value)
       else if (['float', 'double'].includes(type)) value = parseFloat(value)
@@ -248,7 +248,7 @@ class Wmpa {
     return value
   }
 
-  postForm (params, path, method) {
+  postForm = (params, path, method) => {
     method = method ?? 'POST'
     const form = document.createElement('form')
     form.setAttribute('method', method)
@@ -265,13 +265,13 @@ class Wmpa {
     form.submit()
   }
 
-  async delay (ms) {
+  delay = async (ms) => {
     return new Promise((resolve) => {
       setTimeout(resolve, ms)
     })
   }
 
-  formatSpeed (value) {
+  formatSpeed = (value) => {
     let unit = 'kmh'
     if (Alpine.store('map').measure === 'nautical') {
       value = value / 1.852
@@ -283,7 +283,7 @@ class Wmpa {
     return [value, unit]
   }
 
-  formatDistance (value) {
+  formatDistance = (value) => {
     let unit = 'km'
     if (Alpine.store('map').measure === 'nautical') {
       value = value / 1.852
@@ -295,7 +295,7 @@ class Wmpa {
     return [value, unit]
   }
 
-  format (value, type, options = {}) {
+  format = (value, type, options = {}) => {
     const { emptyValue = this.formatOpts.emptyValue } = options
     if ([undefined, null, ''].includes(value)) return emptyValue
     if (type === 'auto') {
@@ -331,7 +331,7 @@ class Wmpa {
     return value
   }
 
-  formatProps ({ props = {}, schema = {}, emptyValue = '-' }) {
+  formatProps = ({ props = {}, schema = {}, emptyValue = '-' }) => {
     props = _.cloneDeep(props)
     for (const s in schema) {
       if (!_.has(props, s)) props[s] = null
@@ -349,19 +349,19 @@ class Wmpa {
     return props
   }
 
-  formatTpl ({ props = {}, tpl = '', schema = {} }) {
+  formatTpl = ({ props = {}, tpl = '', schema = {} }) => {
     props = this.formatProps({ props, schema })
     const compiled = _.isFunction(tpl) ? tpl : _.template(tpl)
     return compiled(props)
   }
 
-  mergeArrays (arr1, arr2) {
+  mergeArrays = (arr1, arr2) => {
     return [...arr1.concat(arr2).reduce((m, o) => {
       m.set(o.member, Object.assign(m.get(o.member) || {}, o))
     }, new Map()).values()]
   }
 
-  getAge (dt, fullView) {
+  getAge = (dt, fullView) => {
     const secNum = Math.abs(dayjs().diff(dt, 's'))
     let hours = Math.floor(secNum / 3600)
     let days = Math.floor(hours / 24)
@@ -383,32 +383,32 @@ class Wmpa {
     return days + 'd ' + hours + ':' + minutes + ':' + seconds
   }
 
-  pascalCase (text) {
+  pascalCase = (text) => {
     return _.upperFirst(_.camelCase(text))
   }
 
-  insertString (text, insertedText, index) {
+  insertString = (text, insertedText, index) => {
     return text.slice(0, index) + insertedText + text.slice(index)
   }
 
-  copyArray (arr = []) {
+  copyArray = (arr = []) => {
     return [...arr]
   }
 
-  toBase64 (str) {
+  toBase64 = (str) => {
     return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
       function toSolidBytes(match, p1) {
         return String.fromCharCode('0x' + p1)
     }))
   }
 
-  fromBase64 (str) {
+  fromBase64 = (str) => {
     return decodeURIComponent(atob(str).split('').map(function(c) {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
     }).join(''))
   }
 
-  getTableDataset (selector, ignoreHeader = true) {
+  getTableDataset = (selector, ignoreHeader = true) => {
     const table = document.querySelector(selector)
     if (!table) return []
     const data = []
