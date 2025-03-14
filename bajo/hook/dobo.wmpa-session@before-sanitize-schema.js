@@ -1,5 +1,5 @@
 async function doboWmpaSessionBeforeSanitizeSession (schema) {
-  const { find } = this.app.bajo.lib._
+  const { find } = this.lib._
 
   const dobo = this.app.dobo
   let conn = find(dobo.connections, { name: schema.connection })

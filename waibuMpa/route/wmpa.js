@@ -2,24 +2,28 @@ const wmpa = {
   url: '/wmpa.js',
   method: 'GET',
   handler: async function (req, reply) {
-    const { trim } = this.app.bajo.lib._
+    const { get, trim } = this.lib._
     const { getPluginPrefix } = this.app.waibu
     const prefix = {
       virtual: `/${getPluginPrefix('waibuStatic')}/${this.app.waibu.config.prefixVirtual}`,
       asset: `/${getPluginPrefix('waibuStatic')}`,
       main: `/${getPluginPrefix('main')}`
     }
-    const mpaPrefix = this.app.waibuMpa.config.waibu.prefix
-    const sumbaPrefix = this.app.sumba.config.waibu.prefix
-    const accessTokenUrl = '/' + trim(`/${mpaPrefix}/${sumbaPrefix}/access-token`, '/')
+    const mpaPrefix = get(this, 'app.waibuMpa.config.waibu.prefix')
     const renderUrl = '/' + trim(`/${mpaPrefix}/component/render`, '/')
-    const api = {
-      prefix: this.app.waibuRestApi ? this.app.waibuRestApi.config.waibu.prefix : '',
-      ext: this.app.waibuRestApi ? (this.app.waibuRestApi.config.format.asExt ? '.json' : '') : '',
-      headerKey: this.app.waibuRestApi ? this.app.sumba.config.auth.common.jwt.headerKey : '',
-      dataKey: this.app.waibuRestApi ? this.app.waibuRestApi.config.responseKey.data : '',
-      rateLimitDelay: 2000,
-      rateLimitRetry: 2
+    let accessTokenUrl = ''
+    let api = {}
+    if (this.app.sumba) {
+      const sumbaPrefix = get(this, 'app.sumba.config.waibu.prefix')
+      accessTokenUrl = '/' + trim(`/${mpaPrefix}/${sumbaPrefix}/access-token`, '/')
+      api = {
+        prefix: this.app.waibuRestApi ? this.app.waibuRestApi.config.waibu.prefix : '',
+        ext: this.app.waibuRestApi ? (this.app.waibuRestApi.config.format.asExt ? '.json' : '') : '',
+        headerKey: this.app.waibuRestApi ? this.app.sumba.config.auth.common.jwt.headerKey : '',
+        dataKey: this.app.waibuRestApi ? this.app.waibuRestApi.config.responseKey.data : '',
+        rateLimitDelay: 2000,
+        rateLimitRetry: 2
+      }
     }
     const formatOpts = this.app.bajo.config.intl.format
     const params = { prefix, accessTokenUrl, renderUrl, api, formatOpts }

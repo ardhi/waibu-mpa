@@ -10,7 +10,7 @@ async function factory (pkgName) {
     constructor () {
       super(pkgName, me.app)
       this.alias = 'wmpa'
-      this.dependencies = ['waibu', 'waibu-db', 'waibu-static', 'bajo-template', 'bajo-markdown']
+      this.dependencies = ['waibu', 'waibu-static', 'bajo-template']
       this.config = {
         title: 'Multi Page Webapp',
         waibu: {
@@ -55,8 +55,7 @@ async function factory (pkgName) {
             inlineCss: true
           },
           component: {
-            unknownTag: 'comment',
-            defaultTag: 'div',
+            unknownTag: 'replaceWithDiv',
             cacheMaxAgeDur: '1m'
           }
         },
@@ -100,11 +99,6 @@ async function factory (pkgName) {
           removeRedundantAttributes: true,
           removeEmptyAttributes: true
         },
-        markdown: {
-          tableClass: 'table my-3',
-          tableHeadClass: '',
-          tableBodyClass: 'table-group-divider'
-        },
         multipart: {},
         cors: {},
         helmet: {
@@ -117,7 +111,7 @@ async function factory (pkgName) {
     }
 
     init = async () => {
-      const { trim } = this.app.bajo.lib._
+      const { trim } = this.lib._
       this.config.waibu = this.config.waibu ?? {}
       this.config.waibu.prefix = trim(this.config.waibu.prefix, '/')
     }
@@ -127,14 +121,14 @@ async function factory (pkgName) {
     }
 
     attrToArray = (text = '', delimiter = ' ') => {
-      const { map, trim, without, isArray } = this.app.bajo.lib._
+      const { map, trim, without, isArray } = this.lib._
       if (text === true) text = ''
       if (isArray(text)) text = text.join(delimiter)
       return without(map(text.split(delimiter), i => trim(i)), '', undefined, null)
     }
 
     attrToObject = (text = '', delimiter = ';', kvDelimiter = ':') => {
-      const { camelCase, isPlainObject } = this.app.bajo.lib._
+      const { camelCase, isPlainObject } = this.lib._
       const result = {}
       if (isPlainObject(text)) text = this.objectToAttr(text)
       if (text.slice(1, 3) === '%=') return text
@@ -156,7 +150,7 @@ async function factory (pkgName) {
 
     buildUrl = ({ exclude = [], prefix = '?', base, url = '', params = {}, prettyUrl }) => {
       const { qs } = this.app.waibu
-      const { forOwn, omit, isEmpty } = this.app.bajo.lib._
+      const { forOwn, omit, isEmpty } = this.lib._
       const qsKey = this.app.waibu.config.qsKey
       let path
       let hash
@@ -185,7 +179,7 @@ async function factory (pkgName) {
 
     getAppTitle = (name) => {
       const { getPlugin } = this.app.bajo
-      const { get } = this.app.bajo.lib._
+      const { get } = this.lib._
       const plugin = getPlugin(name, true)
       if (!plugin) return
       return get(plugin, 'config.waibu.title', plugin.title)
@@ -212,13 +206,13 @@ async function factory (pkgName) {
     }
 
     getViewEngine = (ext) => {
-      const { find } = this.app.bajo.lib._
+      const { find } = this.lib._
       const ve = find(this.viewEngines, v => v.fileExts.includes(ext))
       return ve ?? find(this.viewEngines, v => v.name === 'default')
     }
 
     groupAttrs = (attribs = {}, keys = [], removeEmpty = true) => {
-      const { isString, filter, omit, kebabCase, camelCase, isEmpty } = this.app.bajo.lib._
+      const { isString, filter, omit, kebabCase, camelCase, isEmpty } = this.lib._
       if (isString(keys)) keys = [keys]
       const attr = { _: {} }
       for (const a in attribs) {
@@ -273,7 +267,7 @@ async function factory (pkgName) {
       const {
         isNumber, isString, isBoolean, isUndefined, isFunction, isSymbol,
         isNull, isDate, isArray, isPlainObject
-      } = this.app.bajo.lib._
+      } = this.lib._
 
       if (replacer !== true) return JSON.stringify(obj, replacer, space)
 
@@ -353,7 +347,7 @@ async function factory (pkgName) {
     }
 
     objectToAttr = (obj = {}, delimiter = ';', kvDelimiter = ':') => {
-      const { forOwn, kebabCase } = this.app.bajo.lib._
+      const { forOwn, kebabCase } = this.lib._
       const result = []
       forOwn(obj, (v, k) => {
         result.push(`${kebabCase(k)}${kvDelimiter} ${v ?? ''}`)
@@ -363,7 +357,7 @@ async function factory (pkgName) {
 
     // based on: https://github.com/kyleparisi/pagination-layout/blob/master/pagination-layout-be.js
     paginationLayout = (totalItems, itemsPerPage, currentPage) => {
-      const { isPlainObject } = this.app.bajo.lib._
+      const { isPlainObject } = this.lib._
       if (isPlainObject(totalItems)) {
         currentPage = totalItems.page
         itemsPerPage = totalItems.limit
@@ -526,7 +520,6 @@ async function factory (pkgName) {
         if (!file) file = filecheck.call(this, { dir, base, exts, check: `${this.dir.pkg}/${this.name}/${subSubNs ? (subSubNs + '/') : ''}${type}` })
         return file
       }
-
       return resolveResource.call(this, 'layout', item, opts, fallbackHandler)
     }
 
@@ -544,7 +537,7 @@ async function factory (pkgName) {
     }
 
     urlToBreadcrumb = (url, { delimiter, returnParts, base = '', handler, handlerScope, handlerOpts } = {}) => {
-      const { trim, map, last, without } = this.app.bajo.lib._
+      const { trim, map, last, without } = this.lib._
       const { routePath } = this.app.waibu
 
       function defHandler (item) {

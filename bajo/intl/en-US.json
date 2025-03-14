@@ -2,7 +2,7 @@
   "more": "More",
   "copyAllRightReserved%s%s": "&copy; %s %s. All rights reserved",
   "unknownViewEngine%s": "Unknown view engine '%s'",
-  "UnknownTheme%s": "Unknown theme '%s'. Please make sure that it's loaded already",
+  "unknownTheme%s": "Unknown theme '%s'. Please make sure that it's loaded already",
   "cantFindTemplate%s%s": "Can't find template: %s (%s)",
   "cantFindThemeFramework%s": "Cant't find theme framework '%s'",
   "iconset": "Iconset",
@@ -32,8 +32,7 @@
   "cssContainsRelPath%s": "CSS '%s' contains relative path",
   "tplLoop%s%s": "Template looping detected: %s => %s",
   "sessErr%s%s": "Session error: [%s] %s",
-  "warningNoTheme": "Warning: no theme provided!",
-  "warningUnknownTheme%s": "Warning: unknown theme '%s'. Make sure it's already loaded",
+  "noTheme": "Warning: no theme found! Please have one of theme plugins loaded first",
   "field": {
     "session": "Session",
     "expires": "Expires"

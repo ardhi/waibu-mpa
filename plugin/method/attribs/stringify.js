@@ -1,6 +1,6 @@
 function attribsStringify (obj = {}, kebabCasedKey = true) {
   const { isSet } = this.app.bajo
-  const { forOwn, kebabCase, isArray, isPlainObject, isEmpty } = this.app.bajo.lib._
+  const { forOwn, kebabCase, isArray, isPlainObject, isEmpty } = this.lib._
   const attrs = []
   forOwn(obj, (v, k) => {
     let retain = false

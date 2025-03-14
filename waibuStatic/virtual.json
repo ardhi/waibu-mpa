@@ -1,4 +1,7 @@
 [{
   "prefix": "json2csv",
   "root": "node_modules/csvjson-json2csv"
+}, {
+  "prefix": "purecss",
+  "root": "node_modules/purecss/build"
 }]
