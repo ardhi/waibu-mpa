@@ -1,10 +1,8 @@
-<c:container margin="y-4">
-  <c:div text="align:center">
-    <c:heading type="6-display" t:content="Internal Server Error" />
-    <% if (_meta.env === 'dev') { %>
-    <%= _meta.errorMessage %>
-    <% } else { %>
-    <c:t>500Message</c:t>
-    <% } %>
-  </c:div>
-</c:container>
+<c:div text="align:center">
+  <c:heading type="6-display" t:content="Internal Server Error" />
+  <% if (_meta.env === 'dev') { %>
+  <%= _meta.errorMessage %>
+  <% } else { %>
+  <c:t>500Message</c:t>
+  <% } %>
+</c:div>

@@ -10,7 +10,7 @@ async function checkLang (req, reply) {
 async function checkDark (req, reply) {
   const { isSet } = this.app.bajo
   const key = this.config.darkMode.qsKey
-  const value = req.query[key]
+  const value = this.config.darkMode.set ?? req.query[key]
   if (isSet(value)) {
     req.darkMode = value
     if (req.session) req.session.darkMode = req.darkMode

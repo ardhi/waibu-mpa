@@ -23,7 +23,7 @@ async function factory (pkgName) {
           insertWarning: false
         },
         darkMode: {
-          default: false,
+          set: null,
           qsKey: 'dark-mode'
         },
         intl: {
@@ -46,7 +46,7 @@ async function factory (pkgName) {
           }
         },
         theme: {
-          default: null,
+          set: null,
           autoInsert: {
             css: true,
             meta: true,
@@ -60,7 +60,7 @@ async function factory (pkgName) {
           }
         },
         iconset: {
-          default: null,
+          set: null,
           autoInsert: {
             css: true,
             scripts: true,
