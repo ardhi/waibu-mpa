@@ -182,7 +182,7 @@ async function factory (pkgName) {
       const { get } = this.lib._
       const plugin = getPlugin(name, true)
       if (!plugin) return
-      return get(plugin, 'config.waibu.title', plugin.title)
+      return get(plugin, 'config.waibu.title', plugin.title ?? plugin.name)
     }
 
     getResource (name) {
