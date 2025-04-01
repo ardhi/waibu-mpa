@@ -310,8 +310,8 @@ class Wmpa {
     if (['float', 'double'].includes(type)) {
       value = parseFloat(value)
       if (isNaN(value)) return emptyValue
-      if (wmapsUtil && options.longitude) return wmapsUtil.decToDms(value, { isLng: true })
-      if (wmapsUtil && options.latitude) return wmapsUtil.decToDms(value)
+      if (window.wmapsUtil && options.longitude) return window.wmapsUtil.decToDms(value, { isLng: true })
+      if (window.wmapsUtil && options.latitude) return window.wmapsUtil.decToDms(value)
       let unit
       if (options.speed) [value, unit] = this.formatSpeed(value)
       else if (options.distance) [value, unit] = this.formatDistance(value)
@@ -419,7 +419,7 @@ class Wmpa {
       for (let j = 0; col = row.cells[j]; j++) {
         if (!col.dataset.key) continue
         let value = col.dataset.value
-        if (['integer', 'float'].includes(col.dataset.type)) value = Number(value)
+        if (['integer', 'float', 'smallint', 'double'].includes(col.dataset.type)) value = Number(value)
         else if (col.dataset.type === 'boolean') value = value === 'true'
         d[col.dataset.key] = value
       }
