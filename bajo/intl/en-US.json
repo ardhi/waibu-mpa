@@ -33,6 +33,7 @@
   "tplLoop%s%s": "Template looping detected: %s => %s",
   "sessErr%s%s": "Session error: [%s] %s",
   "noTheme": "Warning: no theme found! Please have one of theme plugins loaded first",
+  "icon": "Icon",
   "field": {
     "session": "Session",
     "expires": "Expires"

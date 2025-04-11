@@ -34,6 +34,7 @@
   "sessErr%s%s": "Kesalahan sesi: [%s] %s",
   "warningNoTheme": "Perhatian: tidak diberikan tema!",
   "warningUnknownTheme%s": "Perhatian: Tema '%s' tidak dikenal. Pastikan plugin telah termuat",
+  "icon": "Ikon",
   "field": {
     "session": "Sesi",
     "expires": "Kadaluarsa"

@@ -11,6 +11,7 @@ import error from '../lib/error.js'
 const boot = {
   level: 10,
   handler: async function (ctx, prefix) {
+    this.ctx = ctx
     const { importPkg, importModule } = this.app.bajo
     const bodyParser = await importPkg('waibu:@fastify/formbody')
     const routeHook = await importModule('waibu:/lib/webapp-scope/route-hook.js')

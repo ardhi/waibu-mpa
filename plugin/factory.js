@@ -1,5 +1,4 @@
 import { stripHtml } from 'string-strip-html'
-import resolveResource, { filecheck } from '../lib/resolve-resource.js'
 import path from 'path'
 import minifier from 'html-minifier-terser'
 
@@ -131,6 +130,7 @@ async function factory (pkgName) {
       const { camelCase, isPlainObject } = this.lib._
       const result = {}
       if (isPlainObject(text)) text = this.objectToAttr(text)
+      if (typeof text !== 'string') return text
       if (text.slice(1, 3) === '%=') return text
       const array = this.attrToArray(text, delimiter)
       array.forEach(item => {
@@ -195,14 +195,9 @@ async function factory (pkgName) {
       return { ns, subNs, subSubNs, path, qs, fullPath }
     }
 
-    getSessionId = async (rawCookie, secure) => {
-      const { importPkg } = this.app.bajo
-      const fcookie = await importPkg('waibu:@fastify/cookie')
-      const cookie = fcookie.parse(rawCookie) ?? {}
-      const key = this.config.session.cookieName
-      const text = cookie[key] ?? ''
-      if (secure) return text
-      return text.split('.')[0]
+    getSessionId = (rawCookie, secure) => {
+      const cookieName = this.config.session.cookieName
+      return this.ctx.parseCookie(rawCookie)[cookieName]
     }
 
     getViewEngine = (ext) => {
@@ -497,38 +492,6 @@ async function factory (pkgName) {
       opts.cacheMaxAge = this.config.page.cacheMaxAgeDur
       const viewEngine = this.getViewEngine(ext)
       return await viewEngine.render(tpl, locals, opts)
-    }
-
-    resolveLayout = (item = '', opts = {}) => {
-      function fallbackHandler ({ file, exts, ns, subSubNs, type, theme }) {
-        const dir = ''
-        const base = 'default'
-        if (!this.config.viewEngine.layout.fallback) return false
-        // check main: theme specific
-        if (theme && !file) {
-          const check = `${this.app.main.dir.pkg}/${this.name}/${type}/_${theme.name}`
-          file = filecheck.call(this, { dir, base, exts, check })
-        }
-        // check mail: common
-        if (!file) {
-          const check = `${this.app.main.dir.pkg}/${this.name}/${type}`
-          file = filecheck.call(this, { dir, base, exts, check })
-        }
-        // check fallback: common
-        if (!file) file = filecheck.call(this, { dir, base, exts, check: `${this.app[ns].dir.pkg}/${this.name}/${subSubNs ? (subSubNs + '/') : ''}${type}` })
-        // check general fallback
-        if (!file) file = filecheck.call(this, { dir, base, exts, check: `${this.dir.pkg}/${this.name}/${subSubNs ? (subSubNs + '/') : ''}${type}` })
-        return file
-      }
-      return resolveResource.call(this, 'layout', item, opts, fallbackHandler)
-    }
-
-    resolvePartial = (item = '', opts = {}) => {
-      return resolveResource.call(this, 'partial', item, opts)
-    }
-
-    resolveTemplate = (item = '', opts = {}) => {
-      return resolveResource.call(this, 'template', item, opts)
     }
 
     stripHtmlTags = (html, options = {}) => {
