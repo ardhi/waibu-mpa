@@ -34,6 +34,7 @@
   "sessErr%s%s": "Session error: [%s] %s",
   "noTheme": "Warning: no theme found! Please have one of theme plugins loaded first",
   "icon": "Icon",
+  "session": "Session",
   "field": {
     "session": "Session",
     "expires": "Expires"

@@ -35,6 +35,7 @@
   "warningNoTheme": "Perhatian: tidak diberikan tema!",
   "warningUnknownTheme%s": "Perhatian: Tema '%s' tidak dikenal. Pastikan plugin telah termuat",
   "icon": "Ikon",
+  "session": "Sesi",
   "field": {
     "session": "Sesi",
     "expires": "Kadaluarsa"
