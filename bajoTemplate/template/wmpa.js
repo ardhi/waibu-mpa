@@ -242,7 +242,7 @@ class Wmpa {
     try {
       if (['integer', 'smallint'].includes(type)) value = parseInt(value)
       else if (['float', 'double'].includes(type)) value = parseFloat(value)
-      else if (['datetime', 'date', 'time'].includes(type)) value = Date.parse(value)
+      else if (['datetime', 'date', 'time'].includes(type)) value = new Date(Date.parse(value))
       else if (['array', 'object'].includes(type)) value = JSON.parse(value)
     } catch (err) {}
     return value
