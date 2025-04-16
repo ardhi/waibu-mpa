@@ -310,8 +310,8 @@ class Wmpa {
     if (['float', 'double'].includes(type)) {
       value = parseFloat(value)
       if (isNaN(value)) return emptyValue
-      if (window.wmapsUtil && options.longitude) return window.wmapsUtil.decToDms(value, { isLng: true })
-      if (window.wmapsUtil && options.latitude) return window.wmapsUtil.decToDms(value)
+      if (wmapsUtil && options.longitude) return wmapsUtil.decToDms(value, { isLng: true })
+      if (wmapsUtil && options.latitude) return wmapsUtil.decToDms(value)
       let unit
       if (options.speed) [value, unit] = this.formatSpeed(value)
       else if (options.distance) [value, unit] = this.formatDistance(value)

@@ -30,7 +30,6 @@
   "excludedFromRscConcat%s": "'%s' is excluded from the resource concatenations",
   "respError%s": "Response error: %s",
   "cssContainsRelPath%s": "CSS '%s' contains relative path",
-  "tplLoop%s%s": "Template looping detected: %s => %s",
   "sessErr%s%s": "Session error: [%s] %s",
   "noTheme": "Warning: no theme found! Please have one of theme plugins loaded first",
   "icon": "Icon",

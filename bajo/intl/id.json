@@ -30,7 +30,6 @@
   "excludedFromRscConcat%s": "'%s' dikecualikan dari penyambungan sumber daya",
   "respError%s": "Respon kesalahan: %s",
   "cssContainsRelPath%s": "CSS '%s' mengandung path yang relatif",
-  "tplLoop%s%s": "Perulangan template dideteksi: %s => %s",
   "sessErr%s%s": "Kesalahan sesi: [%s] %s",
   "warningNoTheme": "Perhatian: tidak diberikan tema!",
   "warningUnknownTheme%s": "Perhatian: Tema '%s' tidak dikenal. Pastikan plugin telah termuat",
