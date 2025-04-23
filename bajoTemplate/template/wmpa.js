@@ -295,6 +295,18 @@ class Wmpa {
     return [value, unit]
   }
 
+  formatArea = (value) => {
+    let unit = 'km²'
+    if (Alpine.store('map').measure === 'nautical') {
+      value = value / 2.92
+      unit = 'nm²'
+    } else if (Alpine.store('map').measure === 'imperial') {
+      value = value / 2.59
+      unit = 'mi²'
+    }
+    return [value, unit]
+  }
+
   format = (value, type, options = {}) => {
     const { emptyValue = this.formatOpts.emptyValue } = options
     if ([undefined, null, ''].includes(value)) return emptyValue
@@ -315,6 +327,7 @@ class Wmpa {
       let unit
       if (options.speed) [value, unit] = this.formatSpeed(value)
       else if (options.distance) [value, unit] = this.formatDistance(value)
+      else if (options.area) [value, unit] = this.formatArea(value)
       const setting = _.defaultsDeep(options.float, this.formatOpts.float)
       return (new Intl.NumberFormat(this.lang, setting).format(value)) + (_.isEmpty(unit) ? '' : (' ' + unit))
     }
