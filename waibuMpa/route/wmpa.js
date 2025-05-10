@@ -4,6 +4,8 @@ const wmpa = {
   handler: async function (req, reply) {
     const { get, trim } = this.lib._
     const { getPluginPrefix } = this.app.waibu
+    const { importModule } = this.app.bajo
+    const { types: formatTypes, formats } = await importModule('bajo:/boot/lib/formats.js', { asDefaultImport: false })
     const prefix = {
       virtual: `/${getPluginPrefix('waibuStatic')}/${this.app.waibu.config.prefixVirtual}`,
       asset: `/${getPluginPrefix('waibuStatic')}`,
@@ -26,7 +28,7 @@ const wmpa = {
       }
     }
     const formatOpts = this.app.bajo.config.intl.format
-    const params = { prefix, accessTokenUrl, renderUrl, api, formatOpts }
+    const params = { prefix, accessTokenUrl, renderUrl, api, formatOpts, formatTypes, formats }
     return reply.view('waibuMpa.template:/wmpa.js', params)
   }
 }

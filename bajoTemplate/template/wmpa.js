@@ -17,6 +17,42 @@ class Wmpa {
     this.apiRateLimitRetry = <%= api.rateLimitRetry %>
     this.formatOpts = <%= _jsonStringify(formatOpts, true) %>
     this.fetchingApi = {}
+    this.formatTypes = <%= _jsonStringify(formatTypes, true) %>
+    this.formats = {
+      metric: {
+        speedFn: (val) => val,
+        speedUnit: 'kmh',
+        distanceFn: (val) => val,
+        distanceUnit: 'km',
+        areaFn: (val) => val,
+        areaUnit: 'km²',
+        degreeFn: (val) => val,
+        degreeUnit: '°',
+        degreeUnitSep: ''
+      },
+      imperial: {
+        speedFn: (val) => val / 1.609,
+        speedUnit: 'mih',
+        distanceFn: (val) => val / 1.609,
+        distanceUnit: 'mi',
+        areaFn: (val) => val / 2.59,
+        areaUnit: 'mi²',
+        degreeFn: (val) => val,
+        degreeUnit: '°',
+        degreeUnitSep: ''
+      },
+      nautical: {
+        speedFn: (val) => val / 1.852,
+        speedUnit: 'nmh',
+        distanceFn: (val) => val / 1.852,
+        distanceUnit: 'nm',
+        areaFn: (val) => val / 2.92,
+        areaUnit: 'nm²',
+        degreeFn: (val) => val,
+        degreeUnit: '°',
+        degreeUnitSep: ''
+      }
+    }
     this.init()
   }
 
@@ -272,72 +308,75 @@ class Wmpa {
   }
 
   formatSpeed = (value) => {
-    let unit = 'kmh'
-    if (Alpine.store('map').measure === 'nautical') {
-      value = value / 1.852
-      unit = 'kn'
-    } else if (Alpine.store('map').measure === 'imperial') {
-      value = value / 1.609
-      unit = 'mph'
-    }
-    return [value, unit]
+    return this.formatByType('speed', value, 'float', { withUnit: false })
   }
 
   formatDistance = (value) => {
-    let unit = 'km'
-    if (Alpine.store('map').measure === 'nautical') {
-      value = value / 1.852
-      unit = 'nm'
-    } else if (Alpine.store('map').measure === 'imperial') {
-      value = value / 1.609
-      unit = 'mi'
-    }
-    return [value, unit]
+    return this.formatByType('distance', value, 'float', { withUnit: false })
   }
 
   formatArea = (value) => {
-    let unit = 'km²'
-    if (Alpine.store('map').measure === 'nautical') {
-      value = value / 2.92
-      unit = 'nm²'
-    } else if (Alpine.store('map').measure === 'imperial') {
-      value = value / 2.59
-      unit = 'mi²'
-    }
-    return [value, unit]
+    return this.formatByType('area', value, 'float', { withUnit: false })
+  }
+
+  getUnitFormat = (options = {}) => {
+    const measure = Alpine.store('map') ? Alpine.store('map').measure : undefined
+    let unitSys = options.unitSys ?? measure ?? 'metric'
+    if (!['imperial', 'nautical', 'metric'].includes(unitSys)) unitSys = 'metric'
+    return { unitSys, format: this.formats[unitSys] }
+  }
+
+  formatByType = (type, value, dataType, options = {}) => {
+    const { format } = this.getUnitFormat(options)
+    console
+    const { withUnit = true } = options
+    const lang = options.lang ?? this.lang
+    value = format[type + 'Fn'](value)
+    const unit = format[type + 'Unit']
+    const sep = format[type + 'UnitSep'] ?? ' '
+    if (!withUnit) return [value, unit, sep]
+    const setting = _.defaultsDeep(options[dataType], this.formatOpts[dataType])
+    value = new Intl.NumberFormat(lang, setting).format(value)
+    return value + sep + unit
   }
 
   format = (value, type, options = {}) => {
     const { emptyValue = this.formatOpts.emptyValue } = options
+    const lang = options.lang ?? this.lang
+    options.withUnit = options.withUnit ?? true
+    let valueFormatted
     if ([undefined, null, ''].includes(value)) return emptyValue
     if (type === 'auto') {
       if (value instanceof Date) type = 'datetime'
     }
-    if (['integer', 'smallint'].includes(type)) {
-      value = parseInt(value)
+    if (['float', 'double'].includes(type) && wmapsUtil) {
+      if (options.latitude) return wmapsUtil.decToDms(value)
+      if (options.longitude) return wmapsUtil.decToDms(value, { isLng: true })
+    }
+    if (['integer', 'smallint', 'float', 'double'].includes(type)) {
+      value = ['integer', 'smallint'].includes(type) ? parseInt(value) : parseFloat(value)
       if (isNaN(value)) return emptyValue
+      for (const u of this.formatTypes) {
+        if (options[u]) valueFormatted = this.formatByType(u, value, type, options)
+      }
+    }
+    if (['integer', 'smallint'].includes(type)) {
       const setting = _.defaultsDeep(options.integer, this.formatOpts.integer)
-      return new Intl.NumberFormat(this.lang, setting).format(value)
+      value = new Intl.NumberFormat(lang, setting).format(Math.round(value))
+      return valueFormatted && options.withUnit ? valueFormatted : value
     }
     if (['float', 'double'].includes(type)) {
-      value = parseFloat(value)
-      if (isNaN(value)) return emptyValue
-      if (wmapsUtil && options.longitude) return wmapsUtil.decToDms(value, { isLng: true })
-      if (wmapsUtil && options.latitude) return wmapsUtil.decToDms(value)
-      let unit
-      if (options.speed) [value, unit] = this.formatSpeed(value)
-      else if (options.distance) [value, unit] = this.formatDistance(value)
-      else if (options.area) [value, unit] = this.formatArea(value)
-      const setting = _.defaultsDeep(options.float, this.formatOpts.float)
-      return (new Intl.NumberFormat(this.lang, setting).format(value)) + (_.isEmpty(unit) ? '' : (' ' + unit))
+      const setting = _.defaultsDeep(options[type], this.formatOpts[type])
+      value = new Intl.NumberFormat(lang, setting).format(value)
+      return valueFormatted && options.withUnit ? valueFormatted : value
     }
     if (['datetime', 'date'].includes(type)) {
       const setting = _.defaultsDeep(options[type], this.formatOpts[type])
-      return new Intl.DateTimeFormat(this.lang, setting).format(new Date(value))
+      return new Intl.DateTimeFormat(lang, setting).format(new Date(value))
     }
     if (['time'].includes(type)) {
       const setting = _.defaultsDeep(options.time, this.formatOpts.time)
-      return new Intl.DateTimeFormat(this.lang, setting).format(new Date('1970-01-01T' + value + 'Z'))
+      return new Intl.DateTimeFormat(lang, setting).format(new Date('1970-01-01T' + value + 'Z'))
     }
     if (['array'].includes(type)) return value.join(', ')
     if (['object'].includes(type)) return JSON.stringify(value)
@@ -394,6 +433,25 @@ class Wmpa {
       return days + 'd ' + hours + ':' + parts
     }
     return days + 'd ' + hours + ':' + minutes + ':' + seconds
+  }
+
+  secToHms = (secs, ms) => {
+    let remain
+    if (ms) {
+      remain = secs % 1000
+      secs = Math.floor(secs / 1000)
+    }
+    const secNum = parseInt(secs, 10)
+    const hours = Math.floor(secNum / 3600)
+    const minutes = Math.floor(secNum / 60) % 60
+    const seconds = secNum % 60
+
+    let hms = [hours, minutes, seconds]
+      .map(v => v < 10 ? '0' + v : v)
+      .filter((v, i) => v !== '00' || i > 0)
+      .join(':')
+    if (ms) hms += '+' + _.padStart(remain, 3, '0')
+    return hms
   }
 
   pascalCase = (text) => {
