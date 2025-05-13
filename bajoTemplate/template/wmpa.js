@@ -43,7 +43,7 @@ class Wmpa {
       },
       nautical: {
         speedFn: (val) => val / 1.852,
-        speedUnit: 'nmh',
+        speedUnit: 'knot',
         distanceFn: (val) => val / 1.852,
         distanceUnit: 'nm',
         areaFn: (val) => val / 2.92,
