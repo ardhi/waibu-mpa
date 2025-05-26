@@ -109,6 +109,11 @@ class Wmpa {
   }
 
   fetchApi = async (endpoint, opts, filter = {}) => {
+    let wait = 0
+    while(!this.accessToken && wait < 50) {
+      wait++
+      await this.delay(100)
+    }
     Alpine.store('wmpa').reqAborted = null
     const oendpoint = endpoint
     const oopts = _.cloneDeep(opts)
@@ -127,7 +132,7 @@ class Wmpa {
     options.headers[this.apiHeaderKey] = this.accessToken
     const abortCtrl = new AbortController()
     options.signal = abortCtrl.signal
-    this.fetchingApi[oendpoint].abortCtrl = abortCtrl
+    if (this.fetchingApi[oendpoint]) this.fetchingApi[oendpoint].abortCtrl = abortCtrl
     const { mapSearch } = filter
     if (mapSearch) {
       Alpine.store('mapSearch').busy = mapSearch
