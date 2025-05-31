@@ -149,6 +149,7 @@ async function factory (pkgName) {
     }
 
     buildUrl = ({ exclude = [], prefix = '?', base, url = '', params = {}, prettyUrl }) => {
+      const { parseObject } = this.app.bajo
       const { qs } = this.app.waibu
       const { forOwn, omit, isEmpty } = this.lib._
       const qsKey = this.app.waibu.config.qsKey
@@ -158,7 +159,7 @@ async function factory (pkgName) {
       [path = '', hash = ''] = url.split('#')
       if (hash.includes('?')) [hash, query] = hash.split('?')
       else [path, query] = path.split('?')
-      query = qs.parse(query) ?? {}
+      query = parseObject(qs.parse(query) ?? {})
       forOwn(params, (v, k) => {
         const key = qsKey[k] ?? k
         query[key] = v
