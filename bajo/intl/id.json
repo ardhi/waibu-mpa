@@ -35,6 +35,8 @@
   "warningUnknownTheme%s": "Perhatian: Tema '%s' tidak dikenal. Pastikan plugin telah termuat",
   "icon": "Ikon",
   "session": "Sesi",
+  "404Title": "Halaman Tidak Ditemukan",
+  "500Title": "Kesalahan Internal Penyelia",
   "field": {
     "session": "Sesi",
     "expires": "Kadaluarsa"

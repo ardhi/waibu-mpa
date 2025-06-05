@@ -34,6 +34,8 @@
   "noTheme": "Warning: no theme found! Please have one of theme plugins loaded first",
   "icon": "Icon",
   "session": "Session",
+  "404Title": "Page Not Found",
+  "500Title": "Internal Server Error",
   "field": {
     "session": "Session",
     "expires": "Expires"
