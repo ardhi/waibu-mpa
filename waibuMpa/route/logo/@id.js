@@ -10,7 +10,7 @@ async function logo (req, reply) {
   const plugin = getPlugin(id)
   let type = ''
   if (req.query.type) type = `-${req.query.type}`
-  const files = await fastGlob(`${plugin.dir.pkg}/plugin/logo${type}.*`)
+  const files = await fastGlob(`${plugin.dir.pkg}/logo${type}.*`)
   if (files.length === 0) throw this.error('_notFound')
   const file = files[0]
   const mimeType = mime.getType(path.extname(file))
