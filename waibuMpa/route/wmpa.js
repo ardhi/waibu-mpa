@@ -29,7 +29,7 @@ const wmpa = {
     }
     const formatOpts = this.app.bajo.config.intl.format
     const params = { prefix, accessTokenUrl, renderUrl, api, formatOpts, formatTypes, formats }
-    return reply.view('waibuMpa.template:/wmpa.js', params)
+    return await reply.view('waibuMpa.template:/wmpa.js', params)
   }
 }
 
