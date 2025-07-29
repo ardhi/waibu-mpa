@@ -532,6 +532,21 @@ async function factory (pkgName) {
       })
       return result
     }
+
+    getMenuPages = (menu, path, subPath) => {
+      const { get, filter, isFunction } = this.lib._
+      const all = get(menu, 'pages', [])
+      if (!path) return all
+      const pages = filter(all, a => {
+        return a.children && (a.title === path || a.href === path)
+      })
+      if (!isFunction(subPath)) {
+        return filter(pages, p => {
+          return p.title === subPath || p.href === subPath
+        })
+      }
+      return subPath(pages, subPath)
+    }
   }
 }
 
