@@ -210,21 +210,25 @@ class Wmpa {
     return cmp.getAttribute('id')
   }
 
-  addComponentHtml = (html, selector = 'body', wrapper) => {
+  addComponentHtml = (html, selector = 'body', wrapper, checkChild) => {
     const cmp = this.createComponentFromHtml(html, wrapper)
     const el = this.getElement(selector)
     if (!el) return
-    el.appendChild(cmp)
+    if (checkChild) {
+      if (!el.hasChildNodes()) el.appendChild(cmp)
+    } else el.appendChild(cmp)
     return cmp.getAttribute('id')
   }
 
-  addComponent = async (body, selector = 'body', wrapper) => {
+  addComponent = async (body, selector = 'body', wrapper, checkChild) => {
     let cmp
     if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper)
     else cmp = body
     const el = this.getElement(selector)
     if (!el) return
-    el.appendChild(cmp)
+    if (checkChild) {
+      if (!el.hasChildNodes()) el.appendChild(cmp)
+    } else el.appendChild(cmp)
     return cmp.getAttribute('id')
   }
 
@@ -333,7 +337,6 @@ class Wmpa {
 
   formatByType = (type, value, dataType, options = {}) => {
     const { format } = this.getUnitFormat(options)
-    console
     const { withUnit = true } = options
     const lang = options.lang ?? this.lang
     value = format[type + 'Fn'](value)
