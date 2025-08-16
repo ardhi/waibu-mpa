@@ -15,6 +15,9 @@ async function factory (pkgName) {
         waibu: {
           prefix: ''
         },
+        waibuAdmin: {
+          modelDisabled: ['session']
+        },
         mountMainAsRoot: true,
         page: {
           charset: 'utf-8',
