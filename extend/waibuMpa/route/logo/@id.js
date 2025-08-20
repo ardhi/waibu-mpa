@@ -6,7 +6,7 @@ async function resolveFile (req) {
   const plugin = getPlugin(id)
   let type = ''
   if (req.query.type) type = `-${req.query.type}`
-  const files = await fastGlob(`${plugin.dir.pkg}/logo${type}.*`)
+  const files = await fastGlob(`${plugin.dir.pkg}/extend/logo${type}.*`)
   if (files.length === 0) throw this.error('_notFound')
   return files[0]
 }

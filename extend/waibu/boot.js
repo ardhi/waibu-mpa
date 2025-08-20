@@ -1,12 +1,12 @@
-import decorate from '../lib/decorate.js'
-import buildRoutes from '../lib/build-routes.js'
-import collectViewEngines from '../lib/collect-view-engines.js'
-import collectThemes from '../lib/collect-themes.js'
-import collectIconsets from '../lib/collect-iconsets.js'
-import handleSession from '../lib/session/setup.js'
-import subApp from '../lib/sub-app.js'
-import notFound from '../lib/not-found.js'
-import error from '../lib/error.js'
+import decorate from '../../lib/decorate.js'
+import buildRoutes from '../../lib/build-routes.js'
+import collectViewEngines from '../../lib/collect-view-engines.js'
+import collectThemes from '../../lib/collect-themes.js'
+import collectIconsets from '../../lib/collect-iconsets.js'
+import handleSession from '../../lib/session/setup.js'
+import subApp from '../../lib/sub-app.js'
+import notFound from '../../lib/not-found.js'
+import error from '../../lib/error.js'
 
 const boot = {
   level: 10,
