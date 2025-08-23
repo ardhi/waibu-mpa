@@ -5,7 +5,7 @@ import minifier from 'html-minifier-terser'
 async function factory (pkgName) {
   const me = this
 
-  return class WaibuMpa extends this.lib.BajoPlugin {
+  return class WaibuMpa extends this.lib.Plugin {
     constructor () {
       super(pkgName, me.app)
       this.alias = 'wmpa'
