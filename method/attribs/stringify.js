@@ -2,9 +2,10 @@ function attribsStringify (obj = {}, kebabCasedKey = true) {
   const { isSet } = this.lib.aneka
   const { forOwn, kebabCase, isArray, isPlainObject, isEmpty } = this.lib._
   const attrs = []
+  const names = this.app.getPluginNames()
   forOwn(obj, (v, k) => {
     let retain = false
-    for (const name of this.app.bajo.pluginNames) {
+    for (const name of names) {
       const plugin = this.app[name]
       if (plugin && plugin.retainAttrKey && plugin.retainAttrKey(k)) retain = true
     }

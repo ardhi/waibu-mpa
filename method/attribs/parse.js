@@ -7,6 +7,7 @@ function attribsParse (text = '', delimiter = ' ', kvDelimiter = '=', camelCased
     })
   } else attrs = map(text.split(delimiter), t => trim(t))
   const result = {}
+  const names = this.app.getPluginNames()
   for (const attr of attrs) {
     let [k, ...v] = map(attr.split(kvDelimiter), a => trim(a))
     v = v.join(kvDelimiter)
@@ -15,7 +16,7 @@ function attribsParse (text = '', delimiter = ' ', kvDelimiter = '=', camelCased
     if (k !== 'content' && v === '') v = true
     // check for retainAttrKey on ALL plugins
     let retain = false
-    for (const name of this.app.bajo.pluginNames) {
+    for (const name of names) {
       const plugin = this.app[name]
       if (plugin && plugin.retainAttrKey && plugin.retainAttrKey(k)) retain = true
     }

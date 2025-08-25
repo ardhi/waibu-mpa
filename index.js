@@ -5,11 +5,12 @@ import minifier from 'html-minifier-terser'
 async function factory (pkgName) {
   const me = this
 
-  return class WaibuMpa extends this.lib.Plugin {
+  class WaibuMpa extends this.lib.Plugin {
+    static alias = 'wmpa'
+    static dependencies = ['waibu', 'waibu-static', 'bajo-template']
+
     constructor () {
       super(pkgName, me.app)
-      this.alias = 'wmpa'
-      this.dependencies = ['waibu', 'waibu-static', 'bajo-template']
       this.config = {
         title: 'Multi Page Webapp',
         waibu: {
@@ -551,6 +552,8 @@ async function factory (pkgName) {
       return subPath(pages, subPath)
     }
   }
+
+  return WaibuMpa
 }
 
 export default factory
