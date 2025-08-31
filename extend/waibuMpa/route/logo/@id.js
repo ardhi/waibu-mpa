@@ -1,7 +1,7 @@
 async function resolveFile (req) {
   const { getPlugin } = this.app.bajo
-  const { camelCase } = this.lib._
-  const { fastGlob } = this.lib
+  const { camelCase } = this.app.lib._
+  const { fastGlob } = this.app.lib
   const id = camelCase(req.params.id)
   const plugin = getPlugin(id)
   let type = ''

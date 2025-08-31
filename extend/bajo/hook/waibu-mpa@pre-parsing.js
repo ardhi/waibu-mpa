@@ -8,7 +8,7 @@ async function checkLang (req, reply) {
 }
 
 async function checkDark (req, reply) {
-  const { isSet } = this.lib.aneka
+  const { isSet } = this.app.lib.aneka
   const key = this.config.darkMode.qsKey
   const value = this.config.darkMode.set ?? req.query[key]
   if (isSet(value)) {

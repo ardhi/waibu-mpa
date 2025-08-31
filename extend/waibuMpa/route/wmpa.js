@@ -2,7 +2,7 @@ const wmpa = {
   url: '/wmpa.js',
   method: 'GET',
   handler: async function (req, reply) {
-    const { get, trim } = this.lib._
+    const { get, trim } = this.app.lib._
     const { getPluginPrefix } = this.app.waibu
     const { importModule } = this.app.bajo
     const { types: formatTypes, formats } = await importModule('bajo:/lib/formats.js', { asDefaultImport: false })

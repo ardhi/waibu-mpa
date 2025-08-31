@@ -1,5 +1,5 @@
 function attribsParse (text = '', delimiter = ' ', kvDelimiter = '=', camelCasedKey = true) {
-  const { trim, camelCase, map, isPlainObject, forOwn } = this.lib._
+  const { trim, camelCase, map, isPlainObject, forOwn } = this.app.lib._
   let attrs = []
   if (isPlainObject(text)) {
     forOwn(text, (v, k) => {

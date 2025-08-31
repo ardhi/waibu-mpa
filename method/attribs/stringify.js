@@ -1,6 +1,6 @@
 function attribsStringify (obj = {}, kebabCasedKey = true) {
-  const { isSet } = this.lib.aneka
-  const { forOwn, kebabCase, isArray, isPlainObject, isEmpty } = this.lib._
+  const { isSet } = this.app.lib.aneka
+  const { forOwn, kebabCase, isArray, isPlainObject, isEmpty } = this.app.lib._
   const attrs = []
   const names = this.app.getPluginNames()
   forOwn(obj, (v, k) => {

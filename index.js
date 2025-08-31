@@ -5,7 +5,7 @@ import minifier from 'html-minifier-terser'
 async function factory (pkgName) {
   const me = this
 
-  class WaibuMpa extends this.lib.Plugin {
+  class WaibuMpa extends this.app.pluginClass.base {
     static alias = 'wmpa'
     static dependencies = ['waibu', 'waibu-static', 'bajo-template']
 
@@ -114,7 +114,7 @@ async function factory (pkgName) {
     }
 
     init = async () => {
-      const { trim } = this.lib._
+      const { trim } = this.app.lib._
       this.config.waibu = this.config.waibu ?? {}
       this.config.waibu.prefix = trim(this.config.waibu.prefix, '/')
     }
@@ -124,14 +124,14 @@ async function factory (pkgName) {
     }
 
     attrToArray = (text = '', delimiter = ' ') => {
-      const { map, trim, without, isArray } = this.lib._
+      const { map, trim, without, isArray } = this.app.lib._
       if (text === true) text = ''
       if (isArray(text)) text = text.join(delimiter)
       return without(map(text.split(delimiter), i => trim(i)), '', undefined, null)
     }
 
     attrToObject = (text = '', delimiter = ';', kvDelimiter = ':') => {
-      const { camelCase, isPlainObject } = this.lib._
+      const { camelCase, isPlainObject } = this.app.lib._
       const result = {}
       if (isPlainObject(text)) text = this.objectToAttr(text)
       if (typeof text !== 'string') return text
@@ -155,7 +155,7 @@ async function factory (pkgName) {
     buildUrl = ({ exclude = [], prefix = '?', base, url = '', params = {}, prettyUrl }) => {
       const { parseObject } = this.app.bajo
       const { qs } = this.app.waibu
-      const { forOwn, omit, isEmpty } = this.lib._
+      const { forOwn, omit, isEmpty } = this.app.lib._
       const qsKey = this.app.waibu.config.qsKey
       let path
       let hash
@@ -184,7 +184,7 @@ async function factory (pkgName) {
 
     getAppTitle = (name) => {
       const { getPlugin } = this.app.bajo
-      const { get } = this.lib._
+      const { get } = this.app.lib._
       const plugin = getPlugin(name, true)
       if (!plugin) return
       return get(plugin, 'config.waibu.title', get(plugin, 'config.waibu.prefix', plugin.title, plugin.title ?? plugin.name))
@@ -206,13 +206,13 @@ async function factory (pkgName) {
     }
 
     getViewEngine = (ext) => {
-      const { find } = this.lib._
+      const { find } = this.app.lib._
       const ve = find(this.viewEngines, v => v.fileExts.includes(ext))
       return ve ?? find(this.viewEngines, v => v.name === 'default')
     }
 
     groupAttrs = (attribs = {}, keys = [], removeEmpty = true) => {
-      const { isString, filter, omit, kebabCase, camelCase, isEmpty } = this.lib._
+      const { isString, filter, omit, kebabCase, camelCase, isEmpty } = this.app.lib._
       if (isString(keys)) keys = [keys]
       const attr = { _: {} }
       for (const a in attribs) {
@@ -267,7 +267,7 @@ async function factory (pkgName) {
       const {
         isNumber, isString, isBoolean, isUndefined, isFunction, isSymbol,
         isNull, isDate, isArray, isPlainObject
-      } = this.lib._
+      } = this.app.lib._
 
       if (replacer !== true) return JSON.stringify(obj, replacer, space)
 
@@ -347,7 +347,7 @@ async function factory (pkgName) {
     }
 
     objectToAttr = (obj = {}, delimiter = ';', kvDelimiter = ':') => {
-      const { forOwn, kebabCase } = this.lib._
+      const { forOwn, kebabCase } = this.app.lib._
       const result = []
       forOwn(obj, (v, k) => {
         result.push(`${kebabCase(k)}${kvDelimiter} ${v ?? ''}`)
@@ -357,7 +357,7 @@ async function factory (pkgName) {
 
     // based on: https://github.com/kyleparisi/pagination-layout/blob/master/pagination-layout-be.js
     paginationLayout = (totalItems, itemsPerPage, currentPage) => {
-      const { isPlainObject } = this.lib._
+      const { isPlainObject } = this.app.lib._
       if (isPlainObject(totalItems)) {
         currentPage = totalItems.page
         itemsPerPage = totalItems.limit
@@ -505,7 +505,7 @@ async function factory (pkgName) {
     }
 
     urlToBreadcrumb = (url, { delimiter, returnParts, base = '', handler, handlerScope, handlerOpts } = {}) => {
-      const { trim, map, last, without } = this.lib._
+      const { trim, map, last, without } = this.app.lib._
       const { routePath } = this.app.waibu
 
       function defHandler (item) {
@@ -538,7 +538,7 @@ async function factory (pkgName) {
     }
 
     getMenuPages = (menu, path, subPath) => {
-      const { get, filter, isFunction } = this.lib._
+      const { get, filter, isFunction } = this.app.lib._
       const all = get(menu, 'pages', [])
       if (!path) return all
       const pages = filter(all, a => {
