@@ -7,7 +7,7 @@ function attribsParse (text = '', delimiter = ' ', kvDelimiter = '=', camelCased
     })
   } else attrs = map(text.split(delimiter), t => trim(t))
   const result = {}
-  const names = this.app.getPluginNames()
+  const names = this.app.getAllNs()
   for (const attr of attrs) {
     let [k, ...v] = map(attr.split(kvDelimiter), a => trim(a))
     v = v.join(kvDelimiter)

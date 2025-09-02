@@ -115,7 +115,6 @@ async function factory (pkgName) {
 
     init = async () => {
       const { trim } = this.app.lib._
-      this.config.waibu = this.config.waibu ?? {}
       this.config.waibu.prefix = trim(this.config.waibu.prefix, '/')
     }
 
@@ -187,7 +186,7 @@ async function factory (pkgName) {
       const { get } = this.app.lib._
       const plugin = getPlugin(name, true)
       if (!plugin) return
-      return get(plugin, 'config.waibu.title', get(plugin, 'config.waibu.prefix', plugin.title, plugin.title ?? plugin.name))
+      return get(plugin, 'config.waibu.title', get(plugin, 'config.waibu.prefix', plugin.title, plugin.title ?? plugin.ns))
     }
 
     getResource (name) {

@@ -29,7 +29,7 @@ const boot = {
     await handleMultipart.call(this, ctx, this.config.multipart)
     await decorate.call(this, ctx)
     await handleSession.call(this, ctx)
-    await routeHook.call(this, this.name)
+    await routeHook.call(this, this.ns)
     await error.call(this, ctx)
     await collectViewEngines.call(this, ctx)
     await collectThemes.call(this, ctx)
