@@ -1,6 +1,4 @@
-# Config
-
-Open/create ```<bajo-data-dir>/config/waibuMpa.json```:
+# Config Object
 
 | Key | Type | Default | Description |
 | --- | ---- | ------------- | ----------- |

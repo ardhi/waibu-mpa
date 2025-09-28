@@ -1,10 +1,12 @@
-# Component
+# User Guide
 
-## Attributes
+## Component
+
+### Attributes
 
 Available to all components regardless its theme selection
 
-### Smart icon: ```... icon="leftIcon" icon-end="rightIcon" ...```
+#### Smart icon: ```... icon="leftIcon" icon-end="rightIcon" ...```
 
 - Any components having either ```icon``` or ```icon-end``` or both attribute(s) will get its inner html with icon tag prepended/appended
 - Attribute value is the name of icon and will be rendered to the current iconset's key mapping accordingly
@@ -21,11 +23,11 @@ Available to all components regardless its theme selection
   </button>
   ```
 
-## Common Components
+### Common Components
 
 Available to all components regardless its theme selection
 
-### ```<c:icon name="iconName" [oname="originalName"] />```
+#### ```<c:icon name="iconName" [oname="originalName"] />```
 
 - This will generate tag for displaying icon. The name of the icon will be rendered to the current iconset's key mapping accordingly
 - Unknown name silently yields an empty string
@@ -45,7 +47,7 @@ Available to all components regardless its theme selection
   <i class="mdi mdi-shuffle"></i> <!-- will generate this regardless selected iconset -->
   ```
 
-### ```<c:include template="tplName" prepend="text" append="text" ... />```
+#### ```<c:include template="tplName" prepend="text" append="text" ... />```
 
 - Tag will be substituted with rendered content from ```tplName```
 - Any other attributes provided BUT ```template``` serve as locals to the ```tplName```
@@ -58,7 +60,7 @@ Available to all components regardless its theme selection
   <c:include template="bajoDemo:/showcase/include/header.html" />
   ```
 
-### ```<c:link href="url" ... />```
+#### ```<c:link href="url" ... />```
 
 - Url starts with ```/``` or ```http```: passed through
 - Url with format ```ns:path``` or ```ns.{static,virtual}:path``` will go to static or virtual asset of its namespace respectively
@@ -72,7 +74,7 @@ Available to all components regardless its theme selection
   <link href="/asset/~/wbmpa/purecss/pure.min.css" type="text/css" rel="stylesheet" />
   ```
 
-### ```<c:page-start title="Page Title">...</c:page-start>```
+#### ```<c:page-start title="Page Title">...</c:page-start>```
 
 - Use this component to conveniently wrap page with HTML header tags (```<html>```, ```<head>```, ```</head>```, down to opening body ```<body>```)
 - Keep in mind that you should also close page with ```<c:page-end>``` component
@@ -95,7 +97,7 @@ Available to all components regardless its theme selection
     <body>
   ```
 
-### ```<c:page-end>...</c:page-end>```
+#### ```<c:page-end>...</c:page-end>```
 
 - Should only be used when you use ```<c:page-start>``` as above
 - It provides you page's closing tags (```</body>```, ```</html>```)
@@ -114,7 +116,7 @@ Available to all components regardless its theme selection
   ```
 
 
-### ```<c:script src="url" ...></script>```
+#### ```<c:script src="url" ...></script>```
 
 - Url starts with ```/``` or ```http```: passed through
 - Url with format ```ns:path``` or ```ns.{static,virtual}:path``` will go to static or virtual asset of its namespace respectively
@@ -128,7 +130,7 @@ Available to all components regardless its theme selection
   <script src="/asset/~/wbxtra/jquery/jquery.min.js"></script>
   ```
 
-### ```<c:script ...>urls</script>```
+#### ```<c:script ...>urls</script>```
 
 - Url format: ```url[;attr:value[;attr:value[...]]]```
 - Multiple urls: provide as many url as you want, line-by-line
@@ -230,3 +232,118 @@ Listed below are components available in 'pure' (builtin theme). Click here for 
       <button class="pure-button pure-button-danger">Button 3</button>
     </div>
     ```
+
+# Page Building
+
+## Components
+
+Component is a html tag that starts with ```<c:name``` and ends with ```/c:name>```. It can also be a self closing tag.
+
+## Apply Includes
+
+## Mutation
+
+### Attribute translator: ```... t:attribute="value" ...```
+
+- Any attributes prefixed with ```t:``` are subjects to be translated
+- ```value``` is an array delimited by ```|``` (pipe) character
+- First array position is the text to be translated, while the rest are here for interpolations
+- Example:
+  ```html
+  <div t:aria-label="Morning, %s|sunshine">...</div>
+  ```
+
+  Result (with lang: 'id'):
+  ```html
+  <div aria-label="Selamat pagi, sayang">...</div>
+  ```
+
+### Route path for ```href``` and ```src```
+
+- Url inside ```href``` and ```src``` is a route path object
+- All route path formats are supported. If it can't be detected, it falls back as is
+- Example:
+  ```html
+  <link href="waibuBootstrap.virtual:/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+  <img src="main:/images/logo.png" />
+  <a href="sumba:/login">Login</a>
+  ```
+
+  Result:
+  ```html
+  <link href="/assets/~/wbbs/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+  <img src="/assets/images/logo.png" />
+  <a href="/sumba/login">Login</a>
+  ```
+
+### Teleport attribute ```... teleport="<id>"```
+
+- A tag with such attribute will be teleported (moved) to tag with id ```<id>```
+- If tag with such id is not found, nothing will change
+- Example:
+  ```html
+  <div class="left-drawer">
+    <div id="placeholder">Placeholder for menu</div>
+  </div>
+  <div class="main-content">
+    <div>Cillum do minim incididunt Lorem nostrud officia occaecat elit</div>
+    <div class="menu" teleport="placeholder">
+      <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+      </ul>
+    </div>
+  </div>
+  ```
+
+  Result:
+  ```html
+  <div class="left-drawer">
+    <div class="menu">
+      <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+      </ul>
+    </div>
+  </div>
+  <div class="main-content">
+    <div>Cillum do minim incididunt Lorem nostrud officia occaecat elit</div>
+  </div>
+  ```
+
+## Inject Meta, CSS & Scripts
+
+## Route
+
+All route files must be placed in ```<plugin-dir>/waibuMpa/route``` folder. This is the ```root``` folder of your route relative to its plugin prefix.
+
+### Type of route files:
+
+#### ```.js``` file
+
+This is your normal route file. It should export an object with these properties:
+
+- ```method```: Array of http verbs, defaults to ```['GET', 'HEAD']```
+- ```url```: Set this value to overwrite url. Defaults to auto generated url from file's path
+- ```handler```: Route handler
+
+Example:
+```javascript
+const myRoute = {
+  method: ['GET', 'POST'],
+  handler: async function (req, reply) {
+    // ... put your logic here
+    return await reply.view('main.template:/my-route.html')
+  }
+}
+
+export default myRoute
+```
+
+#### ```.json```
+#### ```.html``` and ```.md```
+
+Use this to put static content quick and easy. Content will then be considered as a bajoTemplate's template
+so you can take advantage of everything what bajoTemplate has to offer.
+
+

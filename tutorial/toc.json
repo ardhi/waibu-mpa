@@ -1,0 +1,14 @@
+{
+  "00-getting-started": {
+    "title": "Getting Started"
+  },
+  "01-user-guide": {
+    "title": "User Guide"
+  },
+  "02-config": {
+    "title": "Config Object"
+  },
+  "03-donations": {
+    "title": "Donations"
+  }
+}
