@@ -1,5 +1,9 @@
 import { stripHtml } from 'string-strip-html'
+import iconsetMappings from './lib/iconset-mappings.js'
 import path from 'path'
+
+// taken from: https://stackoverflow.com/questions/52928550/js-get-list-of-all-available-standard-html-tags
+const tags = 'a,abbr,address,area,article,aside,audio,b,base,bdi,bdo,blockquote,body,br,button,canvas,caption,cite,code,col,colgroup,data,datalist,dd,del,details,dfn,dialog,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,head,header,hgroup,hr,html,i,iframe,img,input,ins,kbd,label,legend,li,link,main,map,mark,menu,meta,meter,nav,noscript,object,ol,optgroup,option,output,p,param,picture,pre,progress,q,rp,rt,ruby,s,samp,script,section,select,slot,small,source,span,strong,style,sub,summary,sup,table,tbody,td,template,textarea,tfoot,th,thead,time,title,tr,track,u,ul,var,video,wbr'
 
 /**
  * Plugin factory
@@ -15,9 +19,11 @@ async function factory (pkgName) {
    *
    * @class
    */
-  class WaibuMpa extends this.app.pluginClass.base {
+  class WaibuMpa extends this.app.baseClass.Base {
     static alias = 'wmpa'
     static dependencies = ['waibu', 'waibu-static', 'bajo-template']
+    static htmlTags = tags.split(',')
+    static iconsetMappings = iconsetMappings
 
     constructor () {
       super(pkgName, me.app)
@@ -162,7 +168,7 @@ async function factory (pkgName) {
     }
 
     buildUrl = ({ exclude = [], prefix = '?', base, url = '', params = {}, prettyUrl }) => {
-      const { parseObject } = this.app.bajo
+      const { parseObject } = this.app.lib
       const { qs } = this.app.waibu
       const { forOwn, omit, isEmpty } = this.app.lib._
       const qsKey = this.app.waibu.config.qsKey
@@ -561,6 +567,61 @@ async function factory (pkgName) {
         })
       }
       return subPath(pages, subPath)
+    }
+
+    parseAttribs = (text = '', delimiter = ' ', kvDelimiter = '=', camelCasedKey = true) => {
+      const { trim, camelCase, map, isPlainObject, forOwn } = this.app.lib._
+      let attrs = []
+      if (isPlainObject(text)) {
+        forOwn(text, (v, k) => {
+          attrs.push(`${k}${kvDelimiter}"${v}"`)
+        })
+      } else attrs = map(text.split(delimiter), t => trim(t))
+      const result = {}
+      const names = this.app.getAllNs()
+      for (const attr of attrs) {
+        let [k, ...v] = map(attr.split(kvDelimiter), a => trim(a))
+        v = v.join(kvDelimiter)
+        v = v.slice(1, v.length - 1)
+        if (v === 'undefined') continue
+        if (k !== 'content' && v === '') v = true
+        // check for retainAttrKey on ALL plugins
+        let retain = false
+        for (const name of names) {
+          const plugin = this.app[name]
+          if (plugin && plugin.retainAttrKey && plugin.retainAttrKey(k)) retain = true
+        }
+        if (!retain && camelCasedKey) k = camelCase(k)
+        result[k] = v
+      }
+      return result
+    }
+
+    stringifyAttribs = (obj = {}, kebabCasedKey = true) => {
+      const { isSet } = this.app.lib.aneka
+      const { forOwn, kebabCase, isArray, isPlainObject, isEmpty } = this.app.lib._
+      const attrs = []
+      const names = this.app.getAllNs()
+      forOwn(obj, (v, k) => {
+        let retain = false
+        for (const name of names) {
+          const plugin = this.app[name]
+          if (plugin && plugin.retainAttrKey && plugin.retainAttrKey(k)) retain = true
+        }
+        if (retain) {
+          if (v === true) attrs.push(k)
+          else attrs.push(`${k}="${v}"`)
+          return undefined
+        }
+        if (kebabCasedKey) k = kebabCase(k)
+        if (!isSet(v)) return undefined
+        if (['class', 'style'].includes(k) && isEmpty(v)) return undefined
+        if (isArray(v)) v = this.arrayToAttr(v)
+        if (isPlainObject(v)) v = this.objectToAttr(v)
+        if (k !== 'content' && v === true) attrs.push(k)
+        else attrs.push(`${k}="${v}"`)
+      })
+      return attrs.join(' ')
     }
   }
 
