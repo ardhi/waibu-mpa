@@ -66,6 +66,7 @@ class Wmpa {
         reqAborted: null
       })
     })
+    if (_.isEmpty(this.accessTokenUrl)) return
     fetch(this.accessTokenUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' }
