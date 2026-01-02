@@ -37,6 +37,7 @@
   "session": "Sesi",
   "404Title": "Halaman Tidak Ditemukan",
   "500Title": "Kesalahan Internal Penyelia",
+  "fullscreen": "Layar Penuh",
   "field": {
     "session": "Sesi",
     "expires": "Kadaluarsa"
