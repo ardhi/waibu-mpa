@@ -272,7 +272,7 @@ const mapping = {
   rocket: '',
   route: 'sign-turn-slight-left',
   save: 'floppy',
-  search: '',
+  search: 'magnifier',
   send: '',
   server: 'hdd-stack',
   share: '',
