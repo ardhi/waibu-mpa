@@ -20,8 +20,6 @@ async function factory (pkgName) {
    * @class
    */
   class WaibuMpa extends this.app.baseClass.Base {
-    static alias = 'wmpa'
-    static dependencies = ['waibu', 'waibu-static', 'bajo-template']
     static htmlTags = tags.split(',')
     static iconsetMappings = iconsetMappings
 

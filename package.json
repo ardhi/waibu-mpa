@@ -9,7 +9,13 @@
   },
   "type": "module",
   "bajo": {
-    "type": "plugin"
+    "type": "plugin",
+    "alias": "wmpa",
+    "dependencies": [
+      "waibu",
+      "waibu-static",
+      "bajo-template"
+    ]
   },
   "repository": {
     "type": "git",
