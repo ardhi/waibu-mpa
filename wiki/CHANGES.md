@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-01-13
+
+- [2.1.1] Bug fix on waibuMpa's widgeting system
+
 ## 2026-01-08
 
 - [2.1.0] Upgrade to ```node-emoji@2.2.0```

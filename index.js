@@ -1,5 +1,7 @@
 import { stripHtml } from 'string-strip-html'
 import iconsetMappings from './lib/iconset-mappings.js'
+import toolsFactory from './lib/class/tools.js'
+import widgetFactory from './lib/class/widget.js'
 import path from 'path'
 
 // taken from: https://stackoverflow.com/questions/52928550/js-get-list-of-all-available-standard-html-tags
@@ -130,6 +132,8 @@ async function factory (pkgName) {
     init = async () => {
       const { trim } = this.app.lib._
       this.config.waibu.prefix = trim(this.config.waibu.prefix, '/')
+      await toolsFactory.call(this)
+      await widgetFactory.call(this)
     }
 
     arrayToAttr = (array = [], delimiter = ' ') => {
