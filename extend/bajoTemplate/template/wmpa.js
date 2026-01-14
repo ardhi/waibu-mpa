@@ -98,9 +98,13 @@ class Wmpa {
     return result
   }
 
-  fetchRender = async (body) => {
+  fetchRender = async (body, qs = {}) => {
     if (_.isArray(body)) body = body.join('\n')
-    const resp = await fetch(this.renderUrl, {
+    let url = this.renderUrl + '?'
+    _.forOwn(qs, (v, k) => {
+      url += '&' + k + '=' + v
+    })
+    const resp = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain', 'Waibu-Referer': window.location.href },
       body
@@ -187,9 +191,9 @@ class Wmpa {
     return selector instanceof HTMLElement ? selector : document.querySelector(selector)
   }
 
-  createComponent = async (body, wrapper) => {
+  createComponent = async (body, wrapper, qs = {}) => {
     if (_.isArray(body)) body = body.join('\n')
-    const html = await this.fetchRender(body)
+    const html = await this.fetchRender(body, qs)
     return this.createComponentFromHtml(html, wrapper)
   }
 
@@ -201,9 +205,9 @@ class Wmpa {
     return cmp.getAttribute('id')
   }
 
-  replaceWithComponent = async (body, selector, wrapper) => {
+  replaceWithComponent = async (body, selector, wrapper, qs = {}) => {
     let cmp
-    if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper)
+    if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper, qs)
     else cmp = body
     const el = this.getElement(selector)
     if (!el) return
@@ -221,9 +225,9 @@ class Wmpa {
     return cmp.getAttribute('id')
   }
 
-  addComponent = async (body, selector = 'body', wrapper, checkChild) => {
+  addComponent = async (body, selector = 'body', wrapper, checkChild, qs = {}) => {
     let cmp
-    if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper)
+    if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper, qs)
     else cmp = body
     const el = this.getElement(selector)
     if (!el) return

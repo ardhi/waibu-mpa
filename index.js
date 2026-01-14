@@ -70,6 +70,7 @@ async function factory (pkgName) {
             css: true,
             meta: true,
             scripts: true,
+            links: true,
             inlineScript: true,
             inlineCss: true
           },
@@ -83,6 +84,7 @@ async function factory (pkgName) {
           autoInsert: {
             css: true,
             scripts: true,
+            links: true,
             inlineScript: true,
             inlineCss: true
           }
@@ -91,7 +93,8 @@ async function factory (pkgName) {
           cacheMaxAge: 0,
           excluded: [],
           css: false,
-          scripts: false
+          scripts: false,
+          links: false
         },
         cheerio: {
           loadOptions: {
