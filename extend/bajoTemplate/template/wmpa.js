@@ -8,6 +8,8 @@ class Wmpa {
     this.prefixMain = '<%= prefix.main %>'
     this.accessTokenUrl = '<%= accessTokenUrl %>'
     this.renderUrl = '<%= renderUrl %>'
+    this.theme = '<%= _meta.theme.name %>'
+    this.iconset = '<%= _meta.iconset.name %>'
     this.apiPrefix = '<%= api.prefix %>'
     this.apiExt = '<%= api.ext %>'
     this.apiHeaderKey = '<%= api.headerKey %>'
@@ -101,14 +103,22 @@ class Wmpa {
   fetchRender = async (body, qs = {}) => {
     if (_.isArray(body)) body = body.join('\n')
     let url = this.renderUrl + '?'
-    _.forOwn(qs, (v, k) => {
+    _.forOwn(_.omit(qs, ['theme', 'iconset']), (v, k) => {
       url += '&' + k + '=' + v
     })
-    const resp = await fetch(url, {
+    const opts = {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain', 'Waibu-Referer': window.location.href },
+      headers: {
+        'Content-Type': 'text/plain',
+        'X-Referer': window.location.href,
+        'X-Theme': this.theme,
+        'X-Iconset': this.iconset
+      },
       body
-    })
+    }
+    if (qs.theme) opts.headers['X-Theme'] = qs.theme
+    if (qs.iconset) opts.headers['X-Iconset'] = qs.iconset
+    const resp = await fetch(url, opts)
     if (!resp.ok) throw new Error('Response status: ' + resp.status)
     return await resp.text()
   }

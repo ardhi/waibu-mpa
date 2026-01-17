@@ -628,6 +628,18 @@ async function factory (pkgName) {
       })
       return attrs.join(' ')
     }
+
+    getTheme = (name, nameOnly) => {
+      const theme = this.themes.find(item => item.name === name)
+      if (!theme) return theme
+      return nameOnly ? theme.name : theme
+    }
+
+    getIconset = (name, nameOnly) => {
+      const iconset = this.iconsets.find(item => item.name === name)
+      if (!iconset) return iconset
+      return nameOnly ? iconset.name : iconset
+    }
   }
 
   return WaibuMpa

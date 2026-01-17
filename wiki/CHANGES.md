@@ -3,6 +3,7 @@
 ## 2026-01-17
 
 - [2.1.3] Bug fix on ```getAppTitle()```
+- [2.1.4] Add capability to set custom theme & iconset through headers
 
 ## 2026-01-13
 
