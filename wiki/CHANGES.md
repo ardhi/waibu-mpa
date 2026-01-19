@@ -2,6 +2,10 @@
 
 ## 2026-01-18
 
+- [2.1.6] Bug fix on ```getAppTitle()```
+
+## 2026-01-18
+
 - [2.1.5] Dark mode should only be handle by a hook
 
 ## 2026-01-17
