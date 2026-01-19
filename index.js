@@ -52,7 +52,8 @@ async function factory (pkgName) {
           secret: 'f703a74b884b539e78c642a5369fe538',
           cookieName: 'sid',
           cookie: {
-            secure: 'auto'
+            secure: 'auto',
+            maxAge: 86400 * 7 * 1000
           },
           saveUninitialized: false
         },

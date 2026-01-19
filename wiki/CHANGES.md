@@ -1,8 +1,9 @@
 # Changes
 
-## 2026-01-18
+## 2026-01-19
 
 - [2.1.6] Bug fix on ```getAppTitle()```
+- [2.1.7] Change default cookie ```maxAge``` to 7 days
 
 ## 2026-01-18
 
