@@ -2,9 +2,10 @@
 
 ## 2026-01-21
 
-- [2.1.3] Add ```getPluginTitle()```
-- [2.1.3] Bug fix on ```getAppTitle()```
-- [2.1.3] Rework on all title handlers
+- [2.1.8] Add ```getPluginTitle()```
+- [2.1.8] Bug fix on ```getAppTitle()```
+- [2.1.8] Rework on all title handlers
+- [2.1.9] Favicon handling
 
 ## 2026-01-19
 
