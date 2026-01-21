@@ -201,9 +201,9 @@ class Wmpa {
     return selector instanceof HTMLElement ? selector : document.querySelector(selector)
   }
 
-  createComponent = async (body, wrapper, qs = {}) => {
+  createComponent = async (body, wrapper, opts = {}) => {
     if (_.isArray(body)) body = body.join('\n')
-    const html = await this.fetchRender(body, qs)
+    const html = await this.fetchRender(body, opts)
     return this.createComponentFromHtml(html, wrapper)
   }
 

@@ -28,7 +28,7 @@ async function factory (pkgName) {
     constructor () {
       super(pkgName, me.app)
       this.config = {
-        title: 'Multi Page Webapp',
+        appTitle: this.ns,
         waibu: {
           prefix: ''
         },
@@ -39,7 +39,8 @@ async function factory (pkgName) {
         page: {
           charset: 'utf-8',
           cacheMaxAge: 0,
-          insertWarning: false
+          insertWarning: false,
+          usePluginTitle: false
         },
         darkMode: {
           set: null,
@@ -203,12 +204,19 @@ async function factory (pkgName) {
       return parts.join('/') + query + hash
     }
 
-    getAppTitle = (name) => {
+    getPluginTitle = (name, lang) => {
       const { getPlugin } = this.app.bajo
       const { get } = this.app.lib._
       const plugin = getPlugin(name, true)
       if (!plugin) return
-      return get(plugin, 'config.waibu.title', plugin.ns)
+      const text = get(plugin, 'config.waibuMpa.title', plugin.ns)
+      return this.t(text, { lang })
+    }
+
+    getAppTitle = (lang) => {
+      const { get } = this.app.lib._
+      const text = get(this, 'config.appTitle', this.ns)
+      return this.t(text, { lang })
     }
 
     getResource (name) {
