@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-02-05
+
+- [2.1.11] Bug fix on rendering ```preconnect```
+
 ## 2026-01-21
 
 - [2.1.8] Add ```getPluginTitle()```
