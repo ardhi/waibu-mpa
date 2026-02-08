@@ -1,4 +1,4 @@
-async function theme (ctx) {
+async function theme () {
   const css = [
     'waibuMpa.virtual:/purecss/pure-min.css'
   ]

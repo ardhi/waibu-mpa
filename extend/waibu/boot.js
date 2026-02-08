@@ -5,13 +5,12 @@ import collectThemes from '../../lib/collect-themes.js'
 import collectIconsets from '../../lib/collect-iconsets.js'
 import handleSession from '../../lib/session/setup.js'
 import subApp from '../../lib/sub-app.js'
-import notFound from '../../lib/not-found.js'
-import error from '../../lib/error.js'
+import errorHandler from '../../lib/error-handler.js'
 
 const boot = {
   level: 10,
-  handler: async function (ctx, prefix) {
-    this.ctx = ctx
+  errorHandler,
+  handler: async function (prefix) {
     const { importPkg, importModule } = this.app.bajo
     const bodyParser = await importPkg('waibu:@fastify/formbody')
     const routeHook = await importModule('waibu:/lib/webapp-scope/route-hook.js')
@@ -21,22 +20,20 @@ const boot = {
     const handleCompress = await importModule('waibu:/lib/webapp-scope/handle-compress.js')
     const handleRateLimit = await importModule('waibu:/lib/webapp-scope/handle-rate-limit.js')
 
-    await ctx.register(bodyParser)
-    await handleRateLimit.call(this, ctx, this.config.rateLimit)
-    await handleCors.call(this, ctx, this.config.cors)
-    await handleHelmet.call(this, ctx, this.config.helmet)
-    await handleCompress.call(this, ctx, this.config.compress)
-    await handleMultipart.call(this, ctx, this.config.multipart)
-    await decorate.call(this, ctx)
-    await handleSession.call(this, ctx)
+    await this.webAppCtx.register(bodyParser)
+    await handleRateLimit.call(this, this.config.rateLimit)
+    await handleCors.call(this, this.config.cors)
+    await handleHelmet.call(this, this.config.helmet)
+    await handleCompress.call(this, this.config.compress)
+    await handleMultipart.call(this, this.config.multipart)
+    await decorate.call(this)
+    await handleSession.call(this)
     await routeHook.call(this, this.ns)
-    await error.call(this, ctx)
-    await collectViewEngines.call(this, ctx)
-    await collectThemes.call(this, ctx)
-    await collectIconsets.call(this, ctx)
-    await buildRoutes.call(this, ctx, prefix)
-    await subApp.call(this, ctx)
-    await notFound.call(this, ctx)
+    await collectViewEngines.call(this)
+    await collectThemes.call(this)
+    await collectIconsets.call(this)
+    await buildRoutes.call(this, prefix)
+    await subApp.call(this)
   }
 }
 
