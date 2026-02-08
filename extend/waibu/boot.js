@@ -6,10 +6,12 @@ import collectIconsets from '../../lib/collect-iconsets.js'
 import handleSession from '../../lib/session/setup.js'
 import subApp from '../../lib/sub-app.js'
 import errorHandler from '../../lib/error-handler.js'
+import notFoundHandler from '../../lib/not-found-handler.js'
 
 const boot = {
   level: 10,
   errorHandler,
+  notFoundHandler,
   handler: async function (prefix) {
     const { importPkg, importModule } = this.app.bajo
     const bodyParser = await importPkg('waibu:@fastify/formbody')

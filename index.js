@@ -40,7 +40,8 @@ async function factory (pkgName) {
           charset: 'utf-8',
           cacheMaxAge: 0,
           insertWarning: false,
-          usePluginTitle: false
+          usePluginTitle: false,
+          scriptsAtEndOfBody: true
         },
         darkMode: {
           set: null,
@@ -231,7 +232,7 @@ async function factory (pkgName) {
 
     getSessionId = (rawCookie, secure) => {
       const cookieName = this.config.session.cookieName
-      return this.ctx.parseCookie(rawCookie)[cookieName]
+      return this.webAppCtx.parseCookie(rawCookie)[cookieName]
     }
 
     getViewEngine = (ext) => {

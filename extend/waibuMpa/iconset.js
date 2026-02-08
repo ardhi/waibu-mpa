@@ -346,7 +346,7 @@ const mapping = {
   zoomOut: ''
 }
 
-function iconset (ctx) {
+function iconset () {
   return {
     name: 'default',
     css: 'waibuMpa.asset:/css/linearicons.css',

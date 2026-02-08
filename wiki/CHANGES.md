@@ -1,5 +1,14 @@
 # Changes
 
+## 2026-02-09
+
+- [2.3.0] Add ```config.page.scriptsAtEndOfBody``` to put scripts at the end of body or not. Defaults to ```true```
+- [2.3.0] Add not found & error handlers
+- [2.3.0] Bug fix on old context
+- [2.3.0] Bug fix on ```loadResource()```
+- [2.3.0] Bug fix on ```<link />``` injection
+- [2.3.0] Bug fix on order of metas, links & scripts
+
 ## 2026-02-05
 
 - [2.1.11] Bug fix on rendering ```preconnect```
