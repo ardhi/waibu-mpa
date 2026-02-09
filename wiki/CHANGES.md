@@ -8,6 +8,8 @@
 - [2.3.0] Bug fix on ```loadResource()```
 - [2.3.0] Bug fix on ```<link />``` injection
 - [2.3.0] Bug fix on order of metas, links & scripts
+- [2.4.0] Add ```anchor``` and ```navigation``` icons
+- [2.4.0] Add dark mode auto detect right at inject elements
 
 ## 2026-02-05
 

@@ -8,6 +8,7 @@ const mapping = {
   alignMiddle: '',
   alignStart: '',
   alignTop: '',
+  anchor: '',
   archive: '',
   arrowCcw: 'arrow-counterclockwise',
   arrowCw: 'arrow-clockwise',
