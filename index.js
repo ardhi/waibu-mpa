@@ -584,7 +584,7 @@ async function factory (pkgName) {
       return subPath(pages, subPath)
     }
 
-    parseAttribs = (text = '', delimiter = ' ', kvDelimiter = '=', camelCasedKey = true) => {
+    parseAttribs = (text, { delimiter = ' ', kvDelimiter = '=', camelCasedKey = true, trimValue = true } = {}) => {
       const { trim, camelCase, map, isPlainObject, forOwn } = this.app.lib._
       let attrs = []
       if (isPlainObject(text)) {
@@ -597,7 +597,7 @@ async function factory (pkgName) {
       for (const attr of attrs) {
         let [k, ...v] = map(attr.split(kvDelimiter), a => trim(a))
         v = v.join(kvDelimiter)
-        v = v.slice(1, v.length - 1)
+        if (trimValue) v = v.slice(1, v.length - 1)
         if (v === 'undefined') continue
         if (k !== 'content' && v === '') v = true
         // check for retainAttrKey on ALL plugins

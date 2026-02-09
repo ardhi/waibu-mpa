@@ -10,6 +10,9 @@
 - [2.3.0] Bug fix on order of metas, links & scripts
 - [2.4.0] Add ```anchor``` and ```navigation``` icons
 - [2.4.0] Add dark mode auto detect right at inject elements
+- [2.4.1] Bug fix on ```parseAttribs()```
+- [2.4.1] Attribute mutations (href, src, action) now accept url with parameter
+
 
 ## 2026-02-05
 
