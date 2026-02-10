@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-02-10
+
+- [2.4.2] Put ```bajo-config``` as dependency
+
 ## 2026-02-09
 
 - [2.3.0] Add ```config.page.scriptsAtEndOfBody``` to put scripts at the end of body or not. Defaults to ```true```
