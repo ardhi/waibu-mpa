@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-02-17
+
+- [2.4.3] Bug fix on ```req.theme``` and ```req.iconset``` resolver
+
 ## 2026-02-10
 
 - [2.4.2] Put ```bajo-config``` as dependency
