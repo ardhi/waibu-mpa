@@ -142,39 +142,6 @@ async function factory (pkgName) {
       await widgetFactory.call(this)
     }
 
-    arrayToAttr = (array = [], delimiter = ' ') => {
-      return array.join(delimiter)
-    }
-
-    attrToArray = (text = '', delimiter = ' ') => {
-      const { map, trim, without, isArray } = this.app.lib._
-      if (text === true) text = ''
-      if (isArray(text)) text = text.join(delimiter)
-      return without(map(text.split(delimiter), i => trim(i)), '', undefined, null)
-    }
-
-    attrToObject = (text = '', delimiter = ';', kvDelimiter = ':') => {
-      const { camelCase, isPlainObject } = this.app.lib._
-      const result = {}
-      if (isPlainObject(text)) text = this.objectToAttr(text)
-      if (typeof text !== 'string') return text
-      if (text.slice(1, 3) === '%=') return text
-      const array = this.attrToArray(text, delimiter)
-      array.forEach(item => {
-        const [key, val] = this.attrToArray(item, kvDelimiter)
-        result[camelCase(key)] = val
-      })
-      return result
-    }
-
-    base64JsonDecode = (data = 'e30=') => {
-      return JSON.parse(Buffer.from(data, 'base64'))
-    }
-
-    base64JsonEncode = (data) => {
-      return Buffer.from(JSON.stringify(data)).toString('base64')
-    }
-
     buildUrl = ({ exclude = [], prefix = '?', base, url = '', params = {}, prettyUrl }) => {
       const { parseObject } = this.app.lib
       const { qs } = this.app.waibu
@@ -243,6 +210,7 @@ async function factory (pkgName) {
 
     groupAttrs = (attribs = {}, keys = [], removeEmpty = true) => {
       const { isString, filter, omit, kebabCase, camelCase, isEmpty } = this.app.lib._
+      const { attrToArray, attrToObject } = this.app.waibu
       if (isString(keys)) keys = [keys]
       const attr = { _: {} }
       for (const a in attribs) {
@@ -260,14 +228,14 @@ async function factory (pkgName) {
           if (!kebabCase(a).startsWith(k + '-')) {
             if (!keys.includes(a)) {
               attr._[a] = attribs[a]
-              if (a === 'class' && isString(attribs[a])) attr._.class = this.attrToArray(attr._.class)
-              if (a === 'style' && isString(attribs[a])) attr._.style = this.attrToObject(attr._.style)
+              if (a === 'class' && isString(attribs[a])) attr._.class = attrToArray(attr._.class)
+              if (a === 'style' && isString(attribs[a])) attr._.style = attrToObject(attr._.style)
             }
             continue
           }
           attr[k][name] = attribs[a]
-          if (name === 'class' && isString(attribs[a])) attr[k].class = this.attrToArray(attr[k].class)
-          if (name === 'style' && isString(attribs[a])) attr[k].style = this.attrToObject(attr[k].style)
+          if (name === 'class' && isString(attribs[a])) attr[k].class = attrToArray(attr[k].class)
+          if (name === 'style' && isString(attribs[a])) attr[k].style = attrToObject(attr[k].style)
         }
       }
       const deleted = filter(Object.keys(attr._), m => {
@@ -376,15 +344,6 @@ async function factory (pkgName) {
         })
         return '{' + removeComma(objStr) + '}'
       }
-    }
-
-    objectToAttr = (obj = {}, delimiter = ';', kvDelimiter = ':') => {
-      const { forOwn, kebabCase } = this.app.lib._
-      const result = []
-      forOwn(obj, (v, k) => {
-        result.push(`${kebabCase(k)}${kvDelimiter} ${v ?? ''}`)
-      })
-      return result.join(delimiter + ' ')
     }
 
     // based on: https://github.com/kyleparisi/pagination-layout/blob/master/pagination-layout-be.js
@@ -615,6 +574,7 @@ async function factory (pkgName) {
     stringifyAttribs = (obj = {}, kebabCasedKey = true) => {
       const { isSet } = this.app.lib.aneka
       const { forOwn, kebabCase, isArray, isPlainObject, isEmpty } = this.app.lib._
+      const { objectToAttr, arrayToAttr } = this.app.waibu
       const attrs = []
       const names = this.app.getAllNs()
       forOwn(obj, (v, k) => {
@@ -631,8 +591,8 @@ async function factory (pkgName) {
         if (kebabCasedKey) k = kebabCase(k)
         if (!isSet(v)) return undefined
         if (['class', 'style'].includes(k) && isEmpty(v)) return undefined
-        if (isArray(v)) v = this.arrayToAttr(v)
-        if (isPlainObject(v)) v = this.objectToAttr(v)
+        if (isArray(v)) v = arrayToAttr(v)
+        if (isPlainObject(v)) v = objectToAttr(v)
         if (k !== 'content' && v === true) attrs.push(k)
         else attrs.push(`${k}="${v}"`)
       })

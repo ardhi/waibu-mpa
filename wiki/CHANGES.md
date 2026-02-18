@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-02-18
+
+- [2.5.0] Move ```attrTo*()``` and ```base64Json*()``` to ```waibu``` because they are sometimes needed outside the ```waibu-mpa```
+- [2.5.0] Bug fix on ```component.buildOptions()```
+
 ## 2026-02-17
 
 - [2.4.3] Bug fix on ```req.theme``` and ```req.iconset``` resolver
