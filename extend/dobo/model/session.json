@@ -1,8 +1,7 @@
 {
   "properties": [
     "id,,100,primary,true",
-    "session,object",
-    "expires,datetime"
+    "session,object"
   ],
   "features": ["dobo:createdAt", "dobo:updatedAt"],
   "attachment": false

@@ -57,7 +57,8 @@ async function factory (pkgName) {
             secure: 'auto',
             maxAge: 86400 * 7 * 1000
           },
-          saveUninitialized: false
+          saveUninitialized: false,
+          trashOldDur: '5m'
         },
         emoji: true,
         viewEngine: {

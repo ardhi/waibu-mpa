@@ -2,6 +2,13 @@
 
 ## 2026-02-18
 
+- [2.6.0] Add auto trashing old session
+- [2.6.0] Remove unecessary ```expires``` field in ```WmpaSession```
+- [2.6.0] Change component's ```buildOptions()``` to async method to accomodate ```prop.values``` as a handler
+- [2.6.0] Bug fix on theme and iconset resolver
+
+## 2026-02-18
+
 - [2.5.0] Move ```attrTo*()``` and ```base64Json*()``` to ```waibu``` because they are sometimes needed outside the ```waibu-mpa```
 - [2.5.0] Bug fix on ```component.buildOptions()```
 - [2.5.1] Bug fix on ```component.buildOptions()```
