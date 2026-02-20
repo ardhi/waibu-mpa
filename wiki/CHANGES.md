@@ -1,5 +1,11 @@
 # Changes
 
+## 2026-02-21
+
+- [2.6.1] Bug fix on ```errorHandler```
+- [2.6.1] Bug fix on ```notFoundHandler```
+- [2.6.1] Add fallback template for both handlers above
+
 ## 2026-02-18
 
 - [2.6.0] Add auto trashing old session

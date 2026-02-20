@@ -1,8 +1,0 @@
-<c:div text="align:center">
-  <c:heading type="6-display" t:content="Internal Server Error" />
-  <% if (_meta.env === 'dev') { %>
-  <%= _meta.errorMessage %>
-  <% } else { %>
-  <c:t>500Message</c:t>
-  <% } %>
-</c:div>
