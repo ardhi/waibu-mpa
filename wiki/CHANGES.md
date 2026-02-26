@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-02-22
+
+- [2.6.2] Bug fix on frontend's timezone
+
 ## 2026-02-21
 
 - [2.6.1] Bug fix on ```errorHandler```

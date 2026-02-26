@@ -2,7 +2,7 @@ const wmpa = {
   url: '/wmpa.js',
   method: 'GET',
   handler: async function (req, reply) {
-    const { get, trim } = this.app.lib._
+    const { get, trim, cloneDeep } = this.app.lib._
     const { getPluginPrefix } = this.app.waibu
     const { importModule } = this.app.bajo
     const { types: formatTypes, formats } = await importModule('bajo:/lib/formats.js', { asDefaultImport: false })
@@ -27,7 +27,10 @@ const wmpa = {
         rateLimitRetry: 2
       }
     }
-    const formatOpts = this.app.bajo.config.intl.format
+    const formatOpts = cloneDeep(this.app.bajo.config.intl.format)
+    formatOpts.datetime.timeZone = get(req, 'site.setting.sumba.timeZone', 'UTC')
+    formatOpts.date.timeZone = get(req, 'site.setting.sumba.timeZone', 'UTC')
+    formatOpts.time.timeZone = get(req, 'site.setting.sumba.timeZone', 'UTC')
     const params = { prefix, accessTokenUrl, renderUrl, api, formatOpts, formatTypes, formats }
     return await reply.view('waibuMpa.template:/wmpa.js', params)
   }
