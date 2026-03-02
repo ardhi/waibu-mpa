@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-03-02
+
+- [2.6.3] Bug fix on ```applyFormat()```. In ```dev``` environment, prettier & minifier should be disabled
+
 ## 2026-02-22
 
 - [2.6.2] Bug fix on frontend's timezone
