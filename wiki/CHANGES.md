@@ -1,5 +1,13 @@
 # Changes
 
+## 2026-03-05
+
+- [2.7.0] New params structure for component functions in ```wmpa.js```
+
+## 2026-03-03
+
+- [2.6.4] Bug fix on ```wmpa.addComponent()```
+
 ## 2026-03-02
 
 - [2.6.3] Bug fix on ```applyFormat()```. In ```dev``` environment, prettier & minifier should be disabled

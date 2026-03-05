@@ -190,8 +190,10 @@ class Wmpa {
     }
   }
 
-  createComponentFromHtml = (html, wrapper) => {
+  createComponentFromHtml = (html, opts = {}) => {
+    const { wrapper, returnText } = opts
     if (wrapper) html = '<' + wrapper + '>' + html + '</' + wrapper + '>'
+    if (returnText) return html
     const tpl = document.createElement('template')
     tpl.innerHTML = html
     return tpl.content.firstElementChild
@@ -201,23 +203,26 @@ class Wmpa {
     return selector instanceof HTMLElement ? selector : document.querySelector(selector)
   }
 
-  createComponent = async (body, wrapper, opts = {}) => {
+  createComponent = async (body, opts = {}) => {
     if (_.isArray(body)) body = body.join('\n')
-    const html = await this.fetchRender(body, opts)
-    return this.createComponentFromHtml(html, wrapper)
+    const { wrapper, returnText, ...options } = opts
+    const html = await this.fetchRender(body, options)
+    return this.createComponentFromHtml(html, { wrapper, returnText })
   }
 
-  replaceWithComponentHtml = (html, selector, wrapper) => {
-    const cmp = this.createComponentFromHtml(html, wrapper)
+  replaceWithComponentHtml = (html, opts = {}) => {
+    const { wrapper, selector } = opts
+    const cmp = this.createComponentFromHtml(html, { wrapper })
     const el = this.getElement(selector)
     if (!el) return
     el.replaceWith(cmp)
     return cmp.getAttribute('id')
   }
 
-  replaceWithComponent = async (body, selector, wrapper, qs = {}) => {
+  replaceWithComponent = async (body, opts = {}) => {
+    const { selector, wrapper, ...options } = opts
     let cmp
-    if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper, qs)
+    if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, { wrapper, ...options })
     else cmp = body
     const el = this.getElement(selector)
     if (!el) return
@@ -225,26 +230,30 @@ class Wmpa {
     return cmp.getAttribute('id')
   }
 
-  addComponentHtml = (html, selector = 'body', wrapper, checkChild) => {
-    const cmp = this.createComponentFromHtml(html, wrapper)
+  addChild = (selector, cmp, checkChild) => {
     const el = this.getElement(selector)
     if (!el) return
+    /*
     if (checkChild) {
       if (!el.hasChildNodes()) el.appendChild(cmp)
     } else el.appendChild(cmp)
+    */
+    el.appendChild(cmp)
     return cmp.getAttribute('id')
   }
 
-  addComponent = async (body, selector = 'body', wrapper, checkChild, qs = {}) => {
+  addComponentHtml = (html, opts = {}) => {
+    const { selector = 'body', wrapper, checkChild, ...options } = opts
+    const cmp = this.createComponentFromHtml(html, { wrapper, ...options })
+    return this.addChild(selector, cmp)
+  }
+
+  addComponent = async (body, opts = {}) => {
+    const { selector = 'body', wrapper, checkChild, ...options } = opts
     let cmp
-    if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, wrapper, qs)
+    if (_.isString(body) || _.isArray(body)) cmp = await this.createComponent(body, { wrapper, ...options })
     else cmp = body
-    const el = this.getElement(selector)
-    if (!el) return
-    if (checkChild) {
-      if (!el.hasChildNodes()) el.appendChild(cmp)
-    } else el.appendChild(cmp)
-    return cmp.getAttribute('id')
+    return this.addChild(selector, cmp)
   }
 
   alpineScope = (selector) => {
