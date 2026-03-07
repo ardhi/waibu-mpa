@@ -4,6 +4,7 @@
 
 - [2.8.0] Add favicon route
 - [2.8.0] Update logo route to search in ```site``` attachment with fallback to ```main``` location
+- [2.8.1] Update favicon behaviour: if no file in ```main``` then use the default one
 
 ## 2026-03-05
 
