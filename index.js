@@ -50,6 +50,7 @@ async function factory (pkgName) {
         intl: {
           detectors: ['qs']
         },
+        favicon: true,
         session: {
           secret: 'f703a74b884b539e78c642a5369fe538',
           cookieName: 'sid',

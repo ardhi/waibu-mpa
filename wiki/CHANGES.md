@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-03-07
+
+- [2.8.0] Add favicon route
+- [2.8.0] Update logo route to search in ```site``` attachment with fallback to ```main``` location
+
 ## 2026-03-05
 
 - [2.7.0] New params structure for component functions in ```wmpa.js```

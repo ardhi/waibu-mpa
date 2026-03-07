@@ -7,6 +7,7 @@ import handleSession from '../../lib/session/setup.js'
 import subApp from '../../lib/sub-app.js'
 import errorHandler from '../../lib/error-handler.js'
 import notFoundHandler from '../../lib/not-found-handler.js'
+import favicon from '../../lib/favicon.js'
 
 const boot = {
   level: 10,
@@ -30,6 +31,7 @@ const boot = {
     await handleMultipart.call(this, this.config.multipart)
     await decorate.call(this)
     await handleSession.call(this)
+    await favicon.call(this)
     await routeHook.call(this, this.ns)
     await collectViewEngines.call(this)
     await collectThemes.call(this)
