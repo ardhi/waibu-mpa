@@ -174,19 +174,19 @@ async function factory (pkgName) {
       return parts.join('/') + query + hash
     }
 
-    getPluginTitle = (name, lang) => {
+    getPluginTitle = (name, req) => {
       const { getPlugin } = this.app.bajo
       const { get } = this.app.lib._
       const plugin = getPlugin(name, true)
       if (!plugin) return
       const text = get(plugin, 'config.waibuMpa.title', plugin.ns)
-      return this.t(text, { lang })
+      return this.t(text, { lang: req.lang })
     }
 
-    getAppTitle = (lang) => {
+    getAppTitle = (req) => {
       const { get } = this.app.lib._
-      const text = get(this, 'config.appTitle', this.ns)
-      return this.t(text, { lang })
+      const text = get(req, 'site.title', get(this, 'config.appTitle', this.ns))
+      return this.t(text, { lang: req.lang })
     }
 
     getResource (name) {
