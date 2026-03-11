@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-03-11
+
+- [2.9.0] Add default ```configDev``` and ```configProd```
+
 ## 2026-03-08
 
 - [2.8.3] Bug fix in ```getAppTitle()```

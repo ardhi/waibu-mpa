@@ -135,6 +135,28 @@ async function factory (pkgName) {
         rateLimit: false,
         disabled: []
       }
+
+      this.configDev = {
+        minifier: false,
+        page: {
+          insertWarning: true
+        }
+      }
+
+      this.configProd = {
+        viewEngine: {
+          cacheMaxAge: 300
+        },
+        theme: {
+          component: {
+            unknownTag: 'remove',
+            cacheMaxAge: 300
+          }
+        },
+        prettier: false,
+        compress: {},
+        rateLimit: {}
+      }
     }
 
     init = async () => {
