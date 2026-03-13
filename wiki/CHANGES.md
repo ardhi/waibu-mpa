@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-03-13
+
+- [2.9.1] Bug fix in route ```logo```. If nothing found at all, defaults to waibu logos
+
 ## 2026-03-11
 
 - [2.9.0] Add default ```configDev``` and ```configProd```

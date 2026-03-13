@@ -12,8 +12,11 @@ async function resolveFile (req) {
     const files = await fastGlob(`${dir}/attachment/SumbaSite/${req.site.id}/file/logo${type}.*`)
     if (files.length > 0) return files[0]
   }
-  const files = await fastGlob(`${plugin.dir.pkg}/logo${type}.*`)
-  if (files.length === 0) throw this.error('_notFound')
+  let files = await fastGlob(`${plugin.dir.pkg}/logo${type}.*`)
+  if (files.length === 0) {
+    files = await fastGlob(`${getPlugin('waibu').dir.pkg}/logo${type}.*`)
+    if (files.length === 0) throw this.error('_notFound')
+  }
   return files[0]
 }
 
