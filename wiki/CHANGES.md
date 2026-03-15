@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-03-15
+
+- [2.9.2] Bug fix in ```favicon``` handler
+- [2.9.2] Bug fix in ```logo``` route
+
 ## 2026-03-13
 
 - [2.9.1] Bug fix in route ```logo```. If nothing found at all, defaults to waibu logos
