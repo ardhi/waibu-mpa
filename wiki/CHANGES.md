@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-03-19
+
+- [2.10.0] Add ```options-separator``` to use different separator than the default one (```;```)
+
 ## 2026-03-15
 
 - [2.9.2] Bug fix in ```favicon``` handler
