@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-03-22
+
+- [2.10.1] Bug fix in applying routes to ```webCtx```
+
 ## 2026-03-19
 
 - [2.10.0] Add ```options-separator``` to use different separator than the default one (```;```)
