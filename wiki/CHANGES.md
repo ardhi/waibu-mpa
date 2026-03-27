@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-03-27
+
+- [2.11.0] Add options to enable cache with Bajo Cache module
+- [2.11.0] Change all ```cacheMaxAge``` keys to ```ttlDur``` to align with above mentioned cache engine
+
 ## 2026-03-22
 
 - [2.10.1] Bug fix in applying routes to ```webCtx```

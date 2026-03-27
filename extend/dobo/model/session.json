@@ -4,5 +4,6 @@
     "session,object"
   ],
   "features": ["dobo:createdAt", "dobo:updatedAt"],
-  "attachment": false
+  "attachment": false,
+  "cache": false
 }

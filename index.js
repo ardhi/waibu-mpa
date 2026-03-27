@@ -33,12 +33,16 @@ async function factory (pkgName) {
           prefix: ''
         },
         waibuAdmin: {
-          modelDisabled: ['session']
+          menuHandler: false,
+          modelDisabled: '*'
         },
         mountMainAsRoot: true,
         page: {
           charset: 'utf-8',
-          cacheMaxAge: 0,
+          cache: {
+            ttlDur: 0,
+            urls: []
+          },
           insertWarning: false,
           usePluginTitle: false,
           scriptsAtEndOfBody: true
@@ -63,7 +67,6 @@ async function factory (pkgName) {
         },
         emoji: true,
         viewEngine: {
-          cacheMaxAge: 0,
           layout: {
             default: 'waibuMpa:/default.html',
             fallback: true
@@ -81,7 +84,7 @@ async function factory (pkgName) {
           },
           component: {
             unknownTag: 'replaceWithDiv',
-            cacheMaxAgeDur: '1m'
+            ttlDur: '1m'
           }
         },
         iconset: {
@@ -95,7 +98,7 @@ async function factory (pkgName) {
           }
         },
         concatResource: {
-          cacheMaxAge: 0,
+          ttlDur: 0,
           excluded: [],
           css: false,
           scripts: false,
@@ -144,13 +147,10 @@ async function factory (pkgName) {
       }
 
       this.configProd = {
-        viewEngine: {
-          cacheMaxAge: 300
-        },
         theme: {
           component: {
             unknownTag: 'remove',
-            cacheMaxAge: 300
+            ttlDur: '5m'
           }
         },
         prettier: false,
@@ -509,7 +509,6 @@ async function factory (pkgName) {
       const ext = path.extname(tpl)
       if (['.json', '.js', '.css'].includes(ext)) opts.partial = true
       opts.ext = ext
-      opts.cacheMaxAge = this.config.page.cacheMaxAgeDur
       const viewEngine = this.getViewEngine(ext)
       return await viewEngine.render(tpl, locals, opts)
     }
