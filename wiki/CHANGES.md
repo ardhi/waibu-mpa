@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-03-30
+
+- [2.12.0] Add inter site module support
+
 ## 2026-03-27
 
 - [2.11.0] Add options to enable cache with Bajo Cache module
