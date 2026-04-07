@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-04-07
+
+- [2.13.0] Bug fix in ```component.buildOptions()```
+
 ## 2026-04-02
 
 - [2.13.0] Changes in widget's static ```css```, ```scripts``` etc, now can be a function that callable with scope to its component

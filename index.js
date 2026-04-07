@@ -581,7 +581,7 @@ async function factory (pkgName) {
         v = v.join(kvDelimiter)
         if (trimValue) v = v.slice(1, v.length - 1)
         if (v === 'undefined') continue
-        if (k !== 'content' && v === '') v = true
+        if (k !== 'content' && (v === '' || v === 'true')) v = true
         // check for retainAttrKey on ALL plugins
         let retain = false
         for (const name of names) {

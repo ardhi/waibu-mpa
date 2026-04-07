@@ -37,6 +37,7 @@
   "404Title": "Page Not Found",
   "500Title": "Internal Server Error",
   "fullscreen": "Fullscreen",
+  "_blank_": "",
   "field": {
     "session": "Session",
     "expires": "Expires"

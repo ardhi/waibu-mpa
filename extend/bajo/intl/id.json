@@ -38,6 +38,7 @@
   "404Title": "Halaman Tidak Ditemukan",
   "500Title": "Kesalahan Internal Penyelia",
   "fullscreen": "Layar Penuh",
+  "_blank_": "",
   "field": {
     "session": "Sesi",
     "expires": "Kadaluarsa"
