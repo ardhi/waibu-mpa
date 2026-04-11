@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-04-11
+
+- [2.13.2] Bug fix in ```Wmpa.parseValue()```
+- [2.13.2] Bug fix in ```Widget.plugin``` now match the right plugin
+
 ## 2026-04-07
 
 - [2.13.0] Bug fix in ```component.buildOptions()```
