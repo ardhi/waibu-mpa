@@ -1,5 +1,13 @@
 # Changes
 
+## 2026-04-17
+
+- [2.14.0] Add data binding properties to ```Widget``` base class
+- [2.14.0] Add ```Widget.getRef()```
+- [2.14.0] Add ```Widget.getRefValue()```
+- [2.14.0] Add ```Widget.getRefName()```
+- [2.14.0] Add ```Widget.getSetting()```
+
 ## 2026-04-11
 
 - [2.13.2] Bug fix in ```Wmpa.parseValue()```
