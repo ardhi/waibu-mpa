@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-04-18
+
+- [2.14.1] Bug fix in ```getRef()``` in ```MpaWidget```
+- [2.14.1] Bug fix in ```getRefName()``` in ```MpaWidget```
+
 ## 2026-04-17
 
 - [2.14.0] Add data binding properties to ```Widget``` base class
