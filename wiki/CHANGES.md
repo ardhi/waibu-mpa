@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-04-21
+
+- [2.14.2] Bug fix in ```Component.beforeBuildTag()```  and ```Component.afterBuildTag()```
+
 ## 2026-04-18
 
 - [2.14.1] Bug fix in ```getRef()``` in ```MpaWidget```
