@@ -1,5 +1,12 @@
 # Changes
 
+## 2026-05-11
+
+- [2.15.0] Updates to match ```dobo@2.23.0``` specs
+- [2.15.0] Bug fix in ```jsonStringify()```
+- [2.15.0] Bug fix in ```component.js```
+- [2.15.0] Bug fix in ```widget.js```
+
 ## 2026-04-21
 
 - [2.14.2] Bug fix in ```Component.beforeBuildTag()```  and ```Component.afterBuildTag()```

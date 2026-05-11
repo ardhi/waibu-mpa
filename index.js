@@ -343,7 +343,8 @@ async function factory (pkgName) {
 
       if (restOfDataTypes(obj)) {
         const passQuotes = isString(obj) ? "'" : ''
-        return `${passQuotes}${obj}${passQuotes}`
+        const item = isString(obj) ? obj.replaceAll("'", "\\'") : obj
+        return `${passQuotes}${item}${passQuotes}`
       }
 
       if (isArray(obj)) {
