@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-05-16
+
+- [2.15.1] Bug fix in ```component.js```
+
 ## 2026-05-11
 
 - [2.15.0] Updates to match ```dobo@2.23.0``` specs
