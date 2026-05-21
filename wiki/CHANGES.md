@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-05-22
+
+- [2.15.2] Bug fix in ```error-handler.js```
+- [2.15.2] Bug fix in ```component.buildTag()```
+
 ## 2026-05-16
 
 - [2.15.1] Bug fix in ```component.js```
