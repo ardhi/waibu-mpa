@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-05-25
+
+- [2.16.0] Add theme & iconset auto detection mechanism
+- [2.16.0] Add page expiration & reload through ```routeOptions.config.refreshDur``` or ```config.page.refreshDur```
+
 ## 2026-05-22
 
 - [2.15.2] Bug fix in ```error-handler.js```

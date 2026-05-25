@@ -8,8 +8,6 @@ class Wmpa {
     this.prefixMain = '<%= prefix.main %>'
     this.accessTokenUrl = '<%= accessTokenUrl %>'
     this.renderUrl = '<%= renderUrl %>'
-    this.theme = '<%= _meta.theme.name %>'
-    this.iconset = '<%= _meta.iconset.name %>'
     this.apiPrefix = '<%= api.prefix %>'
     this.apiExt = '<%= api.ext %>'
     this.apiHeaderKey = '<%= api.headerKey %>'
@@ -59,6 +57,7 @@ class Wmpa {
   }
 
   init = () => {
+    this.reqId = document.querySelector('meta[name="req-id"]').getAttribute('content')
     window.addEventListener('load', evt => {
       if (window.hljs) window.hljs.highlightAll()
     })
@@ -103,7 +102,7 @@ class Wmpa {
   fetchRender = async (body, qs = {}) => {
     if (_.isArray(body)) body = body.join('\n')
     let url = this.renderUrl + '?'
-    _.forOwn(_.omit(qs, ['theme', 'iconset']), (v, k) => {
+    _.forOwn(qs, (v, k) => {
       url += '&' + k + '=' + v
     })
     const opts = {
@@ -111,8 +110,7 @@ class Wmpa {
       headers: {
         'Content-Type': 'text/plain',
         'X-Referer': window.location.href,
-        'X-Theme': this.theme,
-        'X-Iconset': this.iconset
+        'X-Req-Id': this.reqId
       },
       body
     }

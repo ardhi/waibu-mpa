@@ -43,6 +43,7 @@ async function factory (pkgName) {
             ttlDur: 0,
             urls: []
           },
+          refreshDur: '1d',
           insertWarning: false,
           usePluginTitle: false,
           scriptsAtEndOfBody: true
@@ -136,7 +137,11 @@ async function factory (pkgName) {
         },
         compress: false,
         rateLimit: false,
-        disabled: []
+        disabled: [],
+        purgeCache: {
+          intvDur: '1m',
+          reqTtlDur: '1d'
+        }
       }
 
       this.configDev = {
@@ -164,6 +169,13 @@ async function factory (pkgName) {
       this.config.waibu.prefix = trim(this.config.waibu.prefix, '/')
       await toolsFactory.call(this)
       await widgetFactory.call(this)
+    }
+
+    start = async () => {
+      this.purgeCache()
+      setInterval(() => {
+        this.purgeCache()
+      }, this.config.purgeCache.intvDur)
     }
 
     buildUrl = ({ exclude = [], prefix = '?', base, url = '', params = {}, prettyUrl }) => {
@@ -495,23 +507,17 @@ async function factory (pkgName) {
       return output
     }
 
-    renderString = async (text, params = {}, opts = {}) => {
-      const { importModule } = this.app.bajo
-      const buildLocals = await importModule('waibu:/lib/build-locals.js')
-      const locals = await buildLocals.call(this, { tpl: null, params, opts })
+    renderString = async (text, locals = {}, opts = {}) => {
       const ve = this.getViewEngine(opts.ext)
       return await ve.renderString(text, locals, opts)
     }
 
-    render = async (tpl, params = {}, opts = {}) => {
-      const { importModule } = this.app.bajo
-      const buildLocals = await importModule('waibu:/lib/build-locals.js')
-      const locals = await buildLocals.call(this, { tpl, params, opts })
+    render = async (tpl, locals = {}, opts = {}) => {
       const ext = path.extname(tpl)
       if (['.json', '.js', '.css'].includes(ext)) opts.partial = true
       opts.ext = ext
-      const viewEngine = this.getViewEngine(ext)
-      return await viewEngine.render(tpl, locals, opts)
+      const ve = this.getViewEngine(ext)
+      return await ve.render(tpl, locals, opts)
     }
 
     stripHtmlTags = (html, options = {}) => {
@@ -633,6 +639,18 @@ async function factory (pkgName) {
       const iconset = this.iconsets.find(item => item.name === name)
       if (!iconset) return iconset
       return nameOnly ? iconset.name : iconset
+    }
+
+    purgeCache = async () => {
+      const { getPluginDataDir } = this.app.bajo
+      const { fastGlob, fs } = this.app.lib
+      const dirs = await fastGlob(`${getPluginDataDir(this.ns)}/cache/req/*`, { onlyDirectories: true })
+      for (const dir of dirs) {
+        try {
+          const { mtimeMs } = await fs.stat(dir)
+          if (Date.now() - mtimeMs > this.config.purgeCache.reqTtlDur) await fs.remove(dir)
+        } catch (err) {}
+      }
     }
   }
 

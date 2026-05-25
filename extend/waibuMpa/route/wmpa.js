@@ -1,6 +1,7 @@
 const wmpa = {
   url: '/wmpa.js',
   method: 'GET',
+  noCacheReq: true,
   handler: async function (req, reply) {
     const { get, trim, cloneDeep } = this.app.lib._
     const { getPluginPrefix } = this.app.waibu
