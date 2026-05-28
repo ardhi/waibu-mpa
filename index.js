@@ -138,10 +138,7 @@ async function factory (pkgName) {
         compress: false,
         rateLimit: false,
         disabled: [],
-        purgeCache: {
-          intvDur: '1m',
-          reqTtlDur: '1d'
-        }
+        reqTtlDur: '1d'
       }
 
       this.configDev = {
@@ -169,13 +166,6 @@ async function factory (pkgName) {
       this.config.waibu.prefix = trim(this.config.waibu.prefix, '/')
       await toolsFactory.call(this)
       await widgetFactory.call(this)
-    }
-
-    start = async () => {
-      this.purgeCache()
-      setInterval(() => {
-        this.purgeCache()
-      }, this.config.purgeCache.intvDur)
     }
 
     buildUrl = ({ exclude = [], prefix = '?', base, url = '', params = {}, prettyUrl }) => {
@@ -639,18 +629,6 @@ async function factory (pkgName) {
       const iconset = this.iconsets.find(item => item.name === name)
       if (!iconset) return iconset
       return nameOnly ? iconset.name : iconset
-    }
-
-    purgeCache = async () => {
-      const { getPluginDataDir } = this.app.bajo
-      const { fastGlob, fs } = this.app.lib
-      const dirs = await fastGlob(`${getPluginDataDir(this.ns)}/cache/req/*`, { onlyDirectories: true })
-      for (const dir of dirs) {
-        try {
-          const { mtimeMs } = await fs.stat(dir)
-          if (Date.now() - mtimeMs > this.config.purgeCache.reqTtlDur) await fs.remove(dir)
-        } catch (err) {}
-      }
     }
   }
 

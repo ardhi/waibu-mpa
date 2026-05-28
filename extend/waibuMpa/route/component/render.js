@@ -2,8 +2,6 @@ const component = {
   method: 'POST',
   noCacheReq: true,
   handler: async function (req, reply) {
-    const { getPluginDataDir } = this.app.bajo
-    const { fs } = this.app.lib
     const { merge, get } = this.app.lib._
     req.referer = req.headers['x-referer']
     const pageId = req.headers['x-req-id']
@@ -13,9 +11,8 @@ const component = {
     reply.header('Content-Language', req.lang)
     if (pageId) {
       try {
-        const file = `${getPluginDataDir(this.ns)}/cache/req/${pageId}/locals.json`
-        const locals = JSON.parse(fs.readFileSync(file, 'utf8'))
-        params = merge({}, locals, params)
+        const locals = await this.app.cache.load(`${this.ns}.req:/${pageId}-locals.json`, this.config.reqTtlDur)
+        params = merge({}, locals ?? {}, params)
       } catch (err) {}
     }
     const theme = get(req, 'headers.x-theme', get(params, '_meta.theme.name'))
