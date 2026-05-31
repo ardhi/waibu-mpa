@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-06-01
+
+- [2.17.1] Bug fix in ```component.buildTag()```
+
 ## 2026-05-28
 
 - [2.17.0] Change hooks to be written in one ```hook.js``` file
