@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-06-03
+
+- [2.18.0] Populate ```widget.model``` if available
+- [2.18.0] If route's url ends with ```index```, rewrite url to use it's folder instead
+
 ## 2026-06-01
 
 - [2.17.1] Bug fix in ```component.buildTag()```
