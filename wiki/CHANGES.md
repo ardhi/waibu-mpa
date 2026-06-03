@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-06-04
+
+- [2.18.1] Bug fix in ```component.buildTag()```
+
 ## 2026-06-03
 
 - [2.18.0] Populate ```widget.model``` if available
