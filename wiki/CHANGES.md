@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-06-05
+
+- [2.18.2] Bug fix in ```error-handler.js```
+- [2.18.2] Bug fix in ```page-end``` widget
+
 ## 2026-06-04
 
 - [2.18.1] Bug fix in ```component.buildTag()```
