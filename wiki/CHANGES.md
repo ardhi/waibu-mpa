@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-06-10
+
+- [2.19.0] Remove route redirects because now directly handled by ```waibu```
+- [2.19.0] Bug fix in ```page-end``` widget
+
 ## 2026-06-05
 
 - [2.18.2] Bug fix in ```error-handler.js```
