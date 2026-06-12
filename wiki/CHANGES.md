@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-06-12
+
+- [2.20.0] Necessary updates to ```bajo@2.18.0``` specs
+
 ## 2026-06-10
 
 - [2.19.0] Remove route redirects because now directly handled by ```waibu```

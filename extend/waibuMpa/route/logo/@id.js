@@ -1,5 +1,4 @@
 async function resolveFile (req) {
-  const { getPlugin, getPluginDataDir } = this.app.bajo
   const { camelCase } = this.app.lib._
   const { fastGlob } = this.app.lib
   const id = camelCase(req.params.id)
@@ -7,7 +6,7 @@ async function resolveFile (req) {
   let files
   if (req.query.type) type = `-${req.query.type}`
   if (id !== 'main') {
-    const plugin = getPlugin(id)
+    const plugin = this.app.getPlugin(id)
     files = await fastGlob(`${plugin.dir.pkg}/logo${type}.*`)
     if (files.length > 0) return files[0]
     throw this.error('_notFound')
@@ -16,7 +15,7 @@ async function resolveFile (req) {
   files = await fastGlob(`${this.app.main.dir.pkg}/logo${type}.*`)
   // 2. site attachment
   if (files.length > 0) return files[0]
-  let dir = getPluginDataDir('dobo')
+  let dir = this.app.getPluginDataDir('dobo')
   files = await fastGlob(`${dir}/attachment/SumbaSite/${req.site.id}/file/logo${type}.*`)
   if (files.length > 0) return files[0]
   // 3. theme

@@ -199,9 +199,8 @@ async function factory (pkgName) {
     }
 
     getPluginTitle = (name, req) => {
-      const { getPlugin } = this.app.bajo
       const { get } = this.app.lib._
-      const plugin = getPlugin(name, true)
+      const plugin = this.app.getPlugin(name, true)
       if (!plugin) return
       const text = get(plugin, 'config.waibuMpa.title', plugin.ns)
       return this.t(text, { lang: req.lang })
@@ -216,7 +215,7 @@ async function factory (pkgName) {
     getResource (name) {
       const subNses = ['layout', 'template', 'partial']
       const { ns, path, subNs, subSubNs, qs } = this.app.bajo.breakNsPath(name)
-      const plugin = this.app.bajo.getPlugin(ns)
+      const plugin = this.app.getPlugin(ns)
       const dir = `${plugin.dir.pkg}/extend/waibuMpa`
       if (!subNses.includes(subNs)) throw this.error('unknownResource%s', name)
       const fullPath = subSubNs ? `${dir}/${subSubNs}/${subNs}${path}` : `${dir}/${subNs}${path}`
