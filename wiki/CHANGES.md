@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-06-18
+
+- [2.20.1] Bug fix in ```build-route.js```
+
 ## 2026-06-12
 
 - [2.20.0] Necessary updates to ```bajo@2.18.0``` specs
