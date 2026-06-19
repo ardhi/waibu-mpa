@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-06-19
+
+- [2.20.2] Bug fix in ```not-found-handler.js```
+
 ## 2026-06-18
 
 - [2.20.1] Bug fix in ```build-route.js```
