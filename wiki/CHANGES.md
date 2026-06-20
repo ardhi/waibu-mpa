@@ -1,5 +1,13 @@
 # Changes
 
+## 2026-06-20
+
+- [2.21.0] Add ```renderView()```
+- [2.21.0] Change ```reply.view()``` to use ```renderView()``` above
+- [2.21.0] Add ```403.html```
+- [2.21.0] Bug fix in ```error-handler.js```
+- [2.21.0] Bug fix in ```not-found-handler.js```
+
 ## 2026-06-19
 
 - [2.20.2] Bug fix in ```not-found-handler.js```

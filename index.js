@@ -629,6 +629,78 @@ async function factory (pkgName) {
       if (!iconset) return iconset
       return nameOnly ? iconset.name : iconset
     }
+
+    renderView = async ({ tpl, params = {}, opts = {}, reply } = {}) => {
+      const { importModule } = this.app.bajo
+      const buildLocals = await importModule('waibu:/lib/build-locals.js')
+      const { importPkg } = this.app.bajo
+      const { isString, cloneDeep, isEmpty, get } = this.app.lib._
+      const { get: getCache, set: setCache } = this.app.bajoCache ?? {}
+      const { outmatch } = this.app.lib
+      const { routePath } = this.app.waibu
+
+      async function isCacheable (req, cachedUrls) {
+        const { hash } = this.app.bajoExtra
+        const { get, omit, isFunction } = this.app.lib._
+        const ns = get(req, 'routeOptions.config.ns')
+        let cache = get(req, 'routeOptions.config.cache', omit(this.config.page.cache, ['urls']))
+        cache.methods = cache.methods ?? ['GET']
+        if (!ns || (!this.app.bajoCache) || (!req.site) || !cache.methods.includes(req.method)) return { ttl: 0 }
+        if (isFunction(cache)) {
+          cache = await cache.call(this.app[ns], req, cachedUrls)
+        }
+        const url = req.url.split('?')[0].split('#')[0]
+        for (const item of cachedUrls) {
+          if (item.isMatch(url)) cache.ttlDur = item.ttlDur ?? cache.ttlDur
+        }
+        const key = `waibu-mpa-page-${req.site.id}-${cache.key ?? (await hash(req.url))}`
+        return { key, ttl: cache.ttlDur }
+      }
+
+      const mime = await importPkg('waibu:mime')
+      const cfg = this.config
+      const cachedUrls = cloneDeep(this.config.page.cache.urls).map(item => {
+        if (isString(item)) item = { url: item }
+        item.url = routePath(item.url)
+        item.isMatch = outmatch(item.url)
+        return item
+      })
+      let ext = path.extname(tpl)
+      if (ext === '.md') ext = '.html'
+      let mimeType = isEmpty(ext) ? 'text/html' : mime.getType(ext)
+      mimeType += `; charset=${cfg.page.charset}`
+      reply.header('Content-Type', mimeType)
+      reply.header('Content-Language', reply.request.lang)
+      reply.header('X-Req-Id', reply.request.id)
+      opts.req = reply.request
+      opts.reply = reply
+      for (const item of ['theme', 'iconset']) {
+        if (!reply.request[item]) reply.request[item] = this[item + 's'][0].name
+        if (this[item + 's'].length === 1) reply.request[item] = this[item + 's'][0].name
+      }
+      const { key, ttl } = await isCacheable.call(this, reply.request, cachedUrls)
+      if (ttl > 0) {
+        const cached = await getCache({ key })
+        if (cached) {
+          reply.header('X-Wmpa-Cached', true)
+          return cached
+        }
+      }
+      const locals = await buildLocals.call(this, { tpl, params, opts })
+      if (!get(reply.request, 'routeOptions.config.noCacheReq')) {
+        await this.app.cache.save(`${this.ns}.req:/${opts.req.id}-locals.json`, locals, this.config.reqTtlDur)
+      }
+      const result = await this.render(tpl, locals, opts)
+      if (ttl > 0) await setCache({ key, value: result, ttl })
+      if (reply.request.session) {
+        ext = path.extname(reply.request.url)
+        if (isEmpty(ext) || ['.html'].includes(ext)) {
+          if (reply.request.session.prevUrl !== reply.request.url) reply.request.session.prevUrl = reply.request.url
+          else reply.request.session.prevUrl = ''
+        }
+      }
+      return result
+    }
   }
 
   return WaibuMpa
