@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-06-30
+
+- [2.21.1] Bug fix in ```wmpa.js```
+
 ## 2026-06-20
 
 - [2.21.0] Add ```renderView()```

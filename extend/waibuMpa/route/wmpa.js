@@ -22,7 +22,7 @@ const wmpa = {
       api = {
         prefix: this.app.waibuRestApi ? this.app.waibuRestApi.config.waibu.prefix : '',
         ext: this.app.waibuRestApi ? (this.app.waibuRestApi.config.format.asExt ? '.json' : '') : '',
-        headerKey: this.app.waibuRestApi ? this.app.sumba.config.auth.common.jwt.headerKey : '',
+        headerKey: this.app.waibuRestApi ? this.app.sumba._getAuthSetting('jwt', 'waibuRestApi').headerKey : '',
         dataKey: this.app.waibuRestApi ? this.app.waibuRestApi.config.responseKey.data : '',
         rateLimitDelay: 2000,
         rateLimitRetry: 2
