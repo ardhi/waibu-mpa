@@ -1,6 +1,6 @@
 {
   "name": "waibu-mpa",
-  "version": "2.21.1",
+  "version": "2.22.0",
   "description": "MPA support for Waibu Framework",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,6 @@
     "dependencies": [
       "waibu",
       "waibu-static",
-      "bajo-config",
       "bajo-template"
     ]
   },

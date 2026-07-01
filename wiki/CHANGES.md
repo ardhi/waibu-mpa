@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-07-01
+
+- [2.22.0] Remove ```bajo-config``` dependency
+
 ## 2026-06-30
 
 - [2.21.1] Bug fix in ```wmpa.js```
