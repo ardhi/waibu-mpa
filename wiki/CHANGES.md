@@ -4,6 +4,9 @@
 
 - [2.31.0] Remove all module context and start using one `webAppCtx`
 - [2.31.0] Remove `config.mountMainAsRoot`
+- [2.32.0] Add/update some templates
+- [2.32.0] Check theme & iconset at `renderView()`
+- [2.32.0] Bug fix in `_renderError()`
 
 ## 2026-08-24
 

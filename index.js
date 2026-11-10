@@ -758,6 +758,9 @@ async function factory (pkgName) {
         item.isMatch = outmatch(item.url)
         return item
       })
+      await this.checkTheme(reply.request, reply)
+      await this.checkIconset(reply.request, reply)
+
       let ext = path.extname(tpl)
       if (ext === '.md') ext = '.html'
       let mimeType = isEmpty(ext) ? 'text/html' : mime.getType(ext)
@@ -992,8 +995,10 @@ async function factory (pkgName) {
         req.webApp = this.ns
         return await this.renderView({ reply, tpl, params: { error: err }, opts: { noFlash: true } })
       } catch (err) {
+        console.error(err)
         // only going here if something happened in reply.view
-        const content = fs.readFileSync(resolveTemplate(tpl).file, 'utf8')
+        const file = resolveTemplate(tpl).file.replace('.html', '-plain.html')
+        const content = fs.readFileSync(file, 'utf8')
         return await compile(content, { error: err })
       }
     }
