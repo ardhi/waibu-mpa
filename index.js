@@ -962,45 +962,25 @@ async function factory (pkgName) {
       const msg = req.t('routeNotFound%s%s', req.url, req.method)
       const error = err ?? this.error(msg)
       if (err) error.message = msg
+      error.statusCode = 404
 
       const url = req.url.split('?')[0].split('#')[0].toLowerCase()
 
-      const handleWelcome = async () => {
+      if (url === '/') {
         reply.header('Content-Type', `text/html; charset=${this.config.page.charset}`)
         reply.header('Content-Language', req.lang)
-        const tpl = `${this.ns}.template:/welcome.html`
         req.webApp = this.ns
+        const tpl = `${this.ns}.template:/welcome.html`
         return await this.renderView({ reply, tpl, params: { error } })
       }
-
-      const handleMisc = async () => {
-        error.statusCode = 404
-        reply.code(404)
-      }
-
-      if (url === '/') return await handleWelcome()
-      return await handleMisc()
+      return await this._renderError(error, req, reply)
     }
 
-    /**
-     * Handle general errors.
-     *
-     * @method
-     * @param {Error} err - The error object
-     * @param {Object} req - The request object
-     * @param {Object} reply - The reply object
-     * @returns {Promise<string>} - The rendered view
-     * @async
-     */
-    _handleError = async (err, req, reply) => {
+    _renderError = async (err, req, reply) => {
       const { resolveTemplate, compile } = this.app.bajoTemplate
-      err.statusCode = err.statusCode ?? 500
       reply.code(err.statusCode)
       reply.header('Content-Type', `text/html; charset=${this.config.page.charset}`)
       reply.header('Content-Language', req.lang)
-      if (err.message === '_notFound' || err.statusCode === 404) {
-        return await this._handleNotFound(err, req, reply)
-      }
       if (err.noContent) return ''
       let tpl = `${this.ns}.template:/${err.statusCode}.html`
       try {
@@ -1016,6 +996,24 @@ async function factory (pkgName) {
         const content = fs.readFileSync(resolveTemplate(tpl).file, 'utf8')
         return await compile(content, { error: err })
       }
+    }
+
+    /**
+     * Handle general errors.
+     *
+     * @method
+     * @param {Error} err - The error object
+     * @param {Object} req - The request object
+     * @param {Object} reply - The reply object
+     * @returns {Promise<string>} - The rendered view
+     * @async
+     */
+    _handleError = async (err, req, reply) => {
+      err.statusCode = err.statusCode ?? 500
+      if (err.message === '_notFound' || err.statusCode === 404) {
+        return await this._handleNotFound(err, req, reply)
+      }
+      return await this._renderError(err, req, reply)
     }
 
     /**
@@ -1215,25 +1213,24 @@ async function factory (pkgName) {
      * @param {string} options.appPrefix - The application prefix
      * @param {string} options.prefix - The route prefix
      * @param {Array} options.mods - The route modules
-     * @param {Object} options.appCtx - The application context
      * @param {Object} options.cfg - The configuration object
      * @returns {Promise<void>}
      * @async
      */
     _addRoutes = async (options = {}) => {
-      const { appPrefix, prefix, mods, appCtx, cfg } = options
+      const { appPrefix, prefix, mods, cfg } = options
       const { isRouteDisabled } = this.app.waibu
       const { reroutedPath } = await importModule('waibu:/lib/webapp.js', { asDefaultImport: false })
       for (const mod of mods) {
-        const fullPath = appPrefix === '' ? mod.url : `/${appPrefix}${mod.url}`
-        if (isRouteDisabled(`${prefix === '' ? '' : `/${prefix}`}${fullPath}`)) continue
-        const rpath = await reroutedPath.call(this, fullPath, cfg.rerouted)
+        mod.url = appPrefix === '' ? mod.url : `/${appPrefix}${mod.url}`
+        if (isRouteDisabled(`${prefix === '' ? '' : `/${prefix}`}${mod.url}`)) continue
+        const rpath = await reroutedPath.call(this, mod.url, cfg.rerouted)
         if (rpath) {
-          this.log.warn('rerouted%s%s', `${prefix}${fullPath}`, `${prefix}${rpath}`)
+          this.log.warn('rerouted%s%s', `${prefix}${mod.url}`, `${prefix}${rpath}`)
           mod.url = rpath
           mod.pathReroutedTo = rpath
           this.webAppCtx.route(mod)
-        } else appCtx.route(mod)
+        } else this.webAppCtx.route(mod)
       }
     }
 
@@ -1250,53 +1247,45 @@ async function factory (pkgName) {
       const cfg = this.config
       const pathPrefix = 'waibuMpa/route'
       const me = this
-      const appCtxs = {}
       let subRoutes = []
       const names = this.app.getAllNs()
-      await runHook(`${this.ns}:beforeBuildRoutes`, this.webAppCtx)
+      await runHook(`${this.ns}:beforeBuildRoutes`)
       await eachPlugins(async function ({ dir }) {
         const { ns } = this
-        let appPrefix = getPluginPrefix(ns)
-        if (ns === me.ns || (ns === me.app.mainNs && cfg.mountMainAsRoot)) appPrefix = ''
+        const appPrefix = getPluginPrefix(ns)
         const pattern = `${dir}/extend/${pathPrefix}/**/*.{js,json,html,md}`
         const files = await fastGlob(pattern)
+        if (files.length === 0) return undefined
+        await runHook(`${me.ns}.${this.ns}:beforeBuildRoutes`, appPrefix)
+        const mods = await me._buildRoute.call(this, { files, pathPrefix, dir, ns, cfg, parent: me.ns })
+        await me._addRoutes({ appPrefix, prefix, mods, cfg })
+        await runHook(`${me.ns}.${this.ns}:afterBuildRoutes`, appPrefix)
         // subRoutes
-        const spattern = `${dir}/extend/waibuMpa/extend/{${names.join(',')}}/route/**/*.{js,json,html,md}`
+        const spattern = `${dir}/extend/waibuMpa/extend/{${names.join(',')}}/route/**/*.{js,json,yaml,yml,html,md}`
         const sfiles = await fastGlob(spattern)
         for (const file of sfiles) {
           const [sns] = file.replace(`${dir}/extend/waibuMpa/extend/`, '').split('/')
           subRoutes.push({ file, ns: sns, sns: ns, dir })
         }
-        if (files.length === 0) return undefined
-        await me.webAppCtx.register(async (appCtx) => {
-          appCtxs[ns] = appCtx
-          await runHook(`${me.ns}.${this.ns}:beforeBuildRoutes`, appCtx, appPrefix)
-          const mods = await me._buildRoute.call(this, { appCtx, files, appPrefix, pathPrefix, dir, ns, cfg, parent: me.ns })
-          await me._addRoutes({ appPrefix, prefix, mods, appCtx, cfg })
-          await runHook(`${me.ns}.${this.ns}:afterBuildRoutes`, appCtx, appPrefix)
-        }, { prefix: appPrefix })
       })
       if (subRoutes.length > 0) {
         subRoutes = groupBy(subRoutes, 'ns')
         for (const k in subRoutes) {
           const items = subRoutes[k]
-          const appCtx = appCtxs[k]
-          if (!appCtx) throw this.error('cantHaveSubroutesWithoutContext%s', k)
           for (const item of items) {
-            let appPrefix = getPluginPrefix(k)
-            if (item.sns === me.ns || (item.sns === me.app.mainNs && cfg.mountMainAsRoot)) appPrefix = ''
-            await runHook(`${me.ns}.${k}:beforeBuildSubRoutes`, appCtx, appPrefix)
+            const appPrefix = getPluginPrefix(k)
+            await runHook(`${me.ns}.${k}:beforeBuildSubRoutes`, appPrefix)
             const scope = this.app[item.sns]
             const pathPrefix = `waibuMpa/extend/${item.ns}/route/`
             const urlPrefix = getPluginPrefix(item.sns)
-            const mods = await me._buildRoute.call(scope, { appCtx, files: [item.file], pathPrefix, dir: item.dir, ns: item.ns, cfg, parent: me.ns, urlPrefix, subRoute: item.sns })
-            await me._addRoutes({ appPrefix, prefix, mods, appCtx, cfg })
-            await runHook(`${me.ns}.${k}:afterBuildSubRoutes`, appCtx, appPrefix)
+            const mods = await me._buildRoute.call(scope, { files: [item.file], pathPrefix, dir: item.dir, ns: item.ns, cfg, parent: me.ns, urlPrefix, subRoute: item.sns })
+            await me._addRoutes({ appPrefix, prefix, mods, cfg })
+            await runHook(`${me.ns}.${k}:afterBuildSubRoutes`, appPrefix)
           }
         }
       }
 
-      await runHook(`${this.ns}:afterBuildRoutes`, this.webAppCtx)
+      await runHook(`${this.ns}:afterBuildRoutes`)
     }
 
     /**

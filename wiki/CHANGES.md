@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-11-10
+
+- [2.31.0] Remove all module context and start using one `webAppCtx`
+- [2.31.0] Remove `config.mountMainAsRoot`
+
 ## 2026-08-24
 
 - [2.30.0] Now use the new `app.lib.startInterval()`
