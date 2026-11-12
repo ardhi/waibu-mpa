@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-11-12
+
+- [2.32.1] Bug fix in `_buildRoute()`
+- [2.32.1] Bug fix in `_buildRoutes()`
+
 ## 2026-11-10
 
 - [2.31.0] Remove all module context and start using one `webAppCtx`

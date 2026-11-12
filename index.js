@@ -1138,18 +1138,23 @@ async function factory (pkgName) {
      */
     async _buildRoute (options = {}) {
       const { files, pathPrefix, dir, ns, cfg, parent, urlPrefix, subRoute } = options
-      const { getPluginPrefix } = this.app.waibu
+      const { getPluginPrefix, cleanPath } = this.app.waibu
       const { mergeRouteHooks } = await importModule('waibu:/lib/webapp.js', { asDefaultImport: false })
       const mods = []
       const me = this
       for (const f of files) {
         const ext = path.extname(f)
-        const urls = f.slice(0, f.length - ext.length).replace(`${dir}/extend/${pathPrefix}`, '').replaceAll('@', ':').split('/')
+        const urls = f.slice(0, f.length - ext.length)
+          .replace(`${dir}/extend/${pathPrefix}`, '') // get rid of the base path
+          .replace(`@@`, '*') // used to denote wildcard routes
+          .replaceAll('@', ':') // used to denote dynamic route parameters
+          .split('/')
         if (last(urls) === 'index') urls.pop()
         const url = urls.join('/')
         let mod
         if (ext === '.js') mod = await importModule(f)
         else if (ext === '.json') mod = await this.app.bajo.fromJson(f, { readFromFile: true })
+        else if (['.yaml', '.yml'].includes(ext)) mod = await this.app.bajo.fromYaml(f, { readFromFile: true })
         else if (['.html', '.md'].includes(ext)) mod = [{ view: f }]
         if (!mod) continue
         if (isFunction(mod)) mod = [{ handler: mod }]
@@ -1179,7 +1184,7 @@ async function factory (pkgName) {
             }
           }
           if (urlPrefix) m.url = `/${urlPrefix}/${m.url}`
-          m.url = trimEnd(m.url, '/')
+          m.url = cleanPath(m.url)
           if (isArray(m.methods)) {
             m.method = [...m.methods]
             delete m.methods
@@ -1257,8 +1262,8 @@ async function factory (pkgName) {
       await runHook(`${this.ns}:beforeBuildRoutes`)
       await eachPlugins(async function ({ dir }) {
         const { ns } = this
-        const appPrefix = getPluginPrefix(ns)
-        const pattern = `${dir}/extend/${pathPrefix}/**/*.{js,json,html,md}`
+        const appPrefix = getPluginPrefix(ns, 'waibuMpa', true)
+        const pattern = `${dir}/extend/${pathPrefix}/**/*.{js,json,yaml,yml,html,md}`
         const files = await fastGlob(pattern)
         if (files.length === 0) return undefined
         await runHook(`${me.ns}.${this.ns}:beforeBuildRoutes`, appPrefix)
@@ -1278,7 +1283,7 @@ async function factory (pkgName) {
         for (const k in subRoutes) {
           const items = subRoutes[k]
           for (const item of items) {
-            const appPrefix = getPluginPrefix(k)
+            let appPrefix = getPluginPrefix(k)
             await runHook(`${me.ns}.${k}:beforeBuildSubRoutes`, appPrefix)
             const scope = this.app[item.sns]
             const pathPrefix = `waibuMpa/extend/${item.ns}/route/`
