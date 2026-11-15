@@ -40,6 +40,12 @@
   "fullscreen": "Layar Penuh",
   "_blank_": "",
   "assetDirRouteDisabled": "Rute aset dinonaktifkan",
+  "mediaGallery": "Galeri Media",
+  "images": "Koleksi Gambar",
+  "liveStream": "Tayangan Langsung",
+  "noLivestreamAvailable": "Maaf, tidak ada siaran langsung yang tersedia",
+  "noMediaAvailable": "Maaf, tidak ada media yang tersedia",
+  "currentStatus": "Status Saat Ini",
   "field": {
     "session": "Sesi",
     "expires": "Kadaluarsa"

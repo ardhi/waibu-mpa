@@ -1,5 +1,11 @@
 # Changes
 
+## 2026-11-15
+
+- [2.33.0] Add `chevron*` to iconset
+- [2.33.0] Add some languages
+- [2.33.0] Bug fix in `component.normalizeAttr()`
+
 ## 2026-11-12
 
 - [2.32.1] Bug fix in `_buildRoute()`

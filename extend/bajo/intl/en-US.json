@@ -39,6 +39,12 @@
   "fullscreen": "Fullscreen",
   "_blank_": "",
   "assetDirRouteDisabled": "Asset route is disabled",
+  "mediaGallery": "Media Gallery",
+  "images": "Picture Collections",
+  "liveStream": "Live Streams",
+  "noLivestreamAvailable": "No live stream available, sorry!",
+  "noMediaAvailable": "No media available, sorry!",
+  "currentStatus": "Current Status",
   "field": {
     "session": "Session",
     "expires": "Expires"
