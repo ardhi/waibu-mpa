@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-11-26
+
+- [2.33.1] Bug fix in `wmpa.js`
+
 ## 2026-11-15
 
 - [2.33.0] Add `chevron*` to iconset

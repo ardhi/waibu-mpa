@@ -121,7 +121,12 @@ class Wmpa {
     return await resp.text()
   }
 
-  fetchApi = async (endpoint, opts, filter = {}) => {
+  fetchApi = async (endpoint, opts = {}, filter = {}) => {
+    const { dataOnly = true } = opts
+    const formatResult = (input = {}) => {
+      const data = input[this.apiDataKey] ?? []
+      return dataOnly ? data : { ...input, data }
+    }
     let wait = 0
     while(!this.accessToken && wait < 50) {
       wait++
@@ -135,7 +140,7 @@ class Wmpa {
     options.fetching = options.fetching ?? {}
     if (options.fetching) {
       this.fetchingApi[oendpoint] = this.fetchingApi[oendpoint] ?? {}
-      if (this.fetchingApi[oendpoint].status === 'fetching') return
+      if (this.fetchingApi[oendpoint].status === 'fetching') return formatResult()
       this.fetchingApi[oendpoint].status = 'fetching'
       delete options.fetching
     }
@@ -161,20 +166,20 @@ class Wmpa {
       delete this.fetchingApi[oendpoint]
       Alpine.store('wmpa').loading = false
       if (mapSearch) Alpine.store('mapSearch').busy = false
-      if (resp.status >= 500) return []
+      if (resp.status >= 500) return formatResult(result)
       if (resp.ok) {
         this.apiRateLimitCount = 0
-        return result[this.apiDataKey]
+        return formatResult(result)
       }
       if (resp.status === 429) {
         this.apiRateLimitCount++
         if (this.apiRateLimitCount > this.apiRateLimitRetry) {
           this.apiRateLimitCount = 0
-          return []
+          return formatResult(result)
         }
         await this.delay(this.apiRateLimitDelay)
         return this.fetchApi(oendpoint, oopts, ofilter)
-      } else return []
+      } else return formatResult(result)
     } catch (err) {
       if (mapSearch) Alpine.store('mapSearch').busy = false
       if (req.signal.aborted) {
@@ -184,7 +189,7 @@ class Wmpa {
       if (err instanceof TypeError && err.message === 'Failed to fetch') {
         window.location.reload()
       }
-      return []
+      return formatResult()
     }
   }
 
