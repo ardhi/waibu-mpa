@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-11-28
+
+- [2.34.0] Add support for new icon `intersect`
+
 ## 2026-11-26
 
 - [2.33.1] Bug fix in `wmpa.js`
